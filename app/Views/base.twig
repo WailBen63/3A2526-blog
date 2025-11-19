@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="fr" x-data="{ 
+        theme: localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+        isDyslexicFont: localStorage.getItem('dyslexicFont') === 'true' 
+    }" x-bind:data-bs-theme="theme">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=OpenDyslexic:400,700&display=swap">
+
+    <style>
+        /* La classe 'd-font' force la police OpenDyslexic pour tout le contenu */
+        .d-font * {
+            font-family: 'OpenDyslexic', sans-serif !important;
+        }
+    </style>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <title>{{ page_title|default('Mon Blog') }}</title>
+</head>
+<body class="d-flex flex-column min-vh-100" x-bind:class="{ 'd-font': isDyslexicFont }">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/3A2526-Blog/public/">Mon Blog POO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {{ url == '/' ? 'active' }}" href="/3A2526-Blog/public/">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ url == 'a-propos' ? 'active' }}" href="/3A2526-Blog/public/a-propos">À Propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ url == 'contact' ? 'active' }}" href="/3A2526-Blog/public/contact">Contact</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav mb-2 mb-lg-0 d-flex flex-row gap-2">
+                    
+                    <!-- Bouton Thème Clair/Foncé -->
+                    <li class="nav-item">
+                        <button 
+                            @click="theme = (theme === 'dark' ? 'light' : 'dark'); localStorage.setItem('theme', theme)" 
+                            class="btn btn-outline-light d-flex align-items-center"
+                            aria-label="Basculer entre les thèmes clair et foncé"
+                        >
+                            <span x-show="theme === 'light'">☀️ Clair</span>
+                            <span x-show="theme === 'dark'">🌙 Foncé</span>
+                        </button>
+                    </li>
+                    
+                    <!-- Bouton Police Dyslexique -->
+                    <li class="nav-item">
+                        <button 
+                            @click="isDyslexicFont = !isDyslexicFont; localStorage.setItem('dyslexicFont', isDyslexicFont)" 
+                            class="btn btn-outline-info d-flex align-items-center"
+                            aria-label="Activer ou désactiver la police pour dyslexiques"
+                        >
+                            <span x-show="!isDyslexicFont">🔡 Standard</span>
+                            <span x-show="isDyslexicFont">🅰️ Dyslexie</span>
+                        </button>
+                    </li>
+
+                    <!-- Menu Utilisateur -->
+                    {% if session.get('user_id') %}
+                        <!-- Utilisateur connecté -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                                👤 {{ session.get('user_name') }}
+                                <small class="d-block text-muted">{{ session.get('user_role') }}</small>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if session.get('user_role') in ['Administrateur', 'Éditeur'] %}
+                                    <li><a class="dropdown-item" href="/3A2526-Blog/public/admin">📊 Tableau de Bord</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                {% endif %}
+                                <li><a class="dropdown-item text-danger" href="/3A2526-Blog/public/logout">🚪 Déconnexion</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <!-- Utilisateur non connecté -->
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/3A2526-Blog/public/login">🔐 Connexion</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages flash -->
+    {% if session.get('flash_success') %}
+        <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+            {{ session.get('flash_success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {{ session.remove('flash_success') }}
+    {% endif %}
+
+    {% if session.get('flash_error') %}
+        <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+            {{ session.get('flash_error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {{ session.remove('flash_error') }}
+    {% endif %}
+
+    <main class="container mt-4 mb-5 flex-grow-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="mt-auto py-3 bg-light text-center">
+        <div class="container">
+            &copy; {{ "now"|date("Y") }} Mon Blog - Développé avec PHP 8, Twig et Bootstrap
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

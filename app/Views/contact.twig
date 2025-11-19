@@ -1,0 +1,63 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <h1 class="mb-4">{{ page_title }}</h1>
+
+    {% if success_message %}
+        <div class="alert alert-success" role="alert">
+            {{ success_message }}
+        </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <p>Vous avez des questions ? Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
+            
+            <form action="/3A2526-Blog/public/contact" method="POST" novalidate>
+                
+                {# Champ Nom #}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nom</label>
+                    <input type="text" 
+                           class="form-control {% if errors.name %}is-invalid{% endif %}" 
+                           id="name" 
+                           name="name" 
+                           value="{{ old_input.name|default('') }}" 
+                           required>
+                    {% if errors.name %}
+                        <div class="invalid-feedback">{{ errors.name }}</div>
+                    {% endif %}
+                </div>
+
+                {# Champ Email #}
+                <div class="mb-3">
+                    <label for="email" class="form-label">Adresse Email</label>
+                    <input type="email" 
+                           class="form-control {% if errors.email %}is-invalid{% endif %}" 
+                           id="email" 
+                           name="email" 
+                           value="{{ old_input.email|default('') }}" 
+                           required>
+                    {% if errors.email %}
+                        <div class="invalid-feedback">{{ errors.email }}</div>
+                    {% endif %}
+                </div>
+                
+                {# Champ Message #}
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control {% if errors.message %}is-invalid{% endif %}" 
+                              id="message" 
+                              name="message" 
+                              rows="5" 
+                              required>{{ old_input.message|default('') }}</textarea>
+                    {% if errors.message %}
+                        <div class="invalid-feedback">{{ errors.message }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Envoyer le message</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

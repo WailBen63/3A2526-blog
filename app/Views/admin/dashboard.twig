@@ -1,0 +1,124 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ page_title }}</h1>
+        <span class="badge bg-success">Administrateur</span>
+    </div>
+
+    <!-- Cartes de statistiques -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">{{ stats.total_posts }}</h5>
+                    <p class="card-text">Articles</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">{{ stats.total_comments }}</h5>
+                    <p class="card-text">Commentaires</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">{{ stats.pending_comments }}</h5>
+                    <p class="card-text">En attente</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">{{ stats.total_users }}</h5>
+                    <p class="card-text">Utilisateurs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Articles récents -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Articles Récents</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_posts %}
+                        <div class="list-group">
+                            {% for post in recent_posts %}
+                                <div class="list-group-item">
+                                    <h6>{{ post.titre }}</h6>
+                                    <small class="text-muted">
+                                        {{ post.date_creation|date("d/m/Y H:i") }}
+                                        <span class="badge bg-{{ post.statut == 'Public' ? 'success' : 'secondary' }}">
+                                            {{ post.statut }}
+                                        </span>
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Aucun article récent.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Commentaires récents -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Commentaires Récents</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_comments %}
+                        <div class="list-group">
+                            {% for comment in recent_comments %}
+                                <div class="list-group-item">
+                                    <h6>{{ comment.nom_auteur }}</h6>
+                                    <p class="mb-1 small">{{ comment.contenu|slice(0, 50) }}...</p>
+                                    <small class="text-muted">
+                                        {{ comment.date_commentaire|date("d/m/Y H:i") }}
+                                        <span class="badge bg-{{ comment.statut == 'Approuvé' ? 'success' : comment.statut == 'Rejeté' ? 'danger' : 'warning' }}">
+                                            {{ comment.statut }}
+                                        </span>
+                                        <br>Sur: {{ comment.article_titre }}
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Aucun commentaire récent.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation admin -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Actions Administrateur</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2 d-md-flex">
+                        <a href="/3A2526-Blog/public/admin/posts" class="btn btn-primary">Gérer les Articles</a>
+                        <a href="/3A2526-Blog/public/admin/comments" class="btn btn-warning">Modérer les Commentaires</a>
+                        <a href="/3A2526-Blog/public/admin/users" class="btn btn-info">Gérer les Utilisateurs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

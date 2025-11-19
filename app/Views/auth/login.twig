@@ -1,0 +1,41 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <h1 class="mb-4 text-center">Connexion</h1>
+
+        {% if session.get('flash_error') %}
+            <div class="alert alert-danger">{{ session.get('flash_error') }}</div>
+            {{ session.remove('flash_error') }}
+        {% endif %}
+
+        {% if session.get('flash_success') %}
+            <div class="alert alert-success">{{ session.get('flash_success') }}</div>
+            {{ session.remove('flash_success') }}
+        {% endif %}
+
+        <form action="/3A2526-Blog/public/login/process" method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+        </form>
+
+        <div class="mt-3 text-center">
+            <small>Comptes de test :<br>
+            admin@vtt.com / password<br>
+            editeur@vtt.com / password<br>
+            contributeur@vtt.com / password
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}
