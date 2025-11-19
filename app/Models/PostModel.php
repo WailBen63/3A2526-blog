@@ -7,32 +7,41 @@ use PDOException;
 class PostModel extends BaseModel {
 
     /**
-     * Récupère tous les articles de blog.
+     * Récupère tous les articles de blog (PUBLICS seulement)
      */
     public function findAll(): array {
         try {
-            $stmt = $this->db->query("SELECT * FROM posts ORDER BY created_at DESC");
+            $stmt = $this->db->query("
+                SELECT a.*, u.nom_utilisateur 
+                FROM articles a 
+                JOIN utilisateurs u ON a.utilisateur_id = u.id 
+                WHERE a.statut = 'Public' 
+                ORDER BY a.date_creation DESC
+            ");
             return $stmt->fetchAll();
         } catch (PDOException $e) {
-            $this->logger->error("Erreur lors de la récupération de tous les posts", $e);
+            $this->logger->error("Erreur lors de la récupération de tous les articles publics", $e);
             return [];
         }
     }
 
     /**
-     * Récupère un article par son ID.
+     * Récupère un article par son ID (même s'il n'est pas public)
      */
     public function findById(int $id): object|false {
         try {
-            $stmt = $this->db->prepare("SELECT * FROM posts WHERE id = ?");
+            $stmt = $this->db->prepare("
+                SELECT a.*, u.nom_utilisateur 
+                FROM articles a 
+                JOIN utilisateurs u ON a.utilisateur_id = u.id 
+                WHERE a.id = ?
+            ");
             $stmt->execute([$id]);
             return $stmt->fetch();
         } catch (PDOException $e) {
-            $this->logger->error("Erreur lors de la récupération du post ID $id", $e);
+            $this->logger->error("Erreur lors de la récupération de l'article ID $id", $e);
             return false;
         }
-
-    
     }
 
     /**

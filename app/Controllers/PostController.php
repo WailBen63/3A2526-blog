@@ -25,7 +25,7 @@ class PostController extends BaseController {
         }
 
         $this->render('post_show.twig', [
-            'page_title' => $post->title,
+            'page_title' => $post->titre,  // ← CORRIGÉ : $post->titre au lieu de $post->title
             'post' => $post
         ]);
     }

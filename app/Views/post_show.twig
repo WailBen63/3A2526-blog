@@ -2,13 +2,13 @@
 
 {% block content %}
     <article>
-        <h1 class="mb-3">{{ post.title }}</h1>
+        <h1 class="mb-3">{{ post.titre }}</h1>  {# ← CORRIGÉ : post.titre #}
         <p class="text-muted border-bottom pb-3 mb-3">
-            Publié le {{ post.created_at|date("d/m/Y à H:i") }}
+            Publié le {{ post.date_creation|date("d/m/Y à H:i") }}  {# ← CORRIGÉ : post.date_creation #}
         </p>
         
         <div class="lead">
-            {{ post.content|nl2br }}
+            {{ post.contenu|nl2br }}  {# ← CORRIGÉ : post.contenu #}
         </div>
     </article>
 

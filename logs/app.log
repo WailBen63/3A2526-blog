@@ -176,3 +176,66 @@
 [2025-11-19 11:57:24] [WARNING] Page 404 : admin/posts
 [2025-11-19 11:57:29] [INFO] Page d'accueil demandée.
 [2025-11-19 11:57:29] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 12:42:28] [INFO] Déconnexion: editeur@vtt.com
+[2025-11-19 12:42:28] [INFO] Page d'accueil demandée.
+[2025-11-19 12:42:28] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 12:42:42] [INFO] Connexion réussie: admin@vtt.com
+[2025-11-19 12:44:32] [INFO] Page d'accueil demandée.
+[2025-11-19 12:44:32] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 12:51:59] [INFO] Page d'accueil demandée.
+[2025-11-19 12:51:59] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 12:52:11] [WARNING] Page 404 : admin/articles
+[2025-11-19 12:53:16] [WARNING] Page 404 : admin/articles
+[2025-11-19 12:53:18] [INFO] Page d'accueil demandée.
+[2025-11-19 12:53:18] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 12:53:40] [WARNING] Page 404 : admin/articles
+[2025-11-19 12:54:11] [INFO] Page d'accueil demandée.
+[2025-11-19 12:54:11] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 12:54:21] [INFO] Déconnexion: admin@vtt.com
+[2025-11-19 12:54:21] [INFO] Page d'accueil demandée.
+[2025-11-19 12:54:21] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 12:54:33] [INFO] Connexion réussie: admin@vtt.com
+[2025-11-19 12:56:39] [INFO] Déconnexion: admin@vtt.com
+[2025-11-19 12:56:39] [INFO] Page d'accueil demandée.
+[2025-11-19 12:56:39] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 12:56:49] [INFO] Connexion réussie: admin@vtt.com
+[2025-11-19 12:56:56] [INFO] Déconnexion: admin@vtt.com
+[2025-11-19 12:56:56] [INFO] Page d'accueil demandée.
+[2025-11-19 12:56:56] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 19:41:41] [WARNING] Page 404 : admin/articles
+[2025-11-19 19:41:57] [INFO] Connexion réussie: admin@vtt.com
+[2025-11-19 19:42:01] [WARNING] Page 404 : admin/articles
+[2025-11-19 19:42:04] [WARNING] Page 404 : admin/comments
+[2025-11-19 19:42:07] [WARNING] Page 404 : admin/users
+[2025-11-19 19:44:16] [WARNING] Page 404 : admin/articles
+[2025-11-19 19:46:21] [INFO] Page d'accueil demandée.
+[2025-11-19 19:46:21] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 19:46:44] [INFO] Page d'accueil demandée.
+[2025-11-19 19:46:44] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 19:47:55] [WARNING] Page 404 : admin/articles
+[2025-11-19 19:48:13] [WARNING] Page 404 : admin/create
+[2025-11-19 19:49:45] [INFO] Déconnexion: admin@vtt.com
+[2025-11-19 19:49:45] [INFO] Page d'accueil demandée.
+[2025-11-19 19:49:45] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 19:49:57] [INFO] Connexion réussie: admin@vtt.com
+[2025-11-19 19:50:00] [WARNING] Page 404 : admin/articles
+[2025-11-19 19:50:05] [INFO] Page d'accueil demandée.
+[2025-11-19 19:50:05] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 19:50:23] [WARNING] Page 404 : admin/comments
+[2025-11-19 19:50:25] [INFO] Page d'accueil demandée.
+[2025-11-19 19:50:25] [ERROR] Erreur lors de la récupération de tous les posts | Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'blog_db.posts' doesn't exist in C:\xampp\htdocs\3A2526-blog\app\Models\PostModel.php:14
+[2025-11-19 19:52:34] [INFO] Page d'accueil demandée.
+[2025-11-19 19:52:41] [INFO] Page d'accueil demandée.
+[2025-11-19 19:52:43] [INFO] Page d'accueil demandée.
+[2025-11-19 19:52:48] [WARNING] Page 404 : admin/articles
+[2025-11-19 19:52:54] [WARNING] Page 404 : admin/users
+[2025-11-19 19:52:59] [INFO] Page d'accueil demandée.
+[2025-11-19 19:57:08] [WARNING] Page 404 : admin/articles
+[2025-11-19 19:57:11] [INFO] Page d'accueil demandée.
+[2025-11-19 19:57:15] [INFO] Page d'accueil demandée.
+[2025-11-19 19:57:22] [INFO] Page d'accueil demandée.
+[2025-11-19 19:57:41] [INFO] Page d'accueil demandée.
+[2025-11-19 19:57:45] [WARNING] Page 404 : admin/articles
+[2025-11-19 19:57:47] [INFO] Page d'accueil demandée.
+[2025-11-19 21:24:27] [INFO] Page d'accueil demandée.
+[2025-11-19 21:26:06] [INFO] Page d'accueil demandée.

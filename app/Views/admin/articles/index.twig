@@ -1,0 +1,61 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ page_title }}</h1>
+        <a href="/3A2526-Blog/public/admin/articles/create" class="btn btn-success">+ Nouvel Article</a>
+    </div>
+
+    {% if articles %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Statut</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td>
+                                <strong>{{ article.titre }}</strong>
+                                <br><small class="text-muted">{{ article.slug }}</small>
+                            </td>
+                            <td>{{ article.nom_utilisateur }}</td>
+                            <td>
+                                <span class="badge bg-{{ article.statut == 'Public' ? 'success' : article.statut == 'Archivé' ? 'secondary' : 'warning' }}">
+                                    {{ article.statut }}
+                                </span>
+                            </td>
+                            <td>
+                                <small>
+                                    Créé: {{ article.date_creation|date("d/m/Y") }}<br>
+                                    Modifié: {{ article.date_mise_a_jour|date("d/m/Y") }}
+                                </small>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="/3A2526-Blog/public/admin/articles/edit/{{ article.id }}" class="btn btn-outline-primary">✏️</a>
+                                    <a href="/3A2526-Blog/public/admin/articles/delete/{{ article.id }}" 
+                                       class="btn btn-outline-danger"
+                                       onclick="return confirm('Supprimer cet article ?')">🗑️</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <p>Aucun article trouvé.</p>
+            <a href="/3A2526-Blog/public/admin/articles/create" class="btn btn-primary">Créer le premier article</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
