@@ -12,6 +12,9 @@ class AdminArticleController extends BaseController {
         $this->articleModel = new ArticleModel();
     }
 
+    /**
+     * Liste tous les articles
+     */
     public function index(): void {
         $articles = $this->articleModel->findAll();
         
@@ -59,7 +62,7 @@ class AdminArticleController extends BaseController {
             if ($articleId) {
                 $this->logger->info("Article créé ID: $articleId par " . $this->session->get('user_name'));
                 $this->session->set('flash_success', 'Article créé avec succès !');
-                header('Location: /3A2526-blog/public/admin/articles');
+                header('Location: /3A2526-Blog/public/admin/articles');
                 exit;
             } else {
                 $errors[] = "Erreur lors de la création de l'article";
@@ -81,7 +84,7 @@ class AdminArticleController extends BaseController {
         
         if (!$article) {
             $this->session->set('flash_error', 'Article non trouvé');
-            header('Location: /3A2526-blog/public/admin/articles');
+            header('Location: /3A2526-Blog/public/admin/articles');
             exit;
         }
 
@@ -96,7 +99,7 @@ class AdminArticleController extends BaseController {
      */
     public function update(int $id): void {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /3A2526-blog/public/admin/articles');
+            header('Location: /3A2526-Blog/public/admin/articles');
             exit;
         }
 
@@ -119,7 +122,7 @@ class AdminArticleController extends BaseController {
             if ($success) {
                 $this->logger->info("Article modifié ID: $id par " . $this->session->get('user_name'));
                 $this->session->set('flash_success', 'Article modifié avec succès !');
-                header('Location: /3A2526-blog/public/admin/articles');
+                header('Location: /3A2526-Blog/public/admin/articles');
                 exit;
             } else {
                 $errors[] = "Erreur lors de la modification de l'article";
@@ -147,7 +150,7 @@ class AdminArticleController extends BaseController {
             $this->session->set('flash_error', 'Erreur lors de la suppression');
         }
         
-        header('Location: /3A2526-blog/public/admin/articles');
+        header('Location: /3A2526-Blog/public/admin/articles');
         exit;
     }
 }

@@ -7,7 +7,8 @@ class AuthMiddleware {
         $session = SessionManager::getInstance();
         
         if (!$session->get('user_id')) {
-            header('Location: /3A2526-blog/public/login');
+            $session->set('flash_error', 'Veuillez vous connecter pour accéder à cette page.');
+            header('Location: /3A2526-Blog/public/login');
             exit;
         }
     }

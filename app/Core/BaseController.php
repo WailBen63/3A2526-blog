@@ -10,11 +10,12 @@ abstract class BaseController {
     protected Logger $logger;
 
     public function __construct() {
-        // 1. Initialiser Twig
-        $loader = new FilesystemLoader(dirname(__DIR__) . '/Views');
-        $this->twig = new Environment($loader, [
-            // 'cache' => dirname(__DIR__) . '/cache/twig',
-        ]);
+    // 1. Initialiser Twig - Vérifiez ce chemin
+    $loader = new FilesystemLoader(dirname(__DIR__) . '/Views');
+    $this->twig = new Environment($loader, [
+        // 'cache' => dirname(__DIR__) . '/cache/twig',
+        'debug' => true, // Ajoutez cette ligne pour le débogage
+    ]);
 
         // 2. Récupérer les Singletons
         $this->session = SessionManager::getInstance();

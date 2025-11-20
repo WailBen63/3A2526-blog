@@ -2,34 +2,34 @@
 namespace App\Controllers;
 
 use App\Core\BaseController;
-use App\Models\PostModel;
+use App\Models\ArticleModel;
 
 class HomeController extends BaseController {
-    private PostModel $postModel;
+    private ArticleModel $articleModel;
 
     public function __construct() {
         parent::__construct(); 
-        $this->postModel = new PostModel();
+        $this->articleModel = new ArticleModel();
     }
 
     /**
-     * Affiche la page d'accueil avec tous les articles.
+     * Affiche la page d'accueil avec tous les articles PUBLIÉS.
      */
     public function index(): void {
-        $this->logger->info("Page d'accueil demandée.");
-        $posts = $this->postModel->findAll();
+    $this->logger->info("Page d'accueil demandée.");
+    $posts = $this->articleModel->findAll(); // ← CORRIGÉ : articleModel au lieu de postModel
 
-        $this->render('home.twig', [
-            'page_title' => 'Accueil du Blog',
-            'posts' => $posts
-        ]);
-    }
+    $this->render('home.twig', [
+        'page_title' => 'Accueil du Blog',
+        'posts' => $posts
+    ]);
+}
     
     /**
      * Affiche la page 404.
      */
     public function error404(): void {
-        $this->logger->warning("Page 404 : " . $_GET['url']);
+        $this->logger->warning("Page 404 : " . ($_GET['url'] ?? 'inconnue'));
         
         http_response_code(404);
         $this->render('errors/404.twig', [
@@ -38,7 +38,7 @@ class HomeController extends BaseController {
     }
 
     /**
-     * Affiche la page "À Propos". (NOUVEAU)
+     * Affiche la page "À Propos".
      */
     public function about(): void {
         $this->render('about.twig', [
@@ -47,12 +47,12 @@ class HomeController extends BaseController {
     }
 
     /**
-     * Gère l'affichage et la soumission du formulaire de contact. (NOUVEAU)
+     * Gère l'affichage et la soumission du formulaire de contact.
      */
     public function contact(): void {
         $errors = [];
         $success_message = $this->session->get('contact_success_message');
-        $this->session->remove('contact_success_message'); // Message flash
+        $this->session->remove('contact_success_message');
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // 1. Nettoyage et Validation
@@ -67,9 +67,6 @@ class HomeController extends BaseController {
             if (empty($errors)) {
                 // 2. Traitement (Envoi d'email - simulé ici)
                 $email_body = "Nom: $name\nEmail: $email\nMessage:\n$message";
-                
-                // En production, vous utiliseriez une librairie (ex: SwiftMailer/Symfony Mailer)
-                // mail('votre@email.com', 'Nouveau Contact Blog', $email_body); 
                 
                 $this->logger->info("Formulaire de contact soumis par $name ($email).");
                 
@@ -87,8 +84,7 @@ class HomeController extends BaseController {
             'page_title' => 'Contactez-nous',
             'errors' => $errors,
             'success_message' => $success_message,
-            'old_input' => $_POST ?? [] // Garder les valeurs précédentes en cas d'erreur
+            'old_input' => $_POST ?? []
         ]);
     }
-
 }

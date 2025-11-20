@@ -18,12 +18,12 @@ class AdminController extends BaseController {
             (object)[
                 'titre' => 'Top 5 des Traces VTT Enduro',
                 'date_creation' => date('Y-m-d H:i:s'),
-                'statut' => 'Publié'
+                'statut' => 'Public'
             ],
             (object)[
                 'titre' => 'Réglage de la suspension',
                 'date_creation' => date('Y-m-d H:i:s', strtotime('-1 day')),
-                'statut' => 'Publié'
+                'statut' => 'Public'
             ]
         ];
 

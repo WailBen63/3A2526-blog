@@ -20,13 +20,7 @@ class Database {
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         } catch (PDOException $e) {
-            // Utiliser le Logger au lieu de die()
-            if (class_exists('App\Core\Logger')) {
-                Logger::getInstance()->error("Échec de la connexion BDD", $e);
-            }
-            // Afficher un message générique
-            http_response_code(503); // Service Unavailable
-            die("Erreur : Impossible de se connecter à la base de données.");
+            die('Erreur de connexion : '. $e->getMessage());
         }
     }
 

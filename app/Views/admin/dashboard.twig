@@ -90,7 +90,9 @@
                                         <span class="badge bg-{{ comment.statut == 'Approuvé' ? 'success' : comment.statut == 'Rejeté' ? 'danger' : 'warning' }}">
                                             {{ comment.statut }}
                                         </span>
-                                        <br>Sur: {{ comment.article_titre }}
+                                        {% if comment.article_titre %}
+                                            <br>Sur: {{ comment.article_titre }}
+                                        {% endif %}
                                     </small>
                                 </div>
                             {% endfor %}
@@ -112,9 +114,9 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2 d-md-flex">
-                        <a href="/3A2526-blog/public/admin/articles" class="btn btn-primary">Gérer les Articles</a>
-                        <a href="/3A2526-blog/public/admin/comments" class="btn btn-warning">Modérer les Commentaires</a>
-                        <a href="/3A2526-blog/public/admin/users" class="btn btn-info">Gérer les Utilisateurs</a>
+                        <a href="/3A2526-Blog/public/admin/articles" class="btn btn-primary">Gérer les Articles</a>
+                        <a href="/3A2526-Blog/public/admin/comments" class="btn btn-warning">Modérer les Commentaires</a>
+                        <a href="/3A2526-Blog/public/admin/users" class="btn btn-info">Gérer les Utilisateurs</a>
                     </div>
                 </div>
             </div>

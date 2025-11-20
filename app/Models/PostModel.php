@@ -16,7 +16,7 @@ class PostModel extends BaseModel {
                 SELECT a.*, u.nom_utilisateur 
                 FROM articles a 
                 JOIN utilisateurs u ON a.utilisateur_id = u.id 
-                WHERE a.statut = 'Publié'
+                WHERE a.statut = 'Public'
                 ORDER BY a.date_creation DESC
             ");
             return $stmt->fetchAll();
@@ -68,7 +68,7 @@ class PostModel extends BaseModel {
                 ORDER BY date_creation DESC 
                 LIMIT ?
             ");
-            $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+            $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
@@ -76,4 +76,7 @@ class PostModel extends BaseModel {
             return [];
         }
     }
+
+
+    
 }
