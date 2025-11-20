@@ -15,7 +15,7 @@ class AuthController extends BaseController {
     public function login(): void {
         // Si déjà connecté, rediriger vers l'accueil
         if ($this->session->get('user_id')) {
-            header('Location: /3A2526-Blog/public/');
+            header('Location: /3A2526-blog/public/');
             exit;
         }
 
@@ -26,7 +26,7 @@ class AuthController extends BaseController {
 
     public function processLogin(): void {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /3A2526-Blog/public/login');
+            header('Location: /3A2526-blog/public/login');
             exit;
         }
 
@@ -56,9 +56,9 @@ class AuthController extends BaseController {
 
             // Redirection selon le rôle
             if (in_array($mainRole, ['Administrateur', 'Éditeur'])) {
-                header('Location: /3A2526-Blog/public/admin');
+                header('Location: /3A2526-blog/public/admin');
             } else {
-                header('Location: /3A2526-Blog/public/');
+                header('Location: /3A2526-blog/public/');
             }
             exit;
         } else {
@@ -66,7 +66,7 @@ class AuthController extends BaseController {
             $this->logger->warning("Tentative de connexion échouée: $email");
             $this->session->set('flash_error', 'Email ou mot de passe incorrect.');
             
-            header('Location: /3A2526-Blog/public/login');
+            header('Location: /3A2526-blog/public/login');
             exit;
         }
     }
@@ -75,7 +75,7 @@ class AuthController extends BaseController {
         $this->logger->info("Déconnexion: " . $this->session->get('user_email'));
         $this->session->destroy();
         
-        header('Location: /3A2526-Blog/public/');
+        header('Location: /3A2526-blog/public/');
         exit;
     }
 }

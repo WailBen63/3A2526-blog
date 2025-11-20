@@ -1,6 +1,13 @@
 <?php
 // Fichier : /public/index.php
 
+// TOUT EN HAUT
+file_put_contents('C:/xampp/htdocs/test_debug.txt', 
+    date('Y-m-d H:i:s') . " ROUTEUR APPELÉ\n" . 
+    "GET url = " . ($_GET['url'] ?? 'VIDE') . "\n",
+    FILE_APPEND
+);
+
 // 1. Définir les constantes globales
 define('ROOT_PATH', dirname(__DIR__));
 define('LOG_PATH', ROOT_PATH . '/logs');
@@ -15,6 +22,7 @@ use App\Controllers\PostController;
 use App\Controllers\AuthController;
 use App\Controllers\AdminController;
 use App\Controllers\AdminArticleController;
+use App\Core\AuthMiddleware;
 
 // 4. Démarrer la session (via le Singleton)
 SessionManager::getInstance();
@@ -24,11 +32,71 @@ $url = $_GET['url'] ?? '/';
 $url = rtrim($url, '/');
 if ($url === '') $url = '/';
 
+// === DEBUG DIRECT À L'ÉCRAN ===
+echo "<pre>";
+echo "URL GET brute: " . ($_GET['url'] ?? 'VIDE') . "\n";
+echo "URL traitée: " . $url . "\n";
+echo "Test exact 'admin/articles': " . ($url === 'admin/articles' ? 'OUI' : 'NON') . "\n";
+echo "</pre>";
+die(); // ARRÊT ICI POUR DEBUG
+// === FIN DEBUG ===
+
+
 // 6. Le Routeur
 switch (true) {
     // Route 1 : Page d'accueil
     case $url === '/':
         (new HomeController())->index();
+        break;
+
+    // Routes d'authentification
+    case $url === 'login':
+        (new AuthController())->login();
+        break;
+
+    case $url === 'login/process':
+        (new AuthController())->processLogin();
+        break;
+
+    case $url === 'logout':
+        (new AuthController())->logout();
+        break;
+
+    // Route tableau de bord admin
+    case $url === 'admin':
+        AuthMiddleware::requireAuth();
+        (new AdminController())->dashboard();
+        break;
+
+    // Routes de gestion des articles (ADMIN)
+    case $url === 'admin/articles':
+        AuthMiddleware::requireAuth();
+        (new AdminArticleController())->index();
+        break;
+
+    case $url === 'admin/articles/create':
+        AuthMiddleware::requireAuth();
+        (new AdminArticleController())->create();
+        break;
+
+    case $url === 'admin/articles/store':
+        AuthMiddleware::requireAuth();
+        (new AdminArticleController())->store();
+        break;
+
+    case preg_match('/^admin\/articles\/edit\/(\d+)$/', $url, $matches):
+        AuthMiddleware::requireAuth();
+        (new AdminArticleController())->edit((int)$matches[1]);
+        break;
+
+    case preg_match('/^admin\/articles\/update\/(\d+)$/', $url, $matches):
+        AuthMiddleware::requireAuth();
+        (new AdminArticleController())->update((int)$matches[1]);
+        break;
+
+    case preg_match('/^admin\/articles\/delete\/(\d+)$/', $url, $matches):
+        AuthMiddleware::requireAuth();
+        (new AdminArticleController())->delete((int)$matches[1]);
         break;
 
     // Route 2 : Article unique (ex: /post/12)
@@ -47,64 +115,7 @@ switch (true) {
         (new HomeController())->contact();
         break;
 
-    // Route 5 : Connexion
-    case $url === 'login':
-        (new AuthController())->login();
-        break;
-
-    // Route 6 : Traitement connexion
-    case $url === 'login/process':
-        (new AuthController())->processLogin();
-        break;
-
-    // Route 7 : Déconnexion
-    case $url === 'logout':
-        (new AuthController())->logout();
-        break;
-
-    // Route 8 : Tableau de bord admin
-    case $url === 'admin':
-        (new AdminController())->dashboard();
-        break;
-
-    // ========== ROUTES GESTION ARTICLES ==========
-    
-    // Route 9 : Liste des articles
-    case $url === 'admin/articles':
-        (new AdminArticleController())->index();
-        break;
-
-    // Route 10 : Formulaire création article
-    case $url === 'admin/articles/create':
-        (new AdminArticleController())->create();
-        break;
-
-    // Route 11 : Traitement création article
-    case $url === 'admin/articles/store':
-        (new AdminArticleController())->store();
-        break;
-
-    // Route 12 : Formulaire édition article
-    case preg_match('/^admin\/articles\/edit\/(\d+)$/', $url, $matches):
-        $articleId = (int) $matches[1];
-        (new AdminArticleController())->edit($articleId);
-        break;
-
-    // Route 13 : Traitement modification article
-    case preg_match('/^admin\/articles\/update\/(\d+)$/', $url, $matches):
-        $articleId = (int) $matches[1];
-        (new AdminArticleController())->update($articleId);
-        break;
-
-    // Route 14 : Suppression article
-    case preg_match('/^admin\/articles\/delete\/(\d+)$/', $url, $matches):
-        $articleId = (int) $matches[1];
-        (new AdminArticleController())->delete($articleId);
-        break;
-
-    // ========== FIN ROUTES ARTICLES ==========
-
-    // Route 15 : 404
+    // Route 5 : 404
     default:
         (new HomeController())->error404();
         break;

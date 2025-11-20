@@ -26,7 +26,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/3A2526-Blog/public/">Mon Blog POO</a>
+            <a class="navbar-brand" href="/3A2526-blog/public/">Mon Blog POO</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,13 +34,13 @@
                 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link {{ url == '/' ? 'active' }}" href="/3A2526-Blog/public/">Accueil</a>
+                        <a class="nav-link {{ url == '/' ? 'active' }}" href="/3A2526-blog/public/">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ url == 'a-propos' ? 'active' }}" href="/3A2526-Blog/public/a-propos">À Propos</a>
+                        <a class="nav-link {{ url == 'a-propos' ? 'active' }}" href="/3A2526-blog/public/a-propos">À Propos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ url == 'contact' ? 'active' }}" href="/3A2526-Blog/public/contact">Contact</a>
+                        <a class="nav-link {{ url == 'contact' ? 'active' }}" href="/3A2526-blog/public/contact">Contact</a>
                     </li>
                 </ul>
                 
@@ -80,16 +80,16 @@
                             </a>
                             <ul class="dropdown-menu">
                                 {% if session.get('user_role') in ['Administrateur', 'Éditeur'] %}
-                                    <li><a class="dropdown-item" href="/3A2526-Blog/public/admin">📊 Tableau de Bord</a></li>
+                                    <li><a class="dropdown-item" href="/3A2526-blog/public/admin">📊 Tableau de Bord</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 {% endif %}
-                                <li><a class="dropdown-item text-danger" href="/3A2526-Blog/public/logout">🚪 Déconnexion</a></li>
+                                <li><a class="dropdown-item text-danger" href="/3A2526-blog/public/logout">🚪 Déconnexion</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <!-- Utilisateur non connecté -->
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="/3A2526-Blog/public/login">🔐 Connexion</a>
+                            <a class="nav-link text-white" href="/3A2526-blog/public/login">🔐 Connexion</a>
                         </li>
                     {% endif %}
                 </ul>

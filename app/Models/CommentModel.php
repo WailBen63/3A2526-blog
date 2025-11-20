@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Core\BaseModel;
+use PDO;
 use PDOException;
 
 class CommentModel extends BaseModel {
@@ -44,7 +45,8 @@ class CommentModel extends BaseModel {
                 ORDER BY c.date_commentaire DESC 
                 LIMIT ?
             ");
-            $stmt->execute([$limit]);
+            $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+            $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             $this->logger->error("Erreur récupération commentaires récents", $e);

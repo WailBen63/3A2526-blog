@@ -2,12 +2,13 @@
 namespace App\Models;
 
 use App\Core\BaseModel;
+use PDO;
 use PDOException;
 
 class PostModel extends BaseModel {
 
     /**
-     * Récupère tous les articles de blog (PUBLICS seulement)
+     * Récupère tous les articles de blog (PUBLIÉS seulement)
      */
     public function findAll(): array {
         try {
@@ -15,7 +16,7 @@ class PostModel extends BaseModel {
                 SELECT a.*, u.nom_utilisateur 
                 FROM articles a 
                 JOIN utilisateurs u ON a.utilisateur_id = u.id 
-                WHERE a.statut = 'Public' 
+                WHERE a.statut = 'Publié'
                 ORDER BY a.date_creation DESC
             ");
             return $stmt->fetchAll();
@@ -67,7 +68,8 @@ class PostModel extends BaseModel {
                 ORDER BY date_creation DESC 
                 LIMIT ?
             ");
-            $stmt->execute([$limit]);
+            $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+            $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             $this->logger->error("Erreur récupération articles récents", $e);

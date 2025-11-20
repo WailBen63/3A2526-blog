@@ -75,7 +75,7 @@ class HomeController extends BaseController {
                 
                 // 3. Redirection (Post/Redirect/Get pattern)
                 $this->session->set('contact_success_message', 'Votre message a bien été envoyé !');
-                header('Location: /3A2526-Blog/public/contact');
+                header('Location: /3A2526-blog/public/contact');
                 exit;
             } else {
                 $this->logger->warning("Erreur de validation du formulaire de contact.");
