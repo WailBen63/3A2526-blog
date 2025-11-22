@@ -9,11 +9,11 @@ class ArticleModel extends BaseModel {
     /**
      * Récupère tous les articles (avec pagination optionnelle)
      */
-    public function findAll(int $limit = null, int $offset = null): array {
+    public function findAll(?int $limit = null, ?int $offset = null): array {
         try {
             $sql = "SELECT a.*, u.nom_utilisateur 
-                    FROM articles a 
-                    JOIN utilisateurs u ON a.utilisateur_id = u.id 
+                    FROM Articles a 
+                    JOIN Utilisateurs u ON a.utilisateur_id = u.id 
                     ORDER BY a.date_creation DESC";
             
             if ($limit !== null) {
@@ -41,14 +41,43 @@ class ArticleModel extends BaseModel {
     }
 
     /**
+     * Récupère UNIQUEMENT les articles PUBLIÉS (pour la partie publique)
+     */
+    public function findPublished(?int $limit = null): array {
+        try {
+            $sql = "SELECT a.*, u.nom_utilisateur 
+                    FROM Articles a 
+                    JOIN Utilisateurs u ON a.utilisateur_id = u.id 
+                    WHERE a.statut = 'Publié'
+                    ORDER BY a.date_creation DESC";
+            
+            if ($limit !== null) {
+                $sql .= " LIMIT :limit";
+            }
+            
+            $stmt = $this->db->prepare($sql);
+            
+            if ($limit !== null) {
+                $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+            }
+            
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            $this->logger->error("Erreur récupération articles publiés", $e);
+            return [];
+        }
+    }
+
+    /**
      * Récupère un article par son ID
      */
     public function findById(int $id): object|false {
         try {
             $stmt = $this->db->prepare("
                 SELECT a.*, u.nom_utilisateur 
-                FROM articles a 
-                JOIN utilisateurs u ON a.utilisateur_id = u.id 
+                FROM Articles a 
+                JOIN Utilisateurs u ON a.utilisateur_id = u.id 
                 WHERE a.id = ?
             ");
             $stmt->execute([$id]);
@@ -65,7 +94,7 @@ class ArticleModel extends BaseModel {
     public function create(array $data): int {
         try {
             $stmt = $this->db->prepare("
-                INSERT INTO articles (utilisateur_id, titre, slug, contenu, statut) 
+                INSERT INTO Articles (utilisateur_id, titre, slug, contenu, statut) 
                 VALUES (:user_id, :titre, :slug, :contenu, :statut)
             ");
             
@@ -77,7 +106,7 @@ class ArticleModel extends BaseModel {
                 ':statut' => $data['statut'] ?? 'Brouillon'
             ]);
             
-            return $this->db->lastInsertId();
+            return (int) $this->db->lastInsertId();
         } catch (PDOException $e) {
             $this->logger->error("Erreur création article", $e);
             return 0;
@@ -90,7 +119,7 @@ class ArticleModel extends BaseModel {
     public function update(int $id, array $data): bool {
         try {
             $stmt = $this->db->prepare("
-                UPDATE articles 
+                UPDATE Articles 
                 SET titre = :titre, slug = :slug, contenu = :contenu, statut = :statut, 
                     date_mise_a_jour = CURRENT_TIMESTAMP 
                 WHERE id = :id
@@ -114,7 +143,7 @@ class ArticleModel extends BaseModel {
      */
     public function delete(int $id): bool {
         try {
-            $stmt = $this->db->prepare("DELETE FROM articles WHERE id = ?");
+            $stmt = $this->db->prepare("DELETE FROM Articles WHERE id = ?");
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
             $this->logger->error("Erreur suppression article ID: $id", $e);
@@ -137,11 +166,30 @@ class ArticleModel extends BaseModel {
      */
     public function countAll(): int {
         try {
-            $stmt = $this->db->query("SELECT COUNT(*) FROM articles");
+            $stmt = $this->db->query("SELECT COUNT(*) FROM Articles");
             return (int) $stmt->fetchColumn();
         } catch (PDOException $e) {
             $this->logger->error("Erreur comptage articles", $e);
             return 0;
+        }
+    }
+
+    /**
+     * Récupère les articles récents
+     */
+    public function findRecent(int $limit = 5): array {
+        try {
+            $stmt = $this->db->prepare("
+                SELECT * FROM Articles 
+                ORDER BY date_creation DESC 
+                LIMIT ?
+            ");
+            $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            $this->logger->error("Erreur récupération articles récents", $e);
+            return [];
         }
     }
 }

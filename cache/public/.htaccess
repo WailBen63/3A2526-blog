@@ -1,6 +1,14 @@
+# Active le moteur de réécriture
 RewriteEngine On
+
+# IMPORTANT : Adapté à ton installation
 RewriteBase /3A2526-Blog/public/
 
+# Si le fichier existe physiquement, on le sert directement
 RewriteCond %{REQUEST_FILENAME} !-f
+
+# Si le dossier existe physiquement, on le sert directement
 RewriteCond %{REQUEST_FILENAME} !-d
+
+# Sinon, on redirige tout vers index.php avec le paramètre "url"
 RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]

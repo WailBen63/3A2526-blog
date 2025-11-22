@@ -1,136 +1,144 @@
 <?php
+// Point d'entrée unique de l'application
 // Fichier : /public/index.php
 
-// 1. Définir les constantes globales
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// LOG DE DEBUG
+file_put_contents(__DIR__ . '/../logs/debug-route.txt', 
+    date('H:i:s') . " - URL: " . ($_GET['url'] ?? 'VIDE') . "\n", 
+    FILE_APPEND
+);
+
+// 1. Constantes
 define('ROOT_PATH', dirname(__DIR__));
 define('LOG_PATH', ROOT_PATH . '/logs');
 
-// 2. Charger l'autoloader de Composer
+// 2. Autoloader Composer
 require_once ROOT_PATH . '/vendor/autoload.php';
 
-// 3. Importer les classes nécessaires
-use App\Core\SessionManager;
-use App\Controllers\HomeController;
-use App\Controllers\PostController;
-use App\Controllers\AuthController;
-use App\Controllers\AdminController;
-use App\Controllers\AdminArticleController;
-use App\Core\AuthMiddleware;
+// 3. Démarrer la session
+App\Core\SessionManager::getInstance();
 
-
-// 4. Démarrer la session (via le Singleton)
-SessionManager::getInstance();
-
-// 5. Récupérer l'URL "propre"
+// 4. Récupérer l'URL
 $url = $_GET['url'] ?? '/';
 $url = rtrim($url, '/');
-if ($url === '') $url = '/';
-
-// 6. Le Routeur
-switch (true) {
-    // Route 1 : Page d'accueil
-    case $url === '/':
-        (new HomeController())->index();
-        break;
-
-    // Route 2 : Article unique (ex: /post/12)
-    case preg_match('/^post\/(\d+)$/', $url, $matches):
-        $postId = (int) $matches[1];
-        (new PostController())->show($postId);
-        break;
-
-    // Route 3 : Page À Propos
-    case $url === 'a-propos':
-        (new HomeController())->about();
-        break;
-
-    // Route 4 : Page de Contact
-    case $url === 'contact':
-        (new HomeController())->contact();
-        break;
-
-    // Route 5 : Connexion
-    case $url === 'login':
-        (new AuthController())->login();
-        break;
-
-    // Route 6 : Traitement connexion
-    case $url === 'login/process':
-        (new AuthController())->processLogin();
-        break;
-
-    // Route 7 : Déconnexion
-    case $url === 'logout':
-        (new AuthController())->logout();
-        break;
-
-    // Route tableau de bord admin
-    case $url === 'admin':
-        AuthMiddleware::requirePermission('admin_access');
-        (new AdminController())->dashboard();
-        break;
-
-    // Routes de gestion des articles
-    case $url === 'admin/articles':
-        AuthMiddleware::requirePermission('article_creer');
-        (new AdminArticleController())->index();
-        break;
-
-    case $url === 'admin/articles/create':
-        AuthMiddleware::requirePermission('article_creer');
-        (new AdminArticleController())->create();
-        break;
-
-    case $url === 'admin/articles/store':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            AuthMiddleware::requirePermission('article_creer');
-            (new AdminArticleController())->store();
-        } else {
-            header('Location: /3A2526-Blog/public/admin/articles');
-            exit;
-        }
-        break;
-
-    case preg_match('/^admin\/articles\/(\d+)\/edit$/', $url, $matches):
-        AuthMiddleware::requirePermission('article_editer_tous');
-        (new AdminArticleController())->edit((int)$matches[1]);
-        break;
-
-    case preg_match('/^admin\/articles\/(\d+)\/update$/', $url, $matches):
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            AuthMiddleware::requirePermission('article_editer_tous');
-            (new AdminArticleController())->update((int)$matches[1]);
-        } else {
-            header('Location: /3A2526-Blog/public/admin/articles');
-            exit;
-        }
-        break;
-
-    case preg_match('/^admin\/articles\/(\d+)\/delete$/', $url, $matches):
-        AuthMiddleware::requirePermission('article_supprimer');
-        (new AdminArticleController())->delete((int)$matches[1]);
-        break;
-
-    // Routes pour commentaires (à créer)
-    case $url === 'admin/comments':
-        AuthMiddleware::requirePermission('commentaire_gerer');
-        // (new AdminCommentController())->index(); // À créer
-        $this->session->set('flash_error', 'Gestion des commentaires - En développement');
-        header('Location: /3A2526-Blog/public/admin');
-        exit;
-        break;
-
-    // Routes pour utilisateurs (à créer)
-    case $url === 'admin/users':
-        AuthMiddleware::requirePermission('utilisateur_gerer');
-        // (new AdminUserController())->index(); // À créer
-        $this->session->set('flash_error', 'Gestion des utilisateurs - En développement');
-        header('Location: /3A2526-Blog/public/admin');
-        exit;
-        break;
-
-    // ... reste du switch ...
+if ($url === '') {
+    $url = '/';
 }
 
+// 5. Routeur simple avec IF
+// Page d'accueil
+if ($url === '/') {
+    $controller = new App\Controllers\HomeController();
+    $controller->index();
+    exit;
+}
 
-    
+// Connexion
+if ($url === 'login') {
+    $controller = new App\Controllers\AuthController();
+    $controller->login();
+    exit;
+}
+
+if ($url === 'login/process') {
+    $controller = new App\Controllers\AuthController();
+    $controller->processLogin();
+    exit;
+}
+
+if ($url === 'logout') {
+    $controller = new App\Controllers\AuthController();
+    $controller->logout();
+    exit;
+}
+
+// À propos
+if ($url === 'a-propos') {
+    $controller = new App\Controllers\HomeController();
+    $controller->about();
+    exit;
+}
+
+// Contact
+if ($url === 'contact') {
+    $controller = new App\Controllers\HomeController();
+    $controller->contact();
+    exit;
+}
+
+// Tableau de bord admin
+if ($url === 'admin') {
+    App\Core\AuthMiddleware::requireAuth();
+    $controller = new App\Controllers\AdminController();
+    $controller->dashboard();
+    exit;
+}
+
+// === GESTION DES ARTICLES ===
+
+// Liste des articles
+if ($url === 'admin/articles') {
+    App\Core\AuthMiddleware::requireAuth();
+    $controller = new App\Controllers\AdminArticleController();
+    $controller->index();
+    exit;
+}
+
+// Créer un article (formulaire)
+if ($url === 'admin/articles/create') {
+    App\Core\AuthMiddleware::requireAuth();
+    $controller = new App\Controllers\AdminArticleController();
+    $controller->create();
+    exit;
+}
+
+// Créer un article (traitement)
+if ($url === 'admin/articles/store') {
+    App\Core\AuthMiddleware::requireAuth();
+    $controller = new App\Controllers\AdminArticleController();
+    $controller->store();
+    exit;
+}
+
+// Modifier un article (formulaire)
+if (preg_match('#^admin/articles/(\d+)/edit$#', $url, $matches)) {
+    App\Core\AuthMiddleware::requireAuth();
+    $articleId = (int) $matches[1];
+    $controller = new App\Controllers\AdminArticleController();
+    $controller->edit($articleId);
+    exit;
+}
+
+// Modifier un article (traitement)
+if (preg_match('#^admin/articles/(\d+)/update$#', $url, $matches)) {
+    App\Core\AuthMiddleware::requireAuth();
+    $articleId = (int) $matches[1];
+    $controller = new App\Controllers\AdminArticleController();
+    $controller->update($articleId);
+    exit;
+}
+
+// Supprimer un article
+if (preg_match('#^admin/articles/(\d+)/delete$#', $url, $matches)) {
+    App\Core\AuthMiddleware::requireAuth();
+    $articleId = (int) $matches[1];
+    $controller = new App\Controllers\AdminArticleController();
+    $controller->delete($articleId);
+    exit;
+}
+
+// Voir un article
+if (preg_match('#^post/(\d+)$#', $url, $matches)) {
+    $postId = (int) $matches[1];
+    $controller = new App\Controllers\PostController();
+    $controller->show($postId);
+    exit;
+}
+
+// 404 - Aucune route trouvée
+$controller = new App\Controllers\HomeController();
+$controller->error404();
+exit;

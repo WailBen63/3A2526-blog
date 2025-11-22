@@ -2,40 +2,36 @@
 namespace App\Controllers;
 
 use App\Core\BaseController;
+use App\Models\ArticleModel;
+use App\Models\CommentModel;
+use App\Models\UserModel;
 
 class AdminController extends BaseController {
+    private ArticleModel $articleModel;
+    private CommentModel $commentModel;
+    private UserModel $userModel;
+
+    public function __construct() {
+        parent::__construct();
+        $this->articleModel = new ArticleModel();
+        $this->commentModel = new CommentModel();
+        $this->userModel = new UserModel();
+    }
 
     public function dashboard(): void {
-        // Données factices pour tester l'affichage
+        // Récupérer les statistiques réelles
         $stats = [
-            'total_posts' => 15,
-            'total_comments' => 42,
-            'pending_comments' => 3,
-            'total_users' => 8
+            'total_posts' => $this->articleModel->countAll(),
+            'total_comments' => $this->commentModel->countAll(),
+            'pending_comments' => $this->commentModel->countPending(),
+            'total_users' => $this->userModel->countAll()
         ];
 
-        $recentPosts = [
-            (object)[
-                'titre' => 'Top 5 des Traces VTT Enduro',
-                'date_creation' => date('Y-m-d H:i:s'),
-                'statut' => 'Public'
-            ],
-            (object)[
-                'titre' => 'Réglage de la suspension',
-                'date_creation' => date('Y-m-d H:i:s', strtotime('-1 day')),
-                'statut' => 'Public'
-            ]
-        ];
+        // Récupérer les articles récents
+        $recentPosts = $this->articleModel->findRecent(5);
 
-        $recentComments = [
-            (object)[
-                'nom_auteur' => 'Nicolas Rider',
-                'contenu' => 'Super article, je connaissais pas la piste de l\'Écureuil !',
-                'date_commentaire' => date('Y-m-d H:i:s'),
-                'statut' => 'Approuvé',
-                'article_titre' => 'Top 5 des Traces VTT Enduro'
-            ]
-        ];
+        // Récupérer les commentaires récents
+        $recentComments = $this->commentModel->findRecent(5);
 
         $this->render('admin/dashboard.twig', [
             'page_title' => 'Tableau de Bord Admin',
