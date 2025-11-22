@@ -18,26 +18,169 @@
     </div>
 {% endif %}
 
-<form action="/3A2526-Blog/public/admin/articles/store" method="POST">
-    <div class="mb-3">
-        <label for="titre" class="form-label">Titre</label>
-        <input type="text" class="form-control" id="titre" name="titre" value="{{ old_input.titre|default('') }}" required>
+<!-- Charger TinyMCE depuis CDN -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+<form action="/3A2526-Blog/public/admin/articles/store" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Contenu principal -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Contenu de l'article</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="titre" class="form-label">Titre *</label>
+                        <input type="text" class="form-control" id="titre" name="titre" value="{{ old_input.titre|default('') }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contenu" class="form-label">Contenu *</label>
+                        <textarea class="form-control" id="contenu" name="contenu" rows="15" required>{{ old_input.contenu|default('') }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Image à la une -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Image à la une</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="image_une" class="form-label">Image principale</label>
+                        <input type="file" class="form-control" id="image_une" name="image_une" accept="image/*">
+                        <div class="form-text">
+                            Formats: JPG, PNG, GIF, WebP (max: 2MB)
+                        </div>
+                    </div>
+                    
+                    <div id="image-preview" class="mt-3 text-center" style="display: none;">
+                        <img id="preview" src="#" alt="Aperçu" class="img-fluid rounded" style="max-height: 200px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Métadonnées -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Publication</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="statut" class="form-label">Statut</label>
+                        <select class="form-control" id="statut" name="statut">
+                            <option value="Brouillon" {{ old_input.statut|default('') == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
+                            <option value="Public" {{ old_input.statut|default('') == 'Public' ? 'selected' : '' }}>Public</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Tags</h5>
+                </div>
+                <div class="card-body">
+                    {% if tags %}
+                        <div class="mb-3">
+                            <label class="form-label">Sélectionnez les tags</label>
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                {% for tag in tags %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" 
+                                               type="checkbox" 
+                                               name="tags[]" 
+                                               value="{{ tag.id }}"
+                                               id="tag_{{ tag.id }}"
+                                               {{ old_input.tags is defined and tag.id in old_input.tags ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="tag_{{ tag.id }}">
+                                            <span class="badge bg-secondary">{{ tag.nom_tag }}</span>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            Aucun tag disponible. <a href="/3A2526-Blog/public/admin/tags/create">Créez-en d'abord !</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="statut" class="form-label">Statut</label>
+                    <select class="form-control" id="statut" name="statut">
+                        <option value="Brouillon" {{ old_input.statut|default('') == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
+                        <option value="Public" {{ old_input.statut|default('') == 'Public' ? 'selected' : '' }}>Public</option>
+                        <option value="Archivé" {{ old_input.statut|default('') == 'Archivé' ? 'selected' : '' }}>Archivé</option>
+                    </select>
+            </div>
+        </div>
     </div>
 
-    <div class="mb-3">
-        <label for="contenu" class="form-label">Contenu</label>
-        <textarea class="form-control" id="contenu" name="contenu" rows="10" required>{{ old_input.contenu|default('') }}</textarea>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <button type="submit" class="btn btn-primary">Créer l'article</button>
+                    <a href="/3A2526-Blog/public/admin/articles" class="btn btn-secondary">Annuler</a>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label for="statut" class="form-label">Statut</label>
-        <select class="form-control" id="statut" name="statut">
-            <option value="Brouillon" {{ old_input.statut|default('') == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
-            <option value="Public" {{ old_input.statut|default('') == 'Public' ? 'selected' : '' }}>Public</option>
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Créer l'article</button>
-    <a href="/3A2526-Blog/public/admin/articles" class="btn btn-secondary">Annuler</a>
 </form>
+
+<!-- Configuration TinyMCE -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    tinymce.init({
+        selector: '#contenu',
+        plugins: 'advlist autolink lists link image charmap preview anchor pagebreak',
+        toolbar_mode: 'floating',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        height: 400,
+        menubar: false,
+        statusbar: false,
+        content_style: 'body { font-family: Arial, sans-serif; font-size: 14px; }',
+        valid_elements: 'p,br,strong/b,em/i,u,ul,ol,li,h1,h2,h3,h4,h5,h6,blockquote,code,pre,a[href|target],img[src|alt|width|height]',
+        invalid_elements: 'script,style',
+        images_upload_handler: function (blobInfo, progress) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    resolve(reader.result);
+                };
+                reader.onerror = function () {
+                    reject('Erreur de chargement de l\'image');
+                };
+                reader.readAsDataURL(blobInfo.blob());
+            });
+        }
+    });
+
+    // Preview image upload
+    document.getElementById('image_une').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('preview');
+        const previewContainer = document.getElementById('image-preview');
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                previewContainer.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            previewContainer.style.display = 'none';
+        }
+    });
+});
+</script>
 {% endblock %}

@@ -47,8 +47,9 @@
         <!-- Articles récents -->
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Articles Récents</h5>
+                    <a href="/3A2526-Blog/public/admin/articles" class="btn btn-sm btn-outline-primary">Voir tout</a>
                 </div>
                 <div class="card-body">
                     {% if recent_posts %}
@@ -58,7 +59,7 @@
                                     <h6>{{ post.titre }}</h6>
                                     <small class="text-muted">
                                         {{ post.date_creation|date("d/m/Y H:i") }}
-                                        <span class="badge bg-{{ post.statut == 'Public' ? 'success' : 'secondary' }}">
+                                        <span class="badge bg-{{ post.statut == 'Public' ? 'success' : post.statut == 'Archivé' ? 'info' : 'secondary' }}">
                                             {{ post.statut }}
                                         </span>
                                     </small>
@@ -75,23 +76,31 @@
         <!-- Commentaires récents -->
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Commentaires Récents</h5>
+                    <a href="/3A2526-Blog/public/admin/comments" class="btn btn-sm btn-outline-primary">Modérer</a>
                 </div>
                 <div class="card-body">
                     {% if recent_comments %}
                         <div class="list-group">
                             {% for comment in recent_comments %}
                                 <div class="list-group-item">
-                                    <h6>{{ comment.nom_auteur }}</h6>
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <h6>{{ comment.nom_auteur }}</h6>
+                                        <span class="badge 
+                                            {% if comment.statut == 'Approuvé' %}bg-success
+                                            {% elseif comment.statut == 'Rejeté' %}bg-danger
+                                            {% else %}bg-warning{% endif %}">
+                                            {{ comment.statut }}
+                                        </span>
+                                    </div>
                                     <p class="mb-1 small">{{ comment.contenu|slice(0, 50) }}...</p>
                                     <small class="text-muted">
                                         {{ comment.date_commentaire|date("d/m/Y H:i") }}
-                                        <span class="badge bg-{{ comment.statut == 'Approuvé' ? 'success' : comment.statut == 'Rejeté' ? 'danger' : 'warning' }}">
-                                            {{ comment.statut }}
-                                        </span>
                                         {% if comment.article_titre %}
-                                            <br>Sur: {{ comment.article_titre }}
+                                            <br>Sur: <strong>{{ comment.article_titre|slice(0, 30) }}{% if comment.article_titre|length > 30 %}...{% endif %}</strong>
+                                        {% else %}
+                                            <br><em>Article supprimé</em>
                                         {% endif %}
                                     </small>
                                 </div>
@@ -114,9 +123,10 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2 d-md-flex">
-                        <a href="/3A2526-Blog/public/index.php?url=admin/articles" class="btn btn-primary">Gérer les Articles</a>
-                        <a href="/3A2526-Blog/public/index.php?url=admin/comments" class="btn btn-warning">Modérer les Commentaires</a>
-                        <a href="/3A2526-Blog/public/index.php?url=admin/users" class="btn btn-info">Gérer les Utilisateurs</a>
+                        <a href="/3A2526-Blog/public/admin/articles" class="btn btn-primary">Gérer les Articles</a>
+                        <a href="/3A2526-Blog/public/admin/comments" class="btn btn-warning">Modérer les Commentaires</a>
+                        <a href="/3A2526-Blog/public/admin/users" class="btn btn-info">Gérer les Utilisateurs</a>
+                        <a href="/3A2526-Blog/public/admin/tags" class="btn btn-success">Gérer les Tags</a>
                     </div>
                 </div>
             </div>

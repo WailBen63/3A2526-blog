@@ -82,4 +82,124 @@ class UserModel extends BaseModel {
             return 0;
         }
     }
+
+    /**
+ * Récupère tous les utilisateurs avec leurs rôles
+ */
+public function findAllWithRoles(): array {
+    try {
+        $stmt = $this->db->prepare("
+            SELECT u.*, GROUP_CONCAT(r.nom_role) as roles_names
+            FROM utilisateurs u
+            LEFT JOIN role_user ru ON u.id = ru.user_id
+            LEFT JOIN roles r ON ru.role_id = r.id
+            GROUP BY u.id
+            ORDER BY u.date_inscription DESC
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération utilisateurs avec rôles", $e);
+        return [];
+    }
+}
+
+/**
+ * Crée un nouvel utilisateur
+ */
+public function create(array $data): int {
+    try {
+        $stmt = $this->db->prepare("
+            INSERT INTO utilisateurs (nom_utilisateur, email, mot_de_passe) 
+            VALUES (:nom_utilisateur, :email, :password)
+        ");
+        
+        $stmt->execute([
+            ':nom_utilisateur' => $data['nom_utilisateur'],
+            ':email' => $data['email'],
+            ':password' => password_hash($data['password'], PASSWORD_DEFAULT)
+        ]);
+        
+        return (int) $this->db->lastInsertId();
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur création utilisateur", $e);
+        return 0;
+    }
+}
+
+/**
+ * Met à jour le statut d'un utilisateur
+ */
+public function updateStatus(int $id, int $status): bool {
+    try {
+        $stmt = $this->db->prepare("UPDATE utilisateurs SET est_actif = ? WHERE id = ?");
+        return $stmt->execute([$status, $id]);
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur mise à jour statut utilisateur ID: $id", $e);
+        return false;
+    }
+}
+
+/**
+ * Supprime un utilisateur
+ */
+public function delete(int $id): bool {
+    try {
+        $stmt = $this->db->prepare("DELETE FROM utilisateurs WHERE id = ?");
+        return $stmt->execute([$id]);
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur suppression utilisateur ID: $id", $e);
+        return false;
+    }
+}
+
+/**
+ * Récupère un utilisateur par son ID
+ */
+public function findById(int $id): object|false {
+    try {
+        $stmt = $this->db->prepare("SELECT * FROM utilisateurs WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur recherche utilisateur par ID: $id", $e);
+        return false;
+    }
+}
+
+/**
+ * Récupère tous les rôles disponibles
+ */
+public function getAllRoles(): array {
+    try {
+        $stmt = $this->db->query("SELECT * FROM roles ORDER BY nom_role");
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération rôles", $e);
+        return [];
+    }
+}
+
+/**
+ * Assigne des rôles à un utilisateur
+ */
+public function assignRolesToUser(int $userId, array $roleIds): bool {
+    try {
+        // Supprimer les rôles existants
+        $stmt = $this->db->prepare("DELETE FROM role_user WHERE user_id = ?");
+        $stmt->execute([$userId]);
+
+        // Ajouter les nouveaux rôles
+        $stmt = $this->db->prepare("INSERT INTO role_user (user_id, role_id) VALUES (?, ?)");
+        foreach ($roleIds as $roleId) {
+            $stmt->execute([$userId, $roleId]);
+        }
+        return true;
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur assignation rôles utilisateur ID: $userId", $e);
+        return false;
+    }
+}
+
+
 }

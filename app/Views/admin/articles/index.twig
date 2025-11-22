@@ -43,6 +43,22 @@
                             <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
                         </form>
                     </td>
+                    <td>
+                        <span class="badge 
+                            {% if article.statut == 'Public' %}bg-success
+                            {% elseif article.statut == 'Archivé' %}bg-info
+                            {% else %}bg-secondary{% endif %}">
+                            {{ article.statut }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge 
+                            {% if article.statut == 'Public' %}bg-success
+                            {% elseif article.statut == 'Archivé' %}bg-info
+                            {% else %}bg-secondary{% endif %}">
+                            {{ article.statut }}
+                        </span>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

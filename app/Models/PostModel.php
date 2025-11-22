@@ -30,20 +30,20 @@ class PostModel extends BaseModel {
      * Récupère un article par son ID (même s'il n'est pas publié)
      */
     public function findById(int $id): object|false {
-        try {
-            $stmt = $this->db->prepare("
-                SELECT a.*, u.nom_utilisateur 
-                FROM Articles a 
-                JOIN Utilisateurs u ON a.utilisateur_id = u.id 
-                WHERE a.id = ?
-            ");
-            $stmt->execute([$id]);
-            return $stmt->fetch();
-        } catch (PDOException $e) {
-            $this->logger->error("Erreur récupération article ID $id", $e);
-            return false;
-        }
+    try {
+        $stmt = $this->db->prepare("
+            SELECT a.*, u.nom_utilisateur 
+            FROM articles a 
+            JOIN utilisateurs u ON a.utilisateur_id = u.id 
+            WHERE a.id = ?
+        ");
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération article ID $id", $e);
+        return false;
     }
+}
 
     /**
      * Compte tous les articles

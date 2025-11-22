@@ -2,15 +2,104 @@
 
 {% block content %}
     <article>
-        <h1 class="mb-3">{{ post.titre }}</h1>  {# ← CORRIGÉ : post.titre #}
+        {% if post.image_une %}
+            <div class="text-center mb-4">
+                <img src="/3A2526-Blog/public/uploads/articles/{{ post.image_une }}" 
+                     alt="{{ post.titre }}" 
+                     class="img-fluid rounded"
+                     style="max-height: 400px; object-fit: cover;">
+            </div>
+        {% endif %}
+        
+        <h1 class="mb-3">{{ post.titre }}</h1>
         <p class="text-muted border-bottom pb-3 mb-3">
-            Publié le {{ post.date_creation|date("d/m/Y à H:i") }}  {# ← CORRIGÉ : post.date_creation #}
+            Publié le {{ post.date_creation|date("d/m/Y à H:i") }}
         </p>
         
-        <div class="lead">
-            {{ post.contenu|nl2br }}  {# ← CORRIGÉ : post.contenu #}
+        <!-- Tags de l'article -->
+        {% if post.tags %}
+            <div class="mb-4">
+                <strong>Tags :</strong>
+                {% for tag in post.tags %}
+                    <a href="/3A2526-blog/public/tag/{{ tag.slug }}" class="badge bg-secondary text-decoration-none me-1">
+                        {{ tag.nom_tag }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <!-- Contenu riche HTML -->
+        <div class="article-content">
+            {{ post.contenu|raw }}
         </div>
     </article>
+
+    <!-- Section Commentaires -->
+    <section class="mt-5">
+        <h3 class="mb-4">💬 Commentaires</h3>
+        
+        <!-- Formulaire de commentaire -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Laisser un commentaire</h5>
+            </div>
+            <div class="card-body">
+                <form action="/3A2526-Blog/public/comments/{{ post.id }}/store" method="POST">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nom_auteur" class="form-label">Nom *</label>
+                                <input type="text" class="form-control" id="nom_auteur" name="nom_auteur" 
+                                       value="{{ old_input.nom_auteur|default('') }}" required maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email_auteur" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email_auteur" name="email_auteur" 
+                                       value="{{ old_input.email_auteur|default('') }}" maxlength="150">
+                                <div class="form-text">Facultatif - ne sera pas affiché publiquement</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="contenu" class="form-label">Commentaire *</label>
+                        <textarea class="form-control" id="contenu" name="contenu" rows="4" 
+                                  placeholder="Partagez votre avis..." required maxlength="1000">{{ old_input.contenu|default('') }}</textarea>
+                        <div class="form-text">Maximum 1000 caractères</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Envoyer le commentaire</button>
+                    
+                    <div class="form-text mt-2">
+                        <small>💡 Votre commentaire sera visible après modération par l'administrateur.</small>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Affichage des commentaires approuvés -->
+        {% if post.comments %}
+            <div class="comments-list">
+                {% for comment in post.comments %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h6 class="card-title mb-0">{{ comment.nom_auteur }}</h6>
+                                <small class="text-muted">{{ comment.date_commentaire|date("d/m/Y à H:i") }}</small>
+                            </div>
+                            <p class="card-text">{{ comment.contenu|nl2br }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <p class="mb-0">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+            </div>
+        {% endif %}
+    </section>
 
     <hr class="my-4">
     <a href="/3A2526-blog/public/" class="btn btn-secondary">&larr; Retour à l'accueil</a>

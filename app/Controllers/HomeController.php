@@ -17,7 +17,7 @@ class HomeController extends BaseController {
      */
     public function index(): void {
     $this->logger->info("Page d'accueil demandée.");
-    $posts = $this->articleModel->findAll(); // ← CORRIGÉ : articleModel au lieu de postModel
+    $posts = $this->articleModel->findPublishedWithTags(); // ← UTILISER la nouvelle méthode
 
     $this->render('home.twig', [
         'page_title' => 'Accueil du Blog',
@@ -87,4 +87,6 @@ class HomeController extends BaseController {
             'old_input' => $_POST ?? []
         ]);
     }
+
+    
 }

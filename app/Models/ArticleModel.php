@@ -44,31 +44,32 @@ class ArticleModel extends BaseModel {
      * Récupère UNIQUEMENT les articles PUBLIÉS (pour la partie publique)
      */
     public function findPublished(?int $limit = null): array {
-        try {
-            $sql = "SELECT a.*, u.nom_utilisateur 
-                    FROM Articles a 
-                    JOIN Utilisateurs u ON a.utilisateur_id = u.id 
-                    WHERE a.statut = 'Publié'
-                    ORDER BY a.date_creation DESC";
-            
-            if ($limit !== null) {
-                $sql .= " LIMIT :limit";
-            }
-            
-            $stmt = $this->db->prepare($sql);
-            
-            if ($limit !== null) {
-                $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
-            }
-            
-            $stmt->execute();
-            return $stmt->fetchAll();
-        } catch (PDOException $e) {
-            $this->logger->error("Erreur récupération articles publiés", $e);
-            return [];
+    try {
+        $sql = "
+            SELECT a.*, u.nom_utilisateur 
+            FROM Articles a 
+            JOIN Utilisateurs u ON a.utilisateur_id = u.id 
+            WHERE a.statut = 'Public'  -- Seulement les articles Public, pas Archivé
+            ORDER BY a.date_creation DESC
+        ";
+        
+        if ($limit !== null) {
+            $sql .= " LIMIT :limit";
         }
+        
+        $stmt = $this->db->prepare($sql);
+        
+        if ($limit !== null) {
+            $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        }
+        
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération articles publiés", $e);
+        return [];
     }
-
+}
     /**
      * Récupère un article par son ID
      */
@@ -192,4 +193,159 @@ class ArticleModel extends BaseModel {
             return [];
         }
     }
+    /**
+ * Récupère les tags d'un article
+ */
+public function getArticleTags(int $articleId): array {
+    try {
+        $stmt = $this->db->prepare("
+            SELECT t.* 
+            FROM tags t
+            INNER JOIN article_tag at ON t.id = at.tag_id
+            WHERE at.article_id = ?
+            ORDER BY t.nom_tag ASC
+        ");
+        $stmt->execute([$articleId]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération tags article ID: $articleId", $e);
+        return [];
+    }
+}
+
+/**
+ * Associe des tags à un article
+ */
+public function attachTagsToArticle(int $articleId, array $tagIds): bool {
+    try {
+        // D'abord supprimer les associations existantes
+        $stmt = $this->db->prepare("DELETE FROM article_tag WHERE article_id = ?");
+        $stmt->execute([$articleId]);
+        
+        // Puis ajouter les nouvelles associations
+        if (!empty($tagIds)) {
+            $stmt = $this->db->prepare("INSERT INTO article_tag (article_id, tag_id) VALUES (?, ?)");
+            foreach ($tagIds as $tagId) {
+                $stmt->execute([$articleId, $tagId]);
+            }
+        }
+        return true;
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur association tags article ID: $articleId", $e);
+        return false;
+    }
+}
+
+/**
+ * Récupère tous les tags disponibles
+ */
+public function getAllTags(): array {
+    try {
+        $stmt = $this->db->query("SELECT * FROM tags ORDER BY nom_tag ASC");
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération tous les tags", $e);
+        return [];
+    }
+}
+
+/**
+ * Récupère tous les articles publiés avec leurs tags
+ */
+/**
+ * Récupère tous les articles publiés avec leurs tags et image
+ */
+public function findPublishedWithTags(?int $limit = null): array {
+    try {
+        $sql = "SELECT a.*, u.nom_utilisateur 
+                FROM articles a 
+                JOIN utilisateurs u ON a.utilisateur_id = u.id 
+                WHERE a.statut = 'Public'  -- Seulement les articles Public
+                ORDER BY a.date_creation DESC";
+        
+        if ($limit !== null) {
+            $sql .= " LIMIT :limit";
+        }
+        
+        $stmt = $this->db->prepare($sql);
+        
+        if ($limit !== null) {
+            $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        }
+        
+        $stmt->execute();
+        $articles = $stmt->fetchAll();
+
+        // Charger les tags pour chaque article
+        foreach ($articles as $article) {
+            $article->tags = $this->getArticleTags($article->id);
+        }
+
+        return $articles;
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération articles publiés avec tags", $e);
+        return [];
+    }
+}
+
+/**
+ * Récupère les articles publiés par tag ID
+ */
+public function findPublishedByTag(int $tagId): array {
+    try {
+        $stmt = $this->db->prepare("
+            SELECT a.*, u.nom_utilisateur 
+            FROM articles a
+            JOIN utilisateurs u ON a.utilisateur_id = u.id
+            JOIN article_tag at ON a.id = at.article_id
+            WHERE at.tag_id = ? AND a.statut = 'Public'  -- Seulement les articles Public
+            ORDER BY a.date_creation DESC
+        ");
+        $stmt->execute([$tagId]);
+        $articles = $stmt->fetchAll();
+
+        // Ajouter les tags à chaque article
+        foreach ($articles as $article) {
+            $article->tags = $this->getArticleTags($article->id);
+        }
+
+        return $articles;
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération articles par tag ID: $tagId", $e);
+        return [];
+    }
+}
+
+/**
+ * Met à jour l'image à la une d'un article
+ */
+public function updateImage(int $id, ?string $filename): bool {
+    try {
+        $stmt = $this->db->prepare("UPDATE articles SET image_une = ? WHERE id = ?");
+        return $stmt->execute([$filename, $id]);
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur mise à jour image article ID: $id", $e);
+        return false;
+    }
+}
+
+/**
+ * Récupère l'image à la une d'un article
+ */
+public function getArticleImage(int $articleId): ?string {
+    try {
+        $stmt = $this->db->prepare("SELECT image_une FROM articles WHERE id = ?");
+        $stmt->execute([$articleId]);
+        $result = $stmt->fetch();
+        return $result ? $result->image_une : null;
+    } catch (PDOException $e) {
+        $this->logger->error("Erreur récupération image article ID: $articleId", $e);
+        return null;
+    }
+}
+
+
+
+
+
 }

@@ -1,0 +1,57 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">{{ page_title }}</h1>
+    <a href="/3A2526-Blog/public/admin/tags" class="btn btn-sm btn-outline-secondary">
+        ← Retour
+    </a>
+</div>
+
+{% if errors %}
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<form action="/3A2526-Blog/public/admin/tags/store" method="POST">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Informations du tag</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="nom_tag" class="form-label">Nom du tag *</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="nom_tag" 
+                               name="nom_tag" 
+                               value="{{ old_input.nom_tag|default('') }}" 
+                               required
+                               maxlength="50">
+                        <div class="form-text">
+                            Le nom du tag doit être unique et faire entre 2 et 50 caractères.
+                            Le slug sera généré automatiquement.
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>Exemples de tags VTT :</strong><br>
+                        Enduro, XC, Descente, Trail, Gravel, Suspension, Freins, Pneus, Nutrition, Entraînement
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Créer le tag</button>
+                    <a href="/3A2526-Blog/public/admin/tags" class="btn btn-secondary">Annuler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

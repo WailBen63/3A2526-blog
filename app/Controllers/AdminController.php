@@ -31,7 +31,7 @@ class AdminController extends BaseController {
         $recentPosts = $this->articleModel->findRecent(5);
 
         // Récupérer les commentaires récents
-        $recentComments = $this->commentModel->findRecent(5);
+        $recentComments = $this->commentModel->findRecentWithArticles(5);
 
         $this->render('admin/dashboard.twig', [
             'page_title' => 'Tableau de Bord Admin',

@@ -623,3 +623,239 @@
 [2025-11-22 18:46:53] [WARNING] Page 404 : admin/articles
 [2025-11-22 18:47:40] [WARNING] Page 404 : admin/articles
 [2025-11-22 18:49:19] [WARNING] Page 404 : test-controller.php
+[2025-11-22 18:52:55] [INFO] Page d'accueil demandée.
+[2025-11-22 18:52:57] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 18:52:59] [WARNING] Page 404 : admin/articles
+[2025-11-22 18:53:02] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:26] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:28] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:28] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:29] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:30] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:31] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:31] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:31] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:32] [INFO] Page d'accueil demandée.
+[2025-11-22 18:54:38] [INFO] Page d'accueil demandée.
+[2025-11-22 18:55:15] [INFO] Page d'accueil demandée.
+[2025-11-22 19:06:08] [INFO] Page d'accueil demandée.
+[2025-11-22 19:06:11] [INFO] Page d'accueil demandée.
+[2025-11-22 19:07:20] [INFO] Page d'accueil demandée.
+[2025-11-22 19:14:05] [INFO] Page d'accueil demandée.
+[2025-11-22 19:16:34] [INFO] Page d'accueil demandée.
+[2025-11-22 19:16:43] [INFO] Connexion réussie: admin@vtt.com
+[2025-11-22 19:16:43] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:16:45] [WARNING] Page 404 : admin/articles
+[2025-11-22 19:18:32] [INFO] Page d'accueil demandée.
+[2025-11-22 19:18:34] [INFO] Page d'accueil demandée.
+[2025-11-22 19:18:37] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:18:39] [WARNING] Page 404 : admin/articles
+[2025-11-22 19:18:55] [INFO] Page d'accueil demandée.
+[2025-11-22 19:19:52] [INFO] Page d'accueil demandée.
+[2025-11-22 19:19:55] [INFO] Page d'accueil demandée.
+[2025-11-22 19:20:01] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:20:03] [WARNING] Page 404 : admin/articles
+[2025-11-22 19:20:04] [INFO] Page d'accueil demandée.
+[2025-11-22 19:20:32] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:20:34] [WARNING] Page 404 : admin/articles
+[2025-11-22 19:20:36] [INFO] Page d'accueil demandée.
+[2025-11-22 19:28:45] [INFO] Page d'accueil demandée.
+[2025-11-22 19:36:59] [INFO] Page d'accueil demandée.
+[2025-11-22 19:37:04] [INFO] Page d'accueil demandée.
+[2025-11-22 19:37:48] [INFO] Page d'accueil demandée.
+[2025-11-22 19:37:56] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:38:51] [INFO] Page d'accueil demandée.
+[2025-11-22 19:38:54] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:38:55] [WARNING] Page 404 : admin/comments
+[2025-11-22 19:38:59] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:39:00] [WARNING] Page 404 : admin/users
+[2025-11-22 19:39:02] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:39:05] [INFO] Déconnexion: admin@vtt.com
+[2025-11-22 19:39:05] [INFO] Page d'accueil demandée.
+[2025-11-22 19:39:15] [INFO] Connexion réussie: editeur@vtt.com
+[2025-11-22 19:39:15] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:40:09] [INFO] Article créé ID: 4 par EditeurTrail
+[2025-11-22 19:40:12] [INFO] Page d'accueil demandée.
+[2025-11-22 19:40:14] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:40:21] [INFO] Article supprimé ID: 4 par EditeurTrail
+[2025-11-22 19:40:22] [INFO] Page d'accueil demandée.
+[2025-11-22 19:44:44] [INFO] Page d'accueil demandée.
+[2025-11-22 19:44:47] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:44:49] [WARNING] Page 404 : admin/comments
+[2025-11-22 19:44:51] [INFO] Page d'accueil demandée.
+[2025-11-22 19:44:57] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:45:02] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:45:03] [WARNING] Page 404 : admin/comments
+[2025-11-22 19:45:04] [INFO] Page d'accueil demandée.
+[2025-11-22 19:46:04] [INFO] Page d'accueil demandée.
+[2025-11-22 19:46:04] [INFO] Page d'accueil demandée.
+[2025-11-22 19:46:06] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:46:07] [WARNING] Page 404 : admin/comments
+[2025-11-22 19:46:09] [INFO] Page d'accueil demandée.
+[2025-11-22 19:48:25] [INFO] Page d'accueil demandée.
+[2025-11-22 19:48:26] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:48:28] [WARNING] Page 404 : admin/comments
+[2025-11-22 19:55:03] [INFO] Page d'accueil demandée.
+[2025-11-22 19:55:05] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:58:59] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 19:59:02] [WARNING] Page 404 : admin/users
+[2025-11-22 19:59:16] [INFO] Commentaire rejeté ID: 1
+[2025-11-22 19:59:19] [INFO] Commentaire approuvé ID: 1
+[2025-11-22 19:59:22] [INFO] Commentaire approuvé ID: 2
+[2025-11-22 20:00:33] [INFO] Commentaire rejeté ID: 2
+[2025-11-22 20:00:35] [INFO] Commentaire approuvé ID: 2
+[2025-11-22 20:07:52] [INFO] Page d'accueil demandée.
+[2025-11-22 20:07:55] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 20:08:15] [INFO] Utilisateur désactivé ID: 1
+[2025-11-22 20:08:18] [INFO] Utilisateur activé ID: 1
+[2025-11-22 20:08:32] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 20:08:38] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 20:17:36] [INFO] Page d'accueil demandée.
+[2025-11-22 20:17:42] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 20:17:46] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 20:17:51] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 20:26:10] [INFO] Page d'accueil demandée.
+[2025-11-22 20:26:13] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:27:32] [INFO] Déconnexion: editeur@vtt.com
+[2025-11-22 21:27:32] [INFO] Page d'accueil demandée.
+[2025-11-22 21:27:44] [WARNING] Tentative de connexion échouée: contributeur@vtt.com
+[2025-11-22 21:27:51] [WARNING] Tentative de connexion échouée: editeur@vtt.com
+[2025-11-22 21:28:00] [INFO] Connexion réussie: editeur@vtt.com
+[2025-11-22 21:28:00] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:28:06] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:28:15] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:28:25] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:28:26] [INFO] Page d'accueil demandée.
+[2025-11-22 21:37:22] [INFO] Page d'accueil demandée.
+[2025-11-22 21:37:24] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:37:43] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:37:50] [ERROR] Erreur de rendu Twig | Exception: Unable to find template "admin/tags/edit.twig" (looked into: C:\xampp\htdocs\3A2526-blog\app/Views). in C:\xampp\htdocs\3A2526-blog\vendor\twig\twig\src\Loader\FilesystemLoader.php:234
+[2025-11-22 21:37:56] [ERROR] Erreur de rendu Twig | Exception: Unable to find template "admin/tags/edit.twig" (looked into: C:\xampp\htdocs\3A2526-blog\app/Views). in C:\xampp\htdocs\3A2526-blog\vendor\twig\twig\src\Loader\FilesystemLoader.php:234
+[2025-11-22 21:38:14] [ERROR] Erreur de rendu Twig | Exception: Unable to find template "admin/tags/edit.twig" (looked into: C:\xampp\htdocs\3A2526-blog\app/Views). in C:\xampp\htdocs\3A2526-blog\vendor\twig\twig\src\Loader\FilesystemLoader.php:234
+[2025-11-22 21:38:34] [ERROR] Erreur de rendu Twig | Exception: Unable to find template "admin/tags/edit.twig" (looked into: C:\xampp\htdocs\3A2526-blog\app/Views). in C:\xampp\htdocs\3A2526-blog\vendor\twig\twig\src\Loader\FilesystemLoader.php:234
+[2025-11-22 21:40:02] [ERROR] Erreur de rendu Twig | Exception: Unable to find template "admin/tags/edit.twig" (looked into: C:\xampp\htdocs\3A2526-blog\app/Views). in C:\xampp\htdocs\3A2526-blog\vendor\twig\twig\src\Loader\FilesystemLoader.php:234
+[2025-11-22 21:40:05] [ERROR] Erreur de rendu Twig | Exception: Unable to find template "admin/tags/edit.twig" (looked into: C:\xampp\htdocs\3A2526-blog\app/Views). in C:\xampp\htdocs\3A2526-blog\vendor\twig\twig\src\Loader\FilesystemLoader.php:234
+[2025-11-22 21:40:12] [ERROR] Erreur de rendu Twig | Exception: Unable to find template "admin/tags/edit.twig" (looked into: C:\xampp\htdocs\3A2526-blog\app/Views). in C:\xampp\htdocs\3A2526-blog\vendor\twig\twig\src\Loader\FilesystemLoader.php:234
+[2025-11-22 21:46:13] [INFO] Page d'accueil demandée.
+[2025-11-22 21:46:16] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:46:40] [INFO] Page d'accueil demandée.
+[2025-11-22 21:46:48] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 21:48:10] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:01:04] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:01:10] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:01:14] [INFO] Page d'accueil demandée.
+[2025-11-22 22:01:22] [INFO] Page d'accueil demandée.
+[2025-11-22 22:01:27] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:01:43] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:01:50] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:02:00] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:02:03] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:03:35] [INFO] Page d'accueil demandée.
+[2025-11-22 22:03:38] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:07:38] [INFO] Page d'accueil demandée.
+[2025-11-22 22:07:48] [INFO] Page d'accueil demandée.
+[2025-11-22 22:07:51] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:08:04] [INFO] Article modifié ID: 3 par EditeurTrail
+[2025-11-22 22:08:07] [INFO] Page d'accueil demandée.
+[2025-11-22 22:08:13] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:08:21] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:08:28] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:08:32] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:08:37] [INFO] Page d'accueil demandée.
+[2025-11-22 22:09:22] [INFO] Page d'accueil demandée.
+[2025-11-22 22:10:25] [INFO] Page d'accueil demandée.
+[2025-11-22 22:10:28] [INFO] Page d'accueil demandée.
+[2025-11-22 22:10:35] [INFO] Page d'accueil demandée.
+[2025-11-22 22:11:51] [INFO] Page d'accueil demandée.
+[2025-11-22 22:13:29] [INFO] Page d'accueil demandée.
+[2025-11-22 22:13:38] [INFO] Page d'accueil demandée.
+[2025-11-22 22:13:39] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:13:45] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:13:49] [INFO] Commentaire rejeté ID: 1
+[2025-11-22 22:13:50] [INFO] Commentaire approuvé ID: 1
+[2025-11-22 22:13:53] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:13:58] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:14:04] [INFO] Page d'accueil demandée.
+[2025-11-22 22:20:03] [INFO] Page d'accueil demandée.
+[2025-11-22 22:20:08] [INFO] Page d'accueil demandée.
+[2025-11-22 22:20:11] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:20:20] [INFO] Page d'accueil demandée.
+[2025-11-22 22:30:55] [INFO] Page d'accueil demandée.
+[2025-11-22 22:31:04] [INFO] Page d'accueil demandée.
+[2025-11-22 22:31:07] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:31:58] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:41:23] [INFO] Page d'accueil demandée.
+[2025-11-22 22:41:27] [INFO] Page d'accueil demandée.
+[2025-11-22 22:41:29] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:41:36] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:41:39] [INFO] Page d'accueil demandée.
+[2025-11-22 22:42:29] [INFO] Page d'accueil demandée.
+[2025-11-22 22:42:32] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:46:24] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:46:32] [INFO] Page d'accueil demandée.
+[2025-11-22 22:46:36] [INFO] Page d'accueil demandée.
+[2025-11-22 22:46:40] [INFO] Page d'accueil demandée.
+[2025-11-22 22:46:41] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:48:56] [INFO] Page d'accueil demandée.
+[2025-11-22 22:49:01] [INFO] Page d'accueil demandée.
+[2025-11-22 22:49:09] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:49:21] [INFO] Page d'accueil demandée.
+[2025-11-22 22:54:54] [INFO] Page d'accueil demandée.
+[2025-11-22 22:54:56] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:55:29] [INFO] Page d'accueil demandée.
+[2025-11-22 22:56:08] [INFO] Page d'accueil demandée.
+[2025-11-22 22:56:11] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 22:56:44] [INFO] Page d'accueil demandée.
+[2025-11-22 22:56:48] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:05:45] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:06:03] [INFO] Article modifié ID: 1 par EditeurTrail
+[2025-11-22 23:06:05] [INFO] Page d'accueil demandée.
+[2025-11-22 23:08:12] [INFO] Page d'accueil demandée.
+[2025-11-22 23:08:14] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:08:22] [INFO] Page d'accueil demandée.
+[2025-11-22 23:10:59] [INFO] Page d'accueil demandée.
+[2025-11-22 23:11:17] [INFO] Page d'accueil demandée.
+[2025-11-22 23:11:23] [INFO] Page d'accueil demandée.
+[2025-11-22 23:11:27] [INFO] Page d'accueil demandée.
+[2025-11-22 23:11:29] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:11:37] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:11:41] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:11:50] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:11:54] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:11:59] [INFO] Page d'accueil demandée.
+[2025-11-22 23:14:36] [INFO] Page d'accueil demandée.
+[2025-11-22 23:14:43] [INFO] Page d'accueil demandée.
+[2025-11-22 23:14:47] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:15:00] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:15:05] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:15:30] [INFO] Utilisateur créé ID: 4
+[2025-11-22 23:15:35] [INFO] Déconnexion: editeur@vtt.com
+[2025-11-22 23:15:35] [INFO] Page d'accueil demandée.
+[2025-11-22 23:15:47] [INFO] Connexion réussie: croine321@gmail.com
+[2025-11-22 23:15:47] [INFO] Page d'accueil demandée.
+[2025-11-22 23:15:59] [INFO] EMAIL SIMULÉ - To: admin@vtt.com, Subject: 📝 Nouveau commentaire en attente de modération
+[2025-11-22 23:15:59] [INFO] Notification commentaire envoyée ID: 4 à: admin@vtt.com
+[2025-11-22 23:15:59] [INFO] Nouveau commentaire ID: 4 sur article ID: 1
+[2025-11-22 23:16:03] [INFO] Page d'accueil demandée.
+[2025-11-22 23:16:07] [INFO] Déconnexion: croine321@gmail.com
+[2025-11-22 23:16:07] [INFO] Page d'accueil demandée.
+[2025-11-22 23:16:21] [INFO] Connexion réussie: admin@vtt.com
+[2025-11-22 23:16:21] [ERROR] Erreur récupération commentaires récents | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:47
+[2025-11-22 23:16:31] [INFO] Commentaire rejeté ID: 4
+[2025-11-22 23:16:34] [INFO] Page d'accueil demandée.
+[2025-11-22 23:16:39] [INFO] Page d'accueil demandée.
+[2025-11-22 23:19:00] [INFO] Page d'accueil demandée.
+[2025-11-22 23:19:02] [ERROR] Erreur récupération commentaires récents avec articles | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:302
+[2025-11-22 23:19:16] [INFO] Page d'accueil demandée.
+[2025-11-22 23:19:18] [ERROR] Erreur récupération commentaires récents avec articles | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:302
+[2025-11-22 23:19:23] [ERROR] Erreur récupération commentaires récents avec articles | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:302
+[2025-11-22 23:19:29] [ERROR] Erreur récupération commentaires récents avec articles | Exception: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 5 in C:\xampp\htdocs\3A2526-blog\app\Models\CommentModel.php:302
+[2025-11-22 23:23:56] [INFO] Page d'accueil demandée.
+[2025-11-22 23:24:03] [INFO] Page d'accueil demandée.
+[2025-11-22 23:25:42] [INFO] Utilisateur désactivé ID: 4
+[2025-11-22 23:25:44] [INFO] Utilisateur activé ID: 4
+[2025-11-22 23:26:38] [INFO] Page d'accueil demandée.
+[2025-11-22 23:31:08] [INFO] Page d'accueil demandée.
+[2025-11-22 23:31:16] [INFO] Déconnexion: admin@vtt.com
+[2025-11-22 23:31:16] [INFO] Page d'accueil demandée.
+[2025-11-22 23:31:24] [INFO] Page d'accueil demandée.

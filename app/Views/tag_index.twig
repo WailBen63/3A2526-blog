@@ -1,0 +1,76 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <h1 class="mb-4">{{ page_title }}</h1>
+
+    {% if tags %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Cloud de tags</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for tag in tags %}
+                                <a href="/3A2526-blog/public/tag/{{ tag.slug }}" 
+                                   class="btn btn-outline-primary position-relative">
+                                    {{ tag.nom_tag }}
+                                    {% if tag.nb_articles > 0 %}
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ tag.nb_articles }}
+                                        </span>
+                                    {% endif %}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags par popularité -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Tags les plus populaires</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            {% for tag in tags|slice(0, 10) %}
+                                <a href="/3A2526-blog/public/tag/{{ tag.slug }}" 
+                                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    {{ tag.nom_tag }}
+                                    <span class="badge bg-primary rounded-pill">{{ tag.nb_articles }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Statistiques</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><strong>Total tags :</strong> {{ tags|length }}</li>
+                            <li><strong>Tags utilisés :</strong> {{ tags|filter(t => t.nb_articles > 0)|length }}</li>
+                            <li><strong>Article moyen par tag :</strong> {{ (tags|reduce((sum, t) => sum + t.nb_articles, 0) / tags|length)|round(1) }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <h4 class="alert-heading">Aucun tag</h4>
+            <p class="mb-0">Aucun tag n'est disponible pour le moment.</p>
+        </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="/3A2526-blog/public/" class="btn btn-secondary">← Retour à l'accueil</a>
+    </div>
+{% endblock %}
