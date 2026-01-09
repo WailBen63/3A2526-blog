@@ -1,10 +1,10 @@
-# Projet VTT Blog - Architecture MVC PHP (3A2526)
+# Projet VTT Blog - Architecture MVC PHP 
 
 Ce projet est une plateforme de blog dynamique développée en PHP natif, structurée de manière professionnelle pour démontrer la maîtrise du pattern MVC et de la programmation orientée objet (POO).
 
 ---
 
-## 1. Guide d'Installation Rapide (Point 1)
+## 1. Guide d'Installation Rapide
 
 Pour lancer l'application sur votre environnement local (XAMPP/WAMP) :
 
@@ -21,13 +21,13 @@ Pour lancer l'application sur votre environnement local (XAMPP/WAMP) :
 4.  **Accès** :
     - L'application est accessible via : `http://localhost/3A2526-blog/public/`
 
-**Identifiants de test (RBAC) :**
+**Identifiants de test  :**
 - **Admin** : `admin@vtt.com` / `password`
 - **Éditeur** : `editeur@vtt.com` / `password`
 
 ---
 
-## 2. Documentation Technique (Point 2)
+## 2. Documentation Technique 
 
 ### Architecture MVC
 L'application respecte strictement la séparation des préoccupations :
@@ -42,7 +42,7 @@ L'application respecte strictement la séparation des préoccupations :
 
 ---
 
-## 3. Bilan et Répartition (Point 3)
+## 3. Bilan et Répartition 
 
 ### Répartition du travail au sein du binôme
 - **Développement Backend & Architecture** : Mise en place du noyau (Core), du système de routage, de la base de données relationnelle et du système d'authentification sécurisé.
