@@ -1,232 +1,102 @@
 {# templates/post/show.twig #}
-{# 
-    Page de détail d'article - Interface publique de lecture complète
-    Implémente EF-ARTICLE-01 (lecture), EF-COMMENT-01/02 (système de commentaires)
-    
-    Caractéristiques principales :
-    - Affichage complet de l'article avec son contenu riche HTML
-    - Système de commentaires pour utilisateurs connectés ou anonymes
-    - Gestion des tags et navigation thématique
-    - Design responsive optimisé pour la lecture
-    - Intégration complète des fonctionnalités du blog
-    
-    @package Templates/Public
-    @conformité EF-ARTICLE-01 : Affichage détaillé d'un article spécifique
-    @conformité EF-ARTICLE-03 : Métadonnées complètes (image, date, tags)
-    @conformité EF-ARTICLE-04 : Navigation par tags associés
-    @conformité EF-COMMENT-01 : Affichage des commentaires associés à l'article
-    @conformité EF-COMMENT-02 : Possibilité de poster des commentaires (anonymes ou connectés)
-    @conformité UX-RESPONSIVE-01/02 : Design mobile-first optimisé pour la lecture
-    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
-#}
+{# Détail de l'article et Commentaires - Conformité EF-ARTICLE-01, EF-COMMENT-01/02 #}
 
 {% extends "base.twig" %}
 
 {% block content %}
-    {# 
-        Article principal - Contenu de l'article
-        Balise sémantique <article> pour structure HTML5
-        Améliore l'accessibilité et le référencement
-    #}
-    <article>
-        {# 
-            Image à la une - Conformité EF-ARTICLE-03
-            Affichage conditionnel si l'article a une image principale
-            text-center : Centrage de l'image
-            img-fluid : Image responsive qui s'adapte au conteneur
-            rounded : Coins arrondis pour esthétique
-            Style inline pour contrôle précis de l'affichage
-        #}
+    {# Structure sémantique de l'article (EF-ARTICLE-01) #}
+    <article class="mb-5">
+        {# Image à la une responsive (EF-ARTICLE-03) #}
         {% if post.image_une %}
             <div class="text-center mb-4">
                 <img src="/3A2526-Blog/public/uploads/articles/{{ post.image_une }}" 
-                     alt="{{ post.titre }}" 
-                     class="img-fluid rounded"
-                     style="max-height: 400px; object-fit: cover;">
+                     alt="{{ post.titre }}" class="img-fluid rounded shadow-sm"
+                     style="max-height: 450px; width: 100%; object-fit: cover;">
             </div>
         {% endif %}
         
-        {# 
-            Titre de l'article
-            mb-3 : Margin-bottom pour espacement avec la date
-            Conformité EF-ARTICLE-03 : Affichage du titre
-        #}
-        <h1 class="mb-3">{{ post.titre }}</h1>
+        <h1 class="display-5 fw-bold mb-3">{{ post.titre }}</h1>
         
-        {# 
-            Date de publication
-            text-muted : Texte discret pour information secondaire
-            border-bottom pb-3 : Ligne de séparation stylisée
-            Format français complet (date + heure)
-            Conformité EF-ARTICLE-03 : Métadonnée temporelle
-        #}
-        <p class="text-muted border-bottom pb-3 mb-3">
-            Publié le {{ post.date_creation|date("d/m/Y à H:i") }}
-        </p>
+        <div class="d-flex justify-content-between align-items-center text-muted border-bottom pb-3 mb-4">
+            <span>📅 {{ post.date_creation|date("d/m/Y à H:i") }} par <strong>{{ post.nom_utilisateur }}</strong></span>
+            
+            {# Tags cliquables (EF-ARTICLE-04) #}
+            {% if post.tags %}
+                <div>
+                    {% for tag in post.tags %}
+                        <a href="/3A2526-Blog/public/tag/{{ tag.slug }}" class="badge bg-light text-secondary border text-decoration-none">
+                            #{{ tag.nom_tag }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
         
-        {# 
-            Tags de l'article - Conformité EF-ARTICLE-04
-            Affichage conditionnel si l'article a des tags
-            Liens cliquables vers les pages de tags
-            Badges Bootstrap pour stylisation cohérente
-            Navigation thématique facilitée
-        #}
-        {% if post.tags %}
-            <div class="mb-4">
-                <strong>Tags :</strong>
-                {% for tag in post.tags %}
-                    <a href="/3A2526-blog/public/tag/{{ tag.slug }}" class="badge bg-secondary text-decoration-none me-1">
-                        {{ tag.nom_tag }}
-                    </a>
-                {% endfor %}
-            </div>
-        {% endif %}
-        
-        {# 
-            Contenu riche HTML de l'article
-            article-content : Classe pour styles spécifiques (définis dans base.twig)
-            raw : Affiche le HTML purifié sans échappement
-            Conformité EF-ARTICLE-02 : Contenu formaté (WYSIWYG/Markdown)
-            Sécurité : Le HTML a été purifié côté serveur avant stockage
-        #}
-        <div class="article-content">
+        {# Rendu du contenu formaté (EF-ARTICLE-02) #}
+        <div class="article-body fs-5">
             {{ post.contenu|raw }}
         </div>
     </article>
 
-    <!-- Section Commentaires - Conformité EF-COMMENT -->
-    <section class="mt-5">
-        {# 
-            Titre de la section commentaires
-            Emoji pour visibilité et engagement
-            mb-4 : Espacement avec le contenu suivant
-        #}
-        <h3 class="mb-4">💬 Commentaires</h3>
+    <hr class="my-5">
+
+    {# Système de Commentaires (EF-COMMENT-01/02) #}
+    <section id="comments-section" class="mb-5">
+        <h3 class="mb-4">Commentaires ({{ post.comments|length }})</h3>
         
-        {# 
-            Formulaire de commentaire - Conformité EF-COMMENT-02
-            Carte Bootstrap pour structuration visuelle
-            Formulaire accessible aux utilisateurs non connectés
-        #}
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Laisser un commentaire</h5>
-            </div>
-            <div class="card-body">
-                {# 
-                    Formulaire POST vers le traitement des commentaires
-                    L'ID de l'article est inclus dans l'URL
-                    Conformité EF-COMMENT-02 : Soumission de commentaires
-                #}
+        {# Formulaire de dépôt (EF-COMMENT-02) #}
+        <div class="card border-0 bg-light shadow-sm mb-5">
+            <div class="card-body p-4">
+                <h5 class="card-title mb-3">Partagez votre avis</h5>
                 <form action="/3A2526-Blog/public/comments/{{ post.id }}/store" method="POST">
-                    {# 
-                        Layout en deux colonnes pour Nom/Email
-                        Row/col pour disposition responsive
-                        Conformité UX-RESPONSIVE : Adaptation mobile
-                    #}
-                    <div class="row">
-                        {# Champ Nom - obligatoire #}
+                    <div class="row g-3">
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="nom_auteur" class="form-label">Nom *</label>
-                                <input type="text" class="form-control" id="nom_auteur" name="nom_auteur" 
-                                       value="{{ old_input.nom_auteur|default('') }}" required maxlength="100">
+                            <label for="nom_auteur" class="form-label small fw-bold">Nom ou Pseudo *</label>
+                            <input type="text" class="form-control" id="nom_auteur" name="nom_auteur" 
+                                   value="{{ old_input.nom_auteur|default('') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email_auteur" class="form-label small fw-bold">Email (confidentiel)</label>
+                            <input type="email" class="form-control" id="email_auteur" name="email_auteur" 
+                                   value="{{ old_input.email_auteur|default('') }}">
+                        </div>
+                        <div class="col-12">
+                            <label for="contenu" class="form-label small fw-bold">Votre message *</label>
+                            <textarea class="form-control" id="contenu" name="contenu" rows="4" required>{{ old_input.contenu|default('') }}</textarea>
+                            <div class="form-text">
+                                <i class="bi bi-info-circle"></i> 
+                                Votre message sera publié après validation par un modérateur (EF-COMMENT-03).
                             </div>
                         </div>
-                        {# 
-                            Champ Email - facultatif
-                            Conformité EF-COMMENT-02 : Email optionnel pour non connectés
-                            Information sur la confidentialité
-                        #}
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="email_auteur" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email_auteur" name="email_auteur" 
-                                       value="{{ old_input.email_auteur|default('') }}" maxlength="150">
-                                <div class="form-text">Facultatif - ne sera pas affiché publiquement</div>
-                            </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary px-4">Publier le commentaire</button>
                         </div>
-                    </div>
-                    
-                    {# 
-                        Zone de texte pour le commentaire
-                        rows="4" : Hauteur raisonnable pour écriture
-                        placeholder : Indication contextuelle
-                        required : Champ obligatoire
-                        maxlength : Limite pour éviter les abus
-                        old_input : Préservation en cas d'erreur de validation
-                    #}
-                    <div class="mb-3">
-                        <label for="contenu" class="form-label">Commentaire *</label>
-                        <textarea class="form-control" id="contenu" name="contenu" rows="4" 
-                                  placeholder="Partagez votre avis..." required maxlength="1000">{{ old_input.contenu|default('') }}</textarea>
-                        <div class="form-text">Maximum 1000 caractères</div>
-                    </div>
-                    
-                    {# Bouton de soumission #}
-                    <button type="submit" class="btn btn-primary">Envoyer le commentaire</button>
-                    
-                    {# 
-                        Information sur la modération
-                        Conformité EF-COMMENT-03 : Mention du processus de modération
-                        Emoji pour rendre le message plus amical
-                    #}
-                    <div class="form-text mt-2">
-                        <small>💡 Votre commentaire sera visible après modération par l'administrateur.</small>
                     </div>
                 </form>
             </div>
         </div>
 
-        {# 
-            Affichage des commentaires approuvés - Conformité EF-COMMENT-01
-            Conditionnel : commentaires existants ou message d'encouragement
-            Seuls les commentaires avec statut "Approuvé" sont affichés
-        #}
-        {% if post.comments %}
-            <div class="comments-list">
-                {# Boucle sur les commentaires approuvés #}
-                {% for comment in post.comments %}
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            {# 
-                                En-tête du commentaire avec auteur et date
-                                d-flex : Layout flex pour alignement optimal
-                                justify-content-between : Espacement latéral
-                                mb-2 : Margin-bottom pour séparation
-                            #}
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h6 class="card-title mb-0">{{ comment.nom_auteur }}</h6>
-                                <small class="text-muted">{{ comment.date_commentaire|date("d/m/Y à H:i") }}</small>
-                            </div>
-                            {# 
-                                Contenu du commentaire
-                                nl2br : Convertit les retours à la ligne en <br>
-                                Conformité UX : Préservation de la mise en forme
-                            #}
-                            <p class="card-text">{{ comment.contenu|nl2br }}</p>
+        {# Liste des commentaires approuvés (EF-COMMENT-01) #}
+        <div class="comments-list">
+            {% for comment in post.comments %}
+                <div class="d-flex mb-4 border-start border-4 border-primary-subtle ps-4">
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="fw-bold mb-0">{{ comment.nom_auteur }}</h6>
+                            <small class="text-muted">{{ comment.date_commentaire|date("d/m/Y à H:i") }}</small>
                         </div>
+                        <p class="mb-0 text-secondary">{{ comment.contenu|nl2br }}</p>
                     </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            {# 
-                Message quand aucun commentaire n'existe
-                alert-info : Style informatif et encourageant
-                Conformité UX : Invitation à l'engagement
-            #}
-            <div class="alert alert-info">
-                <p class="mb-0">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
-            </div>
-        {% endif %}
+                </div>
+            {% else %}
+                <div class="text-center py-4 text-muted border rounded bg-white">
+                    <p class="mb-0">Aucun commentaire pour le moment. Soyez le premier à réagir !</p>
+                </div>
+            {% endfor %}
+        </div>
     </section>
 
-    {# 
-        Séparation visuelle et navigation
-        hr : Ligne horizontale pour séparation
-        Bouton de retour à l'accueil
-        Conformité UX : Navigation facile
-    #}
-    <hr class="my-4">
-    <a href="/3A2526-blog/public/" class="btn btn-secondary">&larr; Retour à l'accueil</a>
+    <div class="text-center py-4">
+        <a href="/3A2526-Blog/public/" class="btn btn-outline-secondary">&larr; Retour à la liste des articles</a>
+    </div>
 {% endblock %}

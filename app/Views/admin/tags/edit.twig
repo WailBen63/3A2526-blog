@@ -1,55 +1,15 @@
 {# templates/admin/tags/edit.twig #}
-{# 
-    Formulaire d'édition de tag - Interface d'administration
-    Implémente EF-TAG-01 (Mise à jour) et maintient EF-ARTICLE-04 (associations existantes)
-    
-    Caractéristiques principales :
-    - Édition d'un tag existant avec pré-remplissage
-    - Affichage du slug actuel en lecture seule
-    - Régénération automatique du slug si le nom change
-    - Préservation des associations articles-tags existantes
-    - Design centré et responsive identique à la création
-    
-    @package Templates/Admin
-    @conformité EF-TAG-01 : Mise à jour de tags (nom, URL slug)
-    @conformité EF-ARTICLE-04 : Préservation des associations existantes avec les articles
-    @conformité EF-ADMIN-02 : Navigation cohérente dans l'administration
-    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et centrée
-    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
-#}
+{# Formulaire de modification de tag (CRUD) - Conformité EF-TAG-01 #}
 
 {% extends "base.twig" %}
 
 {% block content %}
-{# 
-    En-tête de page avec titre et navigation
-    Design responsive avec flexbox Bootstrap
-    Conformité EF-ADMIN-02 : Navigation intuitive entre les sections
-    Identique au formulaire de création pour cohérence
-#}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    {# 
-        Titre de la page indiquant l'action d'édition
-        Variable page_title définie par le contrôleur
-        Diffère de la création par le contexte
-    #}
     <h1 class="h2">{{ page_title }}</h1>
-    {# 
-        Bouton de retour vers la liste des tags
-        Position cohérente avec les autres formulaires d'administration
-        Conformité UX : Navigation prévisible et cohérente
-    #}
-    <a href="/3A2526-Blog/public/admin/tags" class="btn btn-sm btn-outline-secondary">
-        ← Retour
-    </a>
+    <a href="/3A2526-Blog/public/admin/tags" class="btn btn-sm btn-outline-secondary">← Retour</a>
 </div>
 
-{# 
-    Affichage des erreurs de validation du formulaire
-    Apparaît seulement si des erreurs ont été détectées côté serveur
-    Conformité UX : Feedback immédiat sur les problèmes de saisie
-    Identique au formulaire de création
-#}
+{# Gestion des erreurs de validation (Unicité, longueur) #}
 {% if errors %}
     <div class="alert alert-danger">
         <ul class="mb-0">
@@ -60,50 +20,17 @@
     </div>
 {% endif %}
 
-{# 
-    Formulaire d'édition de tag
-    Méthode POST pour l'envoi des données
-    URL inclut l'ID du tag pour identification unique
-    Conformité EF-TAG-01 : Soumission des données de mise à jour
-#}
 <form action="/3A2526-Blog/public/admin/tags/{{ tag_id }}/update" method="POST">
-    {# 
-        Layout responsive centré identique à la création
-        Le formulaire occupe 6 colonnes sur 12, centré sur la page
-        Conformité UX-RESPONSIVE : Design adaptatif et équilibré
-        Cohérence visuelle avec le formulaire de création
-    #}
     <div class="row justify-content-center">
         <div class="col-md-6">
-            {# 
-                Carte Bootstrap pour structurer le formulaire
-                Même structure que la création pour cohérence
-                Conformité Bootstrap 5.X : Design system unifié
-            #}
             <div class="card">
                 <div class="card-header">
-                    {# 
-                        Titre interne de la carte spécifique à l'édition
-                        Indique clairement qu'il s'agit d'une modification
-                    #}
                     <h5 class="card-title mb-0">Modifier le tag</h5>
                 </div>
                 <div class="card-body">
-                    {# 
-                        Champ : Nom du tag (modifiable)
-                        Conformité EF-TAG-01 : Édition du nom du tag
-                        Valeur pré-remplie avec le nom actuel du tag
-                        Hiérarchie de valeurs : tag.nom_tag > old_input.nom_tag > ''
-                        Conformité UX : Préservation intelligente des données
-                    #}
+                    {# Champ Nom du tag avec pré-remplissage intelligent #}
                     <div class="mb-3">
                         <label for="nom_tag" class="form-label">Nom du tag *</label>
-                        {# 
-                            Champ texte obligatoire pré-rempli
-                            Validation HTML5 : required et maxlength(50)
-                            Valeur actuelle affichée par défaut
-                            Conformité UX : Édition facile du nom existant
-                        #}
                         <input type="text" 
                                class="form-control" 
                                id="nom_tag" 
@@ -111,61 +38,21 @@
                                value="{{ tag.nom_tag|default(old_input.nom_tag|default('')) }}" 
                                required
                                maxlength="50">
-                        {# 
-                            Texte d'aide sous le champ
-                            Explique les contraintes et le comportement système
-                            Mention explicite de la régénération du slug
-                            Conformité UX : Transparence sur les effets de la modification
-                        #}
                         <div class="form-text">
-                            Le nom du tag doit être unique et faire entre 2 et 50 caractères.
-                            Le slug sera régénéré automatiquement.
+                            Modifier le nom entraînera la régénération automatique du slug.
                         </div>
                     </div>
 
-                    {# 
-                        Section d'affichage du slug actuel (lecture seule)
-                        Spécifique à l'édition (n'existe pas en création)
-                        Informe l'utilisateur du slug existant qui sera mis à jour
-                        Conformité EF-TAG-01 : Visualisation du slug généré
-                    #}
+                    {# Visualisation du slug actuel (Lecture seule) #}
                     {% if tag.slug %}
                     <div class="mb-3">
-                        <label class="form-label">Slug actuel</label>
-                        {# 
-                            Champ en lecture seule affichant le slug actuel
-                            readonly empêche la modification manuelle
-                            Conformité UX : Information sans possibilité d'erreur
-                        #}
-                        <input type="text" class="form-control" value="{{ tag.slug }}" readonly>
-                        {# 
-                            Explication du rôle du slug et de son comportement
-                            Préviens l'utilisateur que le changement de nom affectera le slug
-                            Conformité UX : Prévisibilité du comportement système
-                        #}
-                        <div class="form-text">
-                            Le slug est utilisé dans les URLs et sera mis à jour automatiquement.
-                        </div>
+                        <label class="form-label text-muted">Slug actuel (URL)</label>
+                        <input type="text" class="form-control bg-light" value="{{ tag.slug }}" readonly>
                     </div>
                     {% endif %}
                 </div>
-                {# 
-                    Pied de carte avec les boutons d'action
-                    Position et style identiques à la création
-                    Conformité UX : Actions cohérentes dans toute l'administration
-                #}
                 <div class="card-footer">
-                    {# 
-                        Bouton de soumission principal
-                        Libellé modifié pour refléter l'action d'édition
-                        Style primary (bleu) cohérent avec les autres formulaires
-                    #}
-                    <button type="submit" class="btn btn-primary">Modifier le tag</button>
-                    {# 
-                        Bouton d'annulation avec lien de retour
-                        Même comportement que dans la création
-                        Conformité UX : Sortie sécurisée sans perte de données
-                    #}
+                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                     <a href="/3A2526-Blog/public/admin/tags" class="btn btn-secondary">Annuler</a>
                 </div>
             </div>

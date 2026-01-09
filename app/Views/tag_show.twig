@@ -1,163 +1,71 @@
 {# templates/tags/show.twig #}
-{# 
-    Page des articles par tag - Filtrage thématique pour les visiteurs
-    Implémente EF-ARTICLE-04 (navigation par tags) et EF-TAG (affichage contextuel)
-    
-    Caractéristiques principales :
-    - Affichage des articles associés à un tag spécifique
-    - Indicateur clair du tag actif et du nombre d'articles
-    - Design responsive avec grille d'articles
-    - Navigation contextuelle vers d'autres tags
-    - Expérience de découverte thématique cohérente
-    
-    @package Templates/Public
-    @conformité EF-ARTICLE-04 : Filtrage et affichage des articles par tag
-    @conformité EF-TAG-02 : Contexte du tag avec compteur d'articles
-    @conformité UX-RESPONSIVE-01/02 : Design mobile-first et grille responsive
-    @conformité Expérience Utilisateur : Navigation thématique contextuelle
-    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
-#}
+{# Liste d'articles par thématique - Conformité EF-ARTICLE-04, EF-TAG-02 #}
 
 {% extends "base.twig" %}
 
 {% block content %}
-    {# 
-        En-tête avec titre et compteur d'articles
-        d-flex align-items-center : Alignement vertical du titre et du badge
-        mb-4 : Margin-bottom pour espacement avec le contenu
-        Conformité UX : Information contextuelle immédiatement visible
-    #}
-    <div class="d-flex align-items-center mb-4">
-        {# 
-            Titre principal avec le nom du tag
-            mb-0 : Supprime la margin-bottom par défaut pour meilleur alignement
-            Variable page_title définie par le contrôleur (ex: "Articles tagués : VTT")
-        #}
-        <h1 class="mb-0">{{ page_title }}</h1>
-        {# 
-            Badge indicateur du nombre d'articles
-            bg-primary : Couleur principale pour visibilité
-            ms-3 : Margin-start pour espacement avec le titre
-            fs-6 : Taille de police réduite pour proportion
-            Conformité EF-TAG-02 : Affichage du nombre d'articles associés
-        #}
-        <span class="badge bg-primary ms-3 fs-6">{{ articles|length }} article(s)</span>
+    {# En-tête contextuel (EF-TAG-02) #}
+    <div class="d-flex align-items-center flex-wrap mb-5 border-bottom pb-4">
+        <h1 class="mb-0 me-3">{{ page_title }}</h1>
+        <span class="badge bg-primary rounded-pill shadow-sm">
+            {{ articles|length }} article(s) trouvé(s)
+        </span>
     </div>
 
-    {# 
-        Section conditionnelle : Articles ou message d'information
-        Conformité UX : Feedback approprié selon la disponibilité du contenu
-    #}
     {% if articles %}
-        {# 
-            Grille d'articles - Conformité UX-RESPONSIVE
-            g-4 : Gap de 4 unités entre les éléments de la grille
-            Layout responsive : 1 colonne sur mobile, 2 sur tablette/desktop
-        #}
+        {# Grille d'articles filtrés (EF-ARTICLE-04) #}
         <div class="row g-4">
-            {# 
-                Boucle sur les articles filtrés par tag
-                Seuls les articles avec statut "Public" sont affichés
-                Conformité EF-ARTICLE-04 : Filtrage thématique
-            #}
             {% for article in articles %}
-                {# 
-                    Colonne responsive
-                    col-12 : Pleine largeur sur mobile
-                    col-md-6 : Demi-largeur sur tablette/desktop
-                #}
                 <div class="col-12 col-md-6">
-                    {# 
-                        Carte Bootstrap pour chaque article
-                        h-100 : Hauteur égale pour uniformité visuelle
-                        Conformité UX : Design cohérent avec la page d'accueil
-                    #}
-                    <div class="card h-100">
-                        {# 
-                            Corps de carte avec flexbox
-                            d-flex flex-column : Organisation verticale
-                            Permet de pousser le bouton en bas avec mt-auto
-                        #}
+                    <div class="card h-100 shadow-sm border-0">
+                        
+                        {# Corps de carte avec flexbox pour alignement du bouton #}
                         <div class="card-body d-flex flex-column">
-                            {# Titre de l'article #}
-                            <h5 class="card-title">{{ article.titre }}</h5>
+                            <h2 class="h5 card-title fw-bold text-primary">{{ article.titre }}</h2>
                             
-                            {# 
-                                Extrait du contenu
-                                slice(0, 120) : Limite à 120 caractères
-                                Points de suspension pour indiquer la troncature
-                                Pas de striptags ici (mais devrait être présent pour sécurité)
-                                Conformité UX : Prévisualisation concise
-                            #}
-                            <p class="card-text">{{ article.contenu|slice(0, 120) }}...</p>
+                            {# Aperçu du contenu #}
+                            <p class="card-text text-secondary small mb-3">
+                                {{ article.contenu|striptags|slice(0, 150) }}...
+                            </p>
                             
-                            {# 
-                                Tags de l'article (hors le tag actuel)
-                                Affichage conditionnel si l'article a d'autres tags
-                                Badges Bootstrap pour visualisation cohérente
-                                Conformité EF-ARTICLE-04 : Navigation croisée entre tags
-                            #}
+                            {# Navigation croisée : autres tags de l'article #}
                             {% if article.tags %}
-                                <div class="mt-2 mb-3">
-                                    {% for tag in article.tags %}
-                                        <span class="badge bg-secondary me-1">{{ tag.nom_tag }}</span>
+                                <div class="mb-3">
+                                    {% for other_tag in article.tags %}
+                                        {# On peut mettre en évidence le tag actuel différemment #}
+                                        <span class="badge {{ other_tag.id == tag.id ? 'bg-primary' : 'bg-light text-secondary border' }} me-1">
+                                            {{ other_tag.nom_tag }}
+                                        </span>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                             
-                            {# 
-                                Bouton "Lire la suite"
-                                mt-auto : Pousse le bouton en bas de la carte
-                                Lien vers la page de détail de l'article
-                                Conformité UX : Action principale bien visible
-                            #}
-                            <a href="/3A2526-blog/public/post/{{ article.id }}" class="btn btn-primary mt-auto">Lire la suite</a>
+                            <a href="/3A2526-Blog/public/post/{{ article.id }}" class="btn btn-outline-primary btn-sm mt-auto w-50">
+                                Lire l'article
+                            </a>
                         </div>
-                        {# 
-                            Pied de carte avec métadonnées
-                            text-muted : Texte discret pour informations secondaires
-                            Format français de la date
-                            Inclusion du nom de l'auteur
-                            Conformité EF-ARTICLE-03 : Métadonnées contextuelles
-                        #}
-                        <div class="card-footer text-muted">
-                            Publié le {{ article.date_creation|date("d/m/Y") }} par {{ article.nom_utilisateur }}
+                        
+                        {# Métadonnées (EF-ARTICLE-03) #}
+                        <div class="card-footer bg-transparent border-top-0 text-muted small">
+                            📅 {{ article.date_creation|date("d/m/Y") }} par <strong>{{ article.nom_utilisateur }}</strong>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        {# 
-            Message quand aucun article n'est associé au tag
-            alert-info : Style informatif et non alarmant
-            Inclusion dynamique du nom du tag dans le message
-            Conformité UX : Feedback clair et contextuel
-        #}
-        <div class="alert alert-info">
-            <h4 class="alert-heading">Aucun article</h4>
-            <p class="mb-0">Aucun article n'est associé au tag "{{ tag.nom_tag }}" pour le moment.</p>
+        {# Feedback utilisateur en cas de catégorie vide #}
+        <div class="alert alert-light text-center py-5 border shadow-sm">
+            <h4 class="text-muted">Aucun article trouvé</h4>
+            <p class="mb-0">Il n'y a pas encore de contenu publié sous la thématique "{{ tag.nom_tag }}".</p>
         </div>
     {% endif %}
 
-    {# 
-        Navigation contextuelle
-        mt-4 : Margin-top pour séparation avec le contenu précédent
-        Boutons pour navigation vers d'autres sections
-        Conformité UX : Navigation facile vers des alternatives
-    #}
-    <div class="mt-4">
-        {# 
-            Bouton pour voir tous les tags
-            btn-outline-secondary : Style discret pour action secondaire
-            Navigation vers la page complète des tags
-        #}
-        <a href="/3A2526-blog/public/tags" class="btn btn-outline-secondary">← Voir tous les tags</a>
-        {# 
-            Bouton pour retourner à l'accueil
-            btn-secondary : Style cohérent avec le reste de l'interface
-            Navigation vers la page d'accueil principale
-        #}
-        <a href="/3A2526-blog/public/" class="btn btn-secondary">Retour à l'accueil</a>
+    {# Navigation de retour contextuelle #}
+    <div class="mt-5 pt-3">
+        <div class="btn-group shadow-sm">
+            <a href="/3A2526-Blog/public/tags" class="btn btn-outline-secondary">← Toutes les thématiques</a>
+            <a href="/3A2526-Blog/public/" class="btn btn-secondary">Accueil</a>
+        </div>
     </div>
 {% endblock %}

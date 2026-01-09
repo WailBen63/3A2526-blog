@@ -1,103 +1,40 @@
 {# templates/about.twig #}
-{# 
-    Page "À propos" - Présentation du projet et des technologies utilisées
-    Implémente une page informative conforme aux spécifications techniques
-    
-    Caractéristiques principales :
-    - Présentation professionnelle du projet et de son stack technique
-    - Mise en avant des technologies imposées par le cahier des charges
-    - Design responsive avec mise en page équilibrée
-    - Informations structurées et accessibles
-    - Cohérence avec le reste de l'application
-    
-    @package Templates/Public
-    @conformité 2.1 Technologies : Présentation complète du stack technique
-    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et responsive
-    @conformité Architecture MVC : Démonstration de l'architecture mise en œuvre
-    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
-#}
+{# Page de présentation du projet - Conformité 2.1 Technologies, Architecture MVC #}
 
 {% extends "base.twig" %}
 
 {% block content %}
-    {# 
-        Titre principal de la page
-        mb-4 : Margin-bottom pour espacement avec le contenu suivant
-        Variable page_title définie par le contrôleur
-        Conformité UX : Hiérarchie claire des titres
-    #}
     <h1 class="mb-4">{{ page_title }}</h1>
     
-    {# 
-        Layout en deux colonnes pour une présentation équilibrée
-        Conformité UX-RESPONSIVE : Adaptation automatique (empilage sur mobile)
-        - col-md-8 : Colonne principale (2/3 sur desktop)
-        - col-md-4 : Colonne secondaire (1/3 sur desktop)
-    #}
     <div class="row">
-        {# Colonne principale : Présentation détaillée #}
+        {# Colonne principale : Stack technique et bonnes pratiques #}
         <div class="col-md-8">
-            {# 
-                Introduction accrocheuse avec classe lead
-                lead : Classe Bootstrap pour texte d'introduction mis en valeur
-                Conformité UX : Message d'accueil clair et engageant
-            #}
-            <p class="lead">Bienvenue sur notre plateforme de blog full-stack développée avec passion !</p>
+            <p class="lead">Plateforme de blog full-stack démonstrative, alliant performance et architecture robuste.</p>
             
-            {# 
-                Description générale du projet
-                Formulation professionnelle et informative
-            #}
-            <p>Ce projet est une démonstration concrète de l'utilisation de technologies modernes et de bonnes pratiques de développement web :</p>
+            <p>Ce projet met en œuvre les technologies modernes imposées par le cahier des charges :</p>
             
-            {# 
-                Liste des technologies utilisées
-                Conformité 2.1 Technologies : Présentation détaillée du stack
-                Mise en forme Markdown-like (**texte**) pour mise en évidence
-                Chaque point correspond à une technologie imposée par le cahier des charges
-            #}
-            <ul>
-                {# Backend PHP 8 avec POO et patterns de conception #}
-                <li>**Backend :** PHP 8 (POO, MVC, Singletons)</li>
-                {# Base de données MariaDB avec accès sécurisé via PDO #}
-                <li>**Base de données :** MariaDB (via PDO)</li>
-                {# Moteur de template Twig 3 pour séparation des préoccupations #}
-                <li>**Templating :** Twig 3</li>
-                {# Frontend moderne avec Bootstrap 5 et Alpine.js #}
-                <li>**Frontend :** Bootstrap 5 (Mobile-First) et Alpine.js</li>
-                {# Environnement de développement utilisé #}
-                <li>**Environnement :** XAMPP sur Windows</li>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item"><strong>Backend :</strong> PHP 8.x (POO, Architecture MVC, Patrons Singleton)</li>
+                <li class="list-group-item"><strong>Base de données :</strong> MariaDB avec accès sécurisé via PDO</li>
+                <li class="list-group-item"><strong>Moteur de template :</strong> Twig 3 (Séparation des préoccupations)</li>
+                <li class="list-group-item"><strong>Frontend :</strong> Bootstrap 5 et Alpine.js</li>
+                <li class="list-group-item"><strong>Environnement :</strong> XAMPP / Serveur local Apache</li>
             </ul>
             
-            {# 
-                Point fort mis en avant : Approche Mobile-First
-                Conformité UX-RESPONSIVE-01 : Mention explicite de l'approche mobile-first
-                **texte** pour mise en évidence visuelle
-                Conformité UX : Information sur l'expérience utilisateur garantie
-            #}
-            <p>L'approche **mobile-first** garantit une expérience utilisateur optimale sur tous les appareils.</p>
+            {# Mention de l'approche Mobile-First (UX-RESPONSIVE-01) #}
+            <div class="alert alert-primary">
+                L'approche <strong>mobile-first</strong> a été adoptée pour garantir une interface adaptative et fluide sur tous les terminaux.
+            </div>
         </div>
         
-        {# Colonne secondaire : Encart informatif #}
+        {# Colonne latérale : Encart informatif #}
         <div class="col-md-4">
-            {# 
-                Carte d'information mise en valeur
-                bg-light : Fond clair pour distinction visuelle
-                p-3 : Padding pour espacement interne
-                Conformité Bootstrap : Design cohérent avec le reste de l'application
-            #}
-            <div class="card bg-light p-3">
-                {# 
-                    Titre de l'encart
-                    Hiérarchie h5 pour sous-titre cohérent
-                #}
-                <h5>Notre Mission</h5>
-                {# 
-                    Description de la mission du projet
-                    Formulation concise et orientée valeur
-                    Conformité UX : Message complémentaire et inspirant
-                #}
-                <p>Partager des connaissances et des techniques de développement web propres et efficaces.</p>
+            <div class="card bg-light border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Objectif du projet</h5>
+                    <hr>
+                    <p class="card-text small">Démontrer la capacité à concevoir une application web complète, sécurisée et modulaire respectant les standards de l'industrie.</p>
+                </div>
             </div>
         </div>
     </div>

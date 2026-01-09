@@ -6,42 +6,13 @@ use App\Core\BaseModel;
 use PDOException;
 
 /**
- * UserModel - Modèle pour la gestion des utilisateurs et du contrôle d'accès
- * 
- * Implémente l'authentification, l'autorisation et la gestion des utilisateurs
- * conformément au système RBAC (Role-Based Access Control) spécifié dans le cahier des charges.
- * 
- * Implémente les exigences suivantes du cahier des charges :
- * - EF-ACL-01 : Gestion des Utilisateurs (CRUD)
- * - EF-ACL-02 : Gestion des Rôles
- * - EF-ACL-03 : Gestion des Permissions
- * - EF-ACL-04 : Un utilisateur peut avoir plusieurs rôles
- * - EF-ACL-05 : Contrôle d'accès basé sur les permissions
- * - EF-ACL-06 : Authentification sécurisée (hachage mot de passe)
- * - EF-ADMIN-01 : Statistiques utilisateurs actifs
- * - Architecture RBAC conforme au modèle de données
- * - Sécurité : Hachage bcrypt, requêtes préparées
- * - Logger : Journalisation des tentatives d'accès
- * 
- * @package App\Models
- * @conformité EF-ACL : Contrôle d'accès basé sur les rôles et permissions
+ * UserModel - Gestion des utilisateurs et du contrôle d'accès (RBAC)
+ * @conformité EF-ACL-01 à EF-ACL-06
  */
 class UserModel extends BaseModel {
     
     /**
-     * Trouve un utilisateur par son adresse email
-     * 
-     * Méthode fondamentale pour :
-     * - Authentification lors de la connexion
-     * - Vérification d'unicité lors de l'inscription
-     * - Récupération de compte (mot de passe oublié)
-     * 
-     * Sécurité : Utilisation de requête préparée pour prévenir les injections SQL
-     * 
-     * @param string $email Adresse email de l'utilisateur
-     * @return object|false Utilisateur trouvé ou false
-     * @conformité EF-ACL-06 : Identification par email
-     * @conformité Critères d'acceptation : Sécurité (prévention SQL injection)
+     * Recherche un utilisateur par son adresse email
      */
     public function findByEmail(string $email): object|false {
         try {
@@ -55,27 +26,12 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Vérifie les identifiants de connexion (email + mot de passe)
-     * 
-     * Processus de vérification en deux étapes :
-     * 1. Recherche de l'utilisateur par email
-     * 2. Vérification du hachage du mot de passe
-     * 
-     * Sécurité :
-     * - Utilisation de password_verify() pour comparer les hachages
-     * - Timing attack protection intégrée
-     * - Pas d'indication sur l'élément erroné (email ou mot de passe)
-     * 
-     * @param string $email Adresse email
-     * @param string $password Mot de passe en clair
-     * @return object|false Utilisateur authentifié ou false
-     * @conformité EF-ACL-06 : Authentification sécurisée avec hachage
-     * @conformité 2.2.1 : Journalisation des erreurs d'authentification
+     * Vérifie les identifiants et le hachage du mot de passe (Authentification)
      */
     public function verifyCredentials(string $email, string $password): object|false {
         $user = $this->findByEmail($email);
         
-        // Vérification sécurisée du mot de passe avec bcrypt
+        // Utilisation de password_verify pour la sécurité des hachages bcrypt
         if ($user && password_verify($password, $user->mot_de_passe)) {
             return $user;
         }
@@ -84,14 +40,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Récupère tous les rôles assignés à un utilisateur
-     * 
-     * Implémente EF-ACL-04 : Un utilisateur peut avoir plusieurs rôles
-     * Utilise les tables de jointure role_user du modèle RBAC.
-     * 
-     * @param int $userId ID de l'utilisateur
-     * @return array Liste des rôles assignés
-     * @conformité EF-ACL-04 : Support multi-rôles par utilisateur
+     * Récupère la liste des rôles assignés à un utilisateur (Multi-rôles)
      */
     public function getUserRoles(int $userId): array {
         try {
@@ -109,15 +58,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Vérifie si un utilisateur possède une permission spécifique
-     * 
-     * Implémente EF-ACL-05 : Contrôle d'accès strict par permissions
-     * Parcourt la chaîne RBAC : Utilisateur → Rôles → Permissions
-     * 
-     * @param int $userId ID de l'utilisateur
-     * @param string $permission Nom de la permission à vérifier
-     * @return bool True si l'utilisateur possède la permission
-     * @conformité EF-ACL-05 : Vérification de permissions individuelles
+     * Vérifie si un utilisateur possède une permission spécifique (ACL)
      */
     public function hasPermission(int $userId, string $permission): bool {
         try {
@@ -136,15 +77,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Compte le nombre total d'utilisateurs dans le système
-     * 
-     * Utilisé pour :
-     * - Statistiques du tableau de bord (EF-ADMIN-01)
-     * - Indicateurs de croissance de la communauté
-     * - Métriques d'administration
-     * 
-     * @return int Nombre total d'utilisateurs
-     * @conformité EF-ADMIN-01 : Statistiques utilisateurs actifs
+     * Retourne le nombre total d'utilisateurs (Statistiques Admin)
      */
     public function countAll(): int {
         try {
@@ -157,17 +90,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Récupère tous les utilisateurs avec leurs rôles agrégés
-     * 
-     * Optimisé pour l'affichage dans l'interface d'administration.
-     * Utilise GROUP_CONCAT pour rassembler les noms de rôles.
-     * 
-     * Format de retour :
-     * - Toutes les infos utilisateur
-     * - roles_names : chaîne concaténée des rôles (ex: "Administrateur,Éditeur")
-     * 
-     * @return array Utilisateurs avec leurs rôles
-     * @conformité EF-ACL-01 : Interface de gestion des utilisateurs
+     * Liste tous les utilisateurs avec l'agrégation de leurs rôles
      */
     public function findAllWithRoles(): array {
         try {
@@ -188,17 +111,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Crée un nouvel utilisateur dans le système
-     * 
-     * Processus sécurisé de création :
-     * 1. Validation des données en amont (dans le contrôleur)
-     * 2. Hachage sécurisé du mot de passe avec bcrypt
-     * 3. Insertion dans la base avec requête préparée
-     * 
-     * @param array $data Données du nouvel utilisateur
-     * @return int ID du nouvel utilisateur ou 0 en cas d'erreur
-     * @conformité EF-ACL-01 : Création d'utilisateurs
-     * @conformité EF-ACL-06 : Hachage sécurisé du mot de passe
+     * Crée un utilisateur avec hachage sécurisé du mot de passe
      */
     public function create(array $data): int {
         try {
@@ -209,8 +122,8 @@ class UserModel extends BaseModel {
             
             $stmt->execute([
                 ':nom_utilisateur' => $data['nom_utilisateur'],
-                ':email' => $data['email'],
-                ':password' => password_hash($data['password'], PASSWORD_DEFAULT)
+                ':email'           => $data['email'],
+                ':password'        => password_hash($data['password'], PASSWORD_DEFAULT)
             ]);
             
             return (int) $this->db->lastInsertId();
@@ -221,15 +134,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Met à jour le statut d'activation d'un utilisateur
-     * 
-     * Permet d'activer/désactiver des comptes utilisateurs
-     * sans les supprimer définitivement.
-     * 
-     * @param int $id ID de l'utilisateur
-     * @param int $status Nouveau statut (1 = actif, 0 = inactif)
-     * @return bool Succès de l'opération
-     * @conformité EF-ACL-01 : Désactivation d'utilisateurs
+     * Active ou désactive un compte utilisateur
      */
     public function updateStatus(int $id, int $status): bool {
         try {
@@ -242,14 +147,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Supprime définitivement un utilisateur du système
-     * 
-     * Attention : Cette opération est irréversible.
-     * Les cascades définies dans la base gèrent les dépendances.
-     * 
-     * @param int $id ID de l'utilisateur à supprimer
-     * @return bool Succès de l'opération
-     * @conformité EF-ACL-01 : Suppression d'utilisateurs
+     * Supprime définitivement un compte utilisateur
      */
     public function delete(int $id): bool {
         try {
@@ -262,16 +160,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Récupère un utilisateur spécifique par son ID
-     * 
-     * Utilisé pour :
-     * - Édition d'un utilisateur existant
-     * - Consultation de profil
-     * - Vérification d'existence
-     * 
-     * @param int $id ID de l'utilisateur
-     * @return object|false Utilisateur ou false si non trouvé
-     * @conformité EF-ACL-01 : Consultation d'utilisateurs
+     * Recherche un utilisateur par son identifiant unique
      */
     public function findById(int $id): object|false {
         try {
@@ -285,15 +174,7 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Récupère tous les rôles disponibles dans le système
-     * 
-     * Utilisé pour :
-     * - Interface d'assignation de rôles
-     * - Création de nouveaux rôles
-     * - Vérification de l'existence des rôles
-     * 
-     * @return array Tous les rôles triés par nom
-     * @conformité EF-ACL-02 : Gestion des rôles
+     * Liste tous les rôles configurés dans le système
      */
     public function getAllRoles(): array {
         try {
@@ -306,25 +187,12 @@ class UserModel extends BaseModel {
     }
 
     /**
-     * Assigne des rôles à un utilisateur
-     * 
-     * Implémente EF-ACL-04 : Assignation multiple de rôles
-     * Processus atomique :
-     * 1. Suppression de tous les rôles existants
-     * 2. Ajout des nouveaux rôles spécifiés
-     * 
-     * @param int $userId ID de l'utilisateur
-     * @param array $roleIds Liste des IDs des rôles à assigner
-     * @return bool Succès de l'opération
-     * @conformité EF-ACL-04 : Assignation de plusieurs rôles
+     * Synchronise les rôles assignés à un utilisateur (Suppression/Insertion)
      */
     public function assignRolesToUser(int $userId, array $roleIds): bool {
         try {
-            // 1. Supprimer tous les rôles existants (nettoyage complet)
-            $stmt = $this->db->prepare("DELETE FROM role_user WHERE user_id = ?");
-            $stmt->execute([$userId]);
+            $this->db->prepare("DELETE FROM role_user WHERE user_id = ?")->execute([$userId]);
 
-            // 2. Ajouter les nouveaux rôles spécifiés
             $stmt = $this->db->prepare("INSERT INTO role_user (user_id, role_id) VALUES (?, ?)");
             foreach ($roleIds as $roleId) {
                 $stmt->execute([$userId, $roleId]);

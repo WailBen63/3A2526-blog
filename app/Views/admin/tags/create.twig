@@ -1,52 +1,15 @@
 {# templates/admin/tags/create.twig #}
-{# 
-    Formulaire de création de tag - Interface d'administration
-    Implémente EF-TAG-01 (Création) et EF-ARTICLE-04 (Association tags-articles)
-    
-    Caractéristiques principales :
-    - Formulaire simple pour créer un nouveau tag
-    - Validation côté client avec HTML5
-    - Génération automatique du slug (côté serveur)
-    - Exemples contextuels pour guider l'utilisateur
-    - Design centré et responsive
-    
-    @package Templates/Admin
-    @conformité EF-TAG-01 : Création de tags (nom, URL slug)
-    @conformité EF-ARTICLE-04 : Prépare l'association future avec les articles
-    @conformité EF-ADMIN-02 : Navigation cohérente dans l'administration
-    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et centrée
-    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
-#}
+{# Formulaire de création de tag - Conformité EF-TAG-01 #}
 
 {% extends "base.twig" %}
 
 {% block content %}
-{# 
-    En-tête de page avec titre et navigation
-    Design responsive avec flexbox Bootstrap
-    Conformité EF-ADMIN-02 : Navigation intuitive entre les sections
-#}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    {# 
-        Titre de la page indiquant l'action en cours
-        Variable page_title définie par le contrôleur
-    #}
     <h1 class="h2">{{ page_title }}</h1>
-    {# 
-        Bouton de retour vers la liste des tags
-        Positionné à droite pour navigation secondaire
-        Conformité UX : Navigation facile vers la liste
-    #}
-    <a href="/3A2526-Blog/public/admin/tags" class="btn btn-sm btn-outline-secondary">
-        ← Retour
-    </a>
+    <a href="/3A2526-Blog/public/admin/tags" class="btn btn-sm btn-outline-secondary">← Retour</a>
 </div>
 
-{# 
-    Affichage des erreurs de validation du formulaire
-    Apparaît seulement si des erreurs ont été détectées côté serveur
-    Conformité UX : Feedback immédiat sur les problèmes de saisie
-#}
+{# Affichage des erreurs de validation (Unicité, longueur, etc.) #}
 {% if errors %}
     <div class="alert alert-danger">
         <ul class="mb-0">
@@ -57,47 +20,16 @@
     </div>
 {% endif %}
 
-{# 
-    Formulaire de création de tag
-    Méthode POST pour l'envoi des données
-    Pas besoin de enctype car pas d'upload de fichier
-    Conformité EF-TAG-01 : Soumission des données de création
-#}
 <form action="/3A2526-Blog/public/admin/tags/store" method="POST">
-    {# 
-        Layout responsive centré
-        Le formulaire occupe 6 colonnes sur 12, centré sur la page
-        Conformité UX-RESPONSIVE : Design adaptatif et équilibré
-    #}
     <div class="row justify-content-center">
         <div class="col-md-6">
-            {# 
-                Carte Bootstrap pour structurer le formulaire
-                Améliore la lisibilité et l'organisation visuelle
-                Conformité Bootstrap 5.X : Design system cohérent
-            #}
             <div class="card">
                 <div class="card-header">
-                    {# 
-                        Titre interne de la carte
-                        Décrit la section du formulaire
-                    #}
                     <h5 class="card-title mb-0">Informations du tag</h5>
                 </div>
                 <div class="card-body">
-                    {# 
-                        Champ unique : Nom du tag
-                        Conformité EF-TAG-01 : Saisie du nom du tag
-                        Le slug sera généré automatiquement côté serveur
-                    #}
                     <div class="mb-3">
                         <label for="nom_tag" class="form-label">Nom du tag *</label>
-                        {# 
-                            Champ texte obligatoire pour le nom
-                            Valeur pré-remplie en cas d'erreur de validation (old_input)
-                            Validation HTML5 : required et maxlength
-                            Conformité UX : Préservation des données en cas d'erreur
-                        #}
                         <input type="text" 
                                class="form-control" 
                                id="nom_tag" 
@@ -105,44 +37,18 @@
                                value="{{ old_input.nom_tag|default('') }}" 
                                required
                                maxlength="50">
-                        {# 
-                            Texte d'aide sous le champ
-                            Explique les contraintes et le comportement système
-                            Conformité UX : Guidance claire pour l'utilisateur
-                        #}
                         <div class="form-text">
-                            Le nom du tag doit être unique et faire entre 2 et 50 caractères.
-                            Le slug sera généré automatiquement.
+                            Le nom doit être unique. Le slug sera généré automatiquement par le système.
                         </div>
                     </div>
 
-                    {# 
-                        Section d'exemples pour inspirer l'utilisateur
-                        Particulièrement utile pour le thème VTT du projet
-                        Conformité UX : Aide contextuelle et exemples concrets
-                    #}
+                    {# Aide contextuelle pour l'utilisateur #}
                     <div class="alert alert-info">
-                        <strong>Exemples de tags VTT :</strong><br>
-                        Enduro, XC, Descente, Trail, Gravel, Suspension, Freins, Pneus, Nutrition, Entraînement
+                        <strong>Suggestions :</strong> Enduro, XC, Descente, Trail, Gravel, Suspension, Nutrition...
                     </div>
                 </div>
-                {# 
-                    Pied de carte avec les boutons d'action
-                    Positionnés en bas pour un flux logique de remplissage
-                    Conformité UX : Actions principales visibles et accessibles
-                #}
                 <div class="card-footer">
-                    {# 
-                        Bouton de soumission principal
-                        Style primary (bleu) pour l'action principale
-                        Conformité Bootstrap : Hiérarchie visuelle claire
-                    #}
                     <button type="submit" class="btn btn-primary">Créer le tag</button>
-                    {# 
-                        Bouton d'annulation avec lien de retour
-                        Style secondary (gris) pour action secondaire
-                        Conformité UX : Sortie sécurisée sans perte de données
-                    #}
                     <a href="/3A2526-Blog/public/admin/tags" class="btn btn-secondary">Annuler</a>
                 </div>
             </div>

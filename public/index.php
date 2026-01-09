@@ -1,44 +1,65 @@
 <?php
-// Fichier : /public/index.php
+/**
+ * Front Controller - Point d'entrée unique de l'application
+ * Gère l'initialisation, l'autoloader et le routage des requêtes.
+ */
 
-// 1. Définir les constantes globales
+// 1. Configuration et constantes
 define('ROOT_PATH', dirname(__DIR__));
 define('LOG_PATH', ROOT_PATH . '/logs');
 
-// 2. Charger l'autoloader de Composer
+// 2. Autoloading (Composer)
 require_once ROOT_PATH . '/vendor/autoload.php';
 
-// 3. Importer les classes nécessaires
+// 3. Import des namespaces
 use App\Core\SessionManager;
-use App\Controllers\HomeController;
-use App\Controllers\PostController;
-use App\Controllers\AuthController;
-use App\Controllers\AdminController;
-use App\Core\AuthMiddleware;
-use App\Controllers\AdminArticleController;
-use App\Controllers\AdminCommentController;
-use App\Controllers\AdminUserController;
-use App\Controllers\AdminTagController;
-use App\Controllers\TagController;
-use App\Controllers\CommentController;
+use App\Controllers\{
+    HomeController, PostController, AuthController, AdminController,
+    AdminArticleController, AdminCommentController, AdminUserController,
+    AdminTagController, TagController, CommentController
+};
 
-
-// 4. Démarrer la session (via le Singleton)
+// 4. Initialisation de la session (Singleton)
 SessionManager::getInstance();
 
-// 5. Récupérer l'URL "propre"
+// 5. Analyse de l'URL pour le routage
 $url = $_GET['url'] ?? '/';
 $url = rtrim($url, '/');
 if ($url === '') $url = '/';
 
-// 6. Le Routeur
+// 6. Routeur : Dirige la requête vers le bon contrôleur
 switch (true) {
-    // Route 1 : Page d'accueil
+    
+    // --- ROUTES PUBLIQUES (FRONT-OFFICE) ---
     case $url === '/':
         (new HomeController())->index();
         break;
 
-    // Routes d'authentification
+    case $url === 'a-propos':
+        (new HomeController())->about();
+        break;
+
+    case $url === 'contact':
+        (new HomeController())->contact();
+        break;
+
+    case preg_match('/^post\/(\d+)$/', $url, $matches):
+        (new PostController())->show((int)$matches[1]);
+        break;
+
+    case $url === 'tags':
+        (new TagController())->index();
+        break;
+    
+    case preg_match('/^tag\/([a-z0-9-]+)$/', $url, $matches):
+        (new TagController())->show($matches[1]);
+        break;
+
+    case preg_match('/^comments\/(\d+)\/store$/', $url, $matches):
+        (new CommentController())->store((int)$matches[1]);
+        break;
+
+    // --- AUTHENTIFICATION ---
     case $url === 'login':
         (new AuthController())->login();
         break;
@@ -51,33 +72,12 @@ switch (true) {
         (new AuthController())->logout();
         break;
 
-    // Route tableau de bord admin
+    // --- ADMINISTRATION (BACK-OFFICE) ---
     case $url === 'admin':
-    (new AdminController())->dashboard();
-    break;
-
-    // Route 2 : Article unique (ex: /post/12)
-    case preg_match('/^post\/(\d+)$/', $url, $matches):
-        $postId = (int) $matches[1];
-        (new PostController())->show($postId);
+        (new AdminController())->dashboard();
         break;
 
-    // Route 3 : Page À Propos (NOUVEAU)
-    case $url === 'a-propos':
-        (new HomeController())->about();
-        break;
-
-        // Route 4 : Page de Contact (NOUVEAU)
-    case $url === 'contact':
-        (new HomeController())->contact();
-        break;
-
-    // Route 5 : 404
-    default:
-        (new HomeController())->error404();
-        break;
-
-    // Routes Admin Articles
+    // Admin Articles
     case $url === 'admin/articles':
         (new AdminArticleController())->index();
         break;
@@ -87,132 +87,69 @@ switch (true) {
         break;
         
     case $url === 'admin/articles/store':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            (new AdminArticleController())->store();
-        } else {
-            header('Location: /3A2526-Blog/public/admin/articles');
-        }
+        (new AdminArticleController())->store();
         break;
         
     case preg_match('/^admin\/articles\/(\d+)\/edit$/', $url, $matches):
-        $articleId = (int) $matches[1];
-        (new AdminArticleController())->edit($articleId);
+        (new AdminArticleController())->edit((int)$matches[1]);
         break;
         
     case preg_match('/^admin\/articles\/(\d+)\/update$/', $url, $matches):
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $articleId = (int) $matches[1];
-            (new AdminArticleController())->update($articleId);
-        } else {
-            header('Location: /3A2526-Blog/public/admin/articles');
-        }
+        (new AdminArticleController())->update((int)$matches[1]);
         break;
         
     case preg_match('/^admin\/articles\/(\d+)\/delete$/', $url, $matches):
-        $articleId = (int) $matches[1];
-        (new AdminArticleController())->delete($articleId);
+        (new AdminArticleController())->delete((int)$matches[1]);
         break;
 
-    // Routes Admin Commentaires
+    // Admin Commentaires
     case $url === 'admin/comments':
         (new AdminCommentController())->index();
         break;
     
-    case preg_match('/^admin\/comments\/(\d+)\/approve$/', $url, $matches):
-        $commentId = (int) $matches[1];
-        (new AdminCommentController())->approve($commentId);
+    case preg_match('/^admin\/comments\/(\d+)\/(approve|reject|delete)$/', $url, $matches):
+        $action = $matches[2];
+        (new AdminCommentController())->$action((int)$matches[1]);
         break;
-    
-    case preg_match('/^admin\/comments\/(\d+)\/reject$/', $url, $matches):
-        $commentId = (int) $matches[1];
-        (new AdminCommentController())->reject($commentId);
-        break;
-    
-    case preg_match('/^admin\/comments\/(\d+)\/delete$/', $url, $matches):
-       $commentId = (int) $matches[1];
-       (new AdminCommentController())->delete($commentId);
-       break;
 
-    // Routes Admin Utilisateurs
+    // Admin Utilisateurs (RBAC)
     case $url === 'admin/users':
-       (new AdminUserController())->index();
-       break;
+        (new AdminUserController())->index();
+        break;
     
     case $url === 'admin/users/create':
-       (new AdminUserController())->create();
-       break;
+        (new AdminUserController())->create();
+        break;
     
     case $url === 'admin/users/store':
-       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         (new AdminUserController())->store();
-       } else {
-        header('Location: /3A2526-Blog/public/admin/users');
-       }
-       break;
+        break;
     
-    case preg_match('/^admin\/users\/(\d+)\/toggle-status$/', $url, $matches):
-       $userId = (int) $matches[1];
-       (new AdminUserController())->toggleStatus($userId);
-       break;
-    
-    case preg_match('/^admin\/users\/(\d+)\/delete$/', $url, $matches):
-       $userId = (int) $matches[1];
-       (new AdminUserController())->delete($userId);
-       break;
+    case preg_match('/^admin\/users\/(\d+)\/(toggle-status|delete)$/', $url, $matches):
+        $method = ($matches[2] === 'toggle-status') ? 'toggleStatus' : 'delete';
+        (new AdminUserController())->$method((int)$matches[1]);
+        break;
 
-    
-    // Routes Admin Tags
+    // Admin Tags
     case $url === 'admin/tags':
-       (new AdminTagController())->index();
-       break;
+        (new AdminTagController())->index();
+        break;
     
     case $url === 'admin/tags/create':
-       (new AdminTagController())->create();
-       break;
+        (new AdminTagController())->create();
+        break;
     
     case $url === 'admin/tags/store':
-       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-           (new AdminTagController())->store();
-       } else {
-           header('Location: /3A2526-Blog/public/admin/tags');
-       }
-       break;
+        (new AdminTagController())->store();
+        break;
     
-    case preg_match('/^admin\/tags\/(\d+)\/edit$/', $url, $matches):
-       $tagId = (int) $matches[1];
-       (new AdminTagController())->edit($tagId);
-       break;
-    
-    case preg_match('/^admin\/tags\/(\d+)\/update$/', $url, $matches):
-       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-           $tagId = (int) $matches[1];
-           (new AdminTagController())->update($tagId);
-       } else {
-           header('Location: /3A2526-Blog/public/admin/tags');
-       }
-       break;
-    
-    case preg_match('/^admin\/tags\/(\d+)\/delete$/', $url, $matches):
-       $tagId = (int) $matches[1];
-       (new AdminTagController())->delete($tagId);
-       break;
+    case preg_match('/^admin\/tags\/(\d+)\/(edit|update|delete)$/', $url, $matches):
+        $action = $matches[2];
+        (new AdminTagController())->$action((int)$matches[1]);
+        break;
 
-    // Routes Tags Public
-    case $url === 'tags':
-       (new TagController())->index();
-       break;
-    
-    case preg_match('/^tag\/([a-z0-9-]+)$/', $url, $matches):
-       $tagSlug = $matches[1];
-       (new TagController())->show($tagSlug);
-       break; 
-
-    // Routes Commentaires Publics
-    case preg_match('/^comments\/(\d+)\/store$/', $url, $matches):
-       $articleId = (int) $matches[1];
-       (new CommentController())->store($articleId);
-       break;
-
-
-
+    // --- ERREUR 404 ---
+    default:
+        (new HomeController())->error404();
+        break;
 }

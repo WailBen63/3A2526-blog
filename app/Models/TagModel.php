@@ -6,38 +6,14 @@ use App\Core\BaseModel;
 use PDOException;
 
 /**
- * TagModel - Modèle pour la gestion complète des tags/catégories du blog
- * 
- * Implémente le CRUD complet des tags et leur association aux articles
- * conformément aux exigences fonctionnelles du système de blog.
- * 
- * Implémente les exigences suivantes du cahier des charges :
- * - EF-TAG-01 : CRUD complet des Tags (nom, URL slug)
- * - EF-TAG-02 : Affichage des tags avec nombre d'articles associés
- * - EF-ARTICLE-04 : Association d'un article à un ou plusieurs tags
- * - Gestion des relations many-to-many entre articles et tags
- * - Sécurité : Requêtes préparées PDO (2.2.1)
- * - Logger : Journalisation des opérations critiques (2.2.1)
- * - Performance : Comptage optimisé des articles par tag
- * 
- * @package App\Models
- * @conformité EF-TAG : Gestion complète du système de tags
+ * TagModel - Gestion des étiquettes et des catégories du blog
+ * Implémente le CRUD des tags et les relations avec les articles
+ * @conformité EF-TAG-01, EF-TAG-02, EF-ARTICLE-04
  */
 class TagModel extends BaseModel {
     
     /**
-     * Récupère tous les tags avec leur nombre d'articles associés
-     * 
-     * Méthode principale pour l'administration des tags.
-     * Inclut le comptage des articles pour chaque tag.
-     * 
-     * Utilisé pour :
-     * - Interface d'administration des tags (EF-TAG-02)
-     * - Nuage de tags sur le blog public
-     * - Sélection de tags dans les formulaires d'articles
-     * 
-     * @return array Tags avec statistiques d'utilisation
-     * @conformité EF-TAG-02 : Affichage avec nombre d'articles associés
+     * Récupère tous les tags avec le décompte des articles associés
      */
     public function findAll(): array {
         try {
@@ -56,16 +32,7 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Récupère un tag spécifique par son ID
-     * 
-     * Utilisé pour :
-     * - Édition d'un tag existant
-     * - Consultation des détails d'un tag
-     * - Vérification d'existence avant opérations
-     * 
-     * @param int $id ID du tag à récupérer
-     * @return object|false Tag ou false si non trouvé
-     * @conformité EF-TAG-01 : Lecture (R) d'un tag spécifique
+     * Recherche un tag par son identifiant unique
      */
     public function findById(int $id): object|false {
         try {
@@ -79,18 +46,7 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Récupère un tag par son slug (URL-friendly)
-     * 
-     * Essentiel pour :
-     * - Génération de pages de tags accessibles par URL
-     * - Navigation thématique via URLs propres
-     * - SEO : URLs optimisées pour les moteurs de recherche
-     * 
-     * Exemple : /tag/vtt-enduro au lieu de /tag?id=2
-     * 
-     * @param string $slug Slug du tag à rechercher
-     * @return object|false Tag ou false si non trouvé
-     * @conformité EF-TAG-01 : Gestion des slugs pour URLs
+     * Recherche un tag par son slug (URL-friendly)
      */
     public function findBySlug(string $slug): object|false {
         try {
@@ -104,15 +60,7 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Crée un nouveau tag dans le système
-     * 
-     * Implémente la création (C) du CRUD pour les tags.
-     * Génère automatiquement un slug à partir du nom.
-     * 
-     * @param array $data Données du nouveau tag
-     * @return int ID du tag créé ou 0 en cas d'erreur
-     * @conformité EF-TAG-01 : Création (C) des tags
-     * @conformité EF-TAG-01 : Génération automatique de slug
+     * Crée un nouveau tag et génère son slug (Create)
      */
     public function create(array $data): int {
         try {
@@ -123,7 +71,7 @@ class TagModel extends BaseModel {
             
             $stmt->execute([
                 ':nom_tag' => $data['nom_tag'],
-                ':slug' => $this->generateSlug($data['nom_tag'])
+                ':slug'    => $this->generateSlug($data['nom_tag'])
             ]);
             
             return (int) $this->db->lastInsertId();
@@ -134,15 +82,7 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Met à jour un tag existant
-     * 
-     * Implémente la mise à jour (U) du CRUD.
-     * Met à jour automatiquement le slug si le nom change.
-     * 
-     * @param int $id ID du tag à mettre à jour
-     * @param array $data Nouvelles données du tag
-     * @return bool Succès de l'opération
-     * @conformité EF-TAG-01 : Mise à jour (U) des tags
+     * Met à jour le nom et le slug d'un tag existant (Update)
      */
     public function update(int $id, array $data): bool {
         try {
@@ -153,9 +93,9 @@ class TagModel extends BaseModel {
             ");
             
             return $stmt->execute([
-                ':id' => $id,
+                ':id'      => $id,
                 ':nom_tag' => $data['nom_tag'],
-                ':slug' => $this->generateSlug($data['nom_tag'])
+                ':slug'    => $this->generateSlug($data['nom_tag'])
             ]);
         } catch (PDOException $e) {
             $this->logger->error("Erreur mise à jour tag ID: $id", $e);
@@ -164,25 +104,14 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Supprime définitivement un tag du système
-     * 
-     * Implémente la suppression (D) du CRUD.
-     * Processus en deux étapes :
-     * 1. Suppression des associations avec les articles
-     * 2. Suppression du tag lui-même
-     * 
-     * @param int $id ID du tag à supprimer
-     * @return bool Succès de l'opération
-     * @conformité EF-TAG-01 : Suppression (D) des tags
+     * Supprime un tag et nettoie les associations articles (Delete)
      */
     public function delete(int $id): bool {
         try {
-            // 1. Supprimer d'abord toutes les associations avec les articles
-            // Conformité EF-ARTICLE-04 : Gestion cohérente des relations
-            $stmt = $this->db->prepare("DELETE FROM article_tag WHERE tag_id = ?");
-            $stmt->execute([$id]);
+            // Nettoyage de la table de liaison Many-to-Many
+            $this->db->prepare("DELETE FROM article_tag WHERE tag_id = ?")->execute([$id]);
             
-            // 2. Supprimer ensuite le tag lui-même
+            // Suppression du tag
             $stmt = $this->db->prepare("DELETE FROM tags WHERE id = ?");
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
@@ -192,25 +121,14 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Récupère tous les tags associés à un article spécifique
-     * 
-     * Utilisé pour :
-     * - Affichage des tags sous un article
-     * - Édition des tags d'un article existant
-     * - Navigation entre articles similaires
-     * 
-     * @param int $articleId ID de l'article
-     * @return array Tags associés à l'article
-     * @conformité EF-ARTICLE-04 : Association articles-tags
+     * Récupère la liste des tags liés à un article spécifique
      */
     public function findTagsByArticle(int $articleId): array {
         try {
             $stmt = $this->db->prepare("
-                SELECT t.* 
-                FROM tags t
+                SELECT t.* FROM tags t
                 INNER JOIN article_tag at ON t.id = at.tag_id
-                WHERE at.article_id = ?
-                ORDER BY t.nom_tag ASC
+                WHERE at.article_id = ? ORDER BY t.nom_tag ASC
             ");
             $stmt->execute([$articleId]);
             return $stmt->fetchAll();
@@ -221,31 +139,15 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Associe une liste de tags à un article spécifique
-     * 
-     * Gère la relation many-to-many entre articles et tags.
-     * Processus atomique :
-     * 1. Suppression de toutes les associations existantes
-     * 2. Création des nouvelles associations
-     * 
-     * @param int $articleId ID de l'article
-     * @param array $tagIds Liste des IDs des tags à associer
-     * @return bool Succès de l'opération
-     * @conformité EF-ARTICLE-04 : Association d'un article à plusieurs tags
+     * Gère la liaison entre un article et plusieurs tags
      */
     public function attachTagsToArticle(int $articleId, array $tagIds): bool {
         try {
-            // 1. Supprimer toutes les associations existantes
-            // Permet de réinitialiser complètement les tags de l'article
-            $stmt = $this->db->prepare("DELETE FROM article_tag WHERE article_id = ?");
-            $stmt->execute([$articleId]);
+            $this->db->prepare("DELETE FROM article_tag WHERE article_id = ?")->execute([$articleId]);
             
-            // 2. Créer les nouvelles associations
             if (!empty($tagIds)) {
                 $stmt = $this->db->prepare("INSERT INTO article_tag (article_id, tag_id) VALUES (?, ?)");
-                foreach ($tagIds as $tagId) {
-                    $stmt->execute([$articleId, $tagId]);
-                }
+                foreach ($tagIds as $tagId) $stmt->execute([$articleId, $tagId]);
             }
             return true;
         } catch (PDOException $e) {
@@ -255,17 +157,7 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Récupère les tags les plus utilisés (les plus populaires)
-     * 
-     * Utilisé pour :
-     * - Nuage de tags avec taille proportionnelle à l'usage
-     * - Navigation vers les sujets les plus populaires
-     * - Indicateurs de tendances du blog
-     * - Widget "Tags populaires" dans la sidebar
-     * 
-     * @param int $limit Nombre maximum de tags à récupérer (défaut : 10)
-     * @return array Tags triés par popularité décroissante
-     * @conformité Expérience utilisateur : Navigation par popularité
+     * Récupère les tags les plus utilisés pour le nuage de tags (Cloud)
      */
     public function findPopular(int $limit = 10): array {
         try {
@@ -277,7 +169,8 @@ class TagModel extends BaseModel {
                 ORDER BY nb_articles DESC, t.nom_tag ASC
                 LIMIT ?
             ");
-            $stmt->execute([$limit]);
+            $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
+            $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             $this->logger->error("Erreur récupération tags populaires", $e);
@@ -286,24 +179,11 @@ class TagModel extends BaseModel {
     }
 
     /**
-     * Génère un slug URL-friendly à partir du nom d'un tag
-     * 
-     * Transformation appliquée :
-     * 1. Conversion en minuscules
-     * 2. Remplacement des caractères spéciaux par des tirets
-     * 3. Suppression des tirets en début et fin
-     * 
-     * Exemple : "VTT Enduro" → "vtt-enduro"
-     * 
-     * @param string $nomTag Nom du tag à transformer
-     * @return string Slug généré
-     * @private
-     * @conformité EF-TAG-01 : Génération de slug pour URLs propres
+     * Transforme une chaîne en slug (minuscules, sans caractères spéciaux)
      */
     private function generateSlug(string $nomTag): string {
         $slug = strtolower($nomTag);
         $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
-        $slug = trim($slug, '-');
-        return $slug;
+        return trim($slug, '-');
     }
 }
