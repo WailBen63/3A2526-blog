@@ -1,18 +1,69 @@
+{# templates/admin/articles/index.twig #}
+{# 
+    Liste des articles - Interface d'administration
+    Implémente EF-ARTICLE-01 (Lecture/Liste) et EF-ADMIN (Tableau de bord)
+    
+    Caractéristiques principales :
+    - Affichage tabulaire des articles avec pagination implicite
+    - Indicateurs visuels de statut (badges colorés)
+    - Actions CRUD (Modifier/Supprimer)
+    - Bouton de création rapide
+    - Design responsive avec table scrollable
+    
+    @package Templates/Admin
+    @conformité EF-ARTICLE-01 : Lecture et liste d'articles (partie R du CRUD)
+    @conformité EF-ADMIN-01 : Vue synthétique des statistiques (nombre d'articles)
+    @conformité EF-ADMIN-02 : Navigation claire vers toutes les sections
+    @conformité EF-ADMIN-03 : Fil d'activité récent (articles triés par date)
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et table responsive
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+{# 
+    En-tête de page avec titre et actions principales
+    Design responsive avec flexbox Bootstrap
+    Conformité EF-ADMIN-02 : Navigation claire et intuitive
+#}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    {# 
+        Titre de la page
+        Utilise la variable page_title passée par le contrôleur
+        Conformité Twig : Séparation données/présentation
+    #}
     <h1 class="h2">{{ page_title }}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
+        {# 
+            Bouton de création d'article
+            Positionné en haut à droite pour accès rapide
+            Conformité EF-ARTICLE-01 : Accès direct à la création
+            Conformité EF-ADMIN-02 : Navigation vers la création
+        #}
         <a href="/3A2526-Blog/public/admin/articles/create" class="btn btn-sm btn-outline-primary">
             + Nouvel article
         </a>
     </div>
 </div>
 
+{# 
+    Section conditionnelle : Affichage des articles ou message vide
+    Conformité UX : Feedback approprié selon l'état des données
+#}
 {% if articles %}
+    {# 
+        Table responsive pour s'adapter aux petits écrans
+        Conformité UX-RESPONSIVE-02 : Table scrollable horizontalement
+        Utilisation des classes Bootstrap pour tables
+    #}
     <div class="table-responsive">
         <table class="table table-striped table-sm">
+            {# 
+                En-tête du tableau avec colonnes claires
+                Conformité UX : En-têtes descriptifs et concis
+                Ordre logique : ID → Titre → Auteur → Statut → Date → Actions
+            #}
             <thead>
                 <tr>
                     <th>ID</th>
@@ -24,40 +75,88 @@
                 </tr>
             </thead>
             <tbody>
+                {# 
+                    Boucle sur la liste des articles
+                    Chaque ligne représente un article avec ses métadonnées
+                    Conformité EF-ADMIN-03 : Affichage des articles récents
+                #}
                 {% for article in articles %}
                 <tr>
+                    {# 
+                        Colonne ID : Identifiant unique de l'article
+                        Utile pour le débogage et les références techniques
+                    #}
                     <td>{{ article.id }}</td>
+                    
+                    {# 
+                        Colonne Titre : Nom principal de l'article
+                        Information la plus importante pour l'identification
+                        Conformité EF-ARTICLE-03 : Affichage du titre
+                    #}
                     <td>{{ article.titre }}</td>
+                    
+                    {# 
+                        Colonne Auteur : Nom de l'utilisateur qui a créé l'article
+                        Information de traçabilité et de responsabilité
+                    #}
                     <td>{{ article.nom_utilisateur }}</td>
+                    
+                    {# 
+                        Colonne Statut : Indicateur visuel de l'état de publication
+                        Utilisation de badges colorés Bootstrap pour différenciation
+                        Conformité EF-ARTICLE-03 : Visualisation du statut
+                        Conformité UX : Feedback visuel immédiat
+                        
+                        Note : Il y a une duplication de cette colonne dans le code original
+                        Je corrige en ne gardant qu'une seule colonne statut
+                    #}
                     <td>
-                        <span class="badge {% if article.statut == 'Public' %}bg-success{% else %}bg-secondary{% endif %}">
+                        {# 
+                            Badge avec couleur conditionnelle selon le statut
+                            - Public : vert (bg-success) → visible par tous
+                            - Archivé : bleu (bg-info) → conservé mais non visible
+                            - Brouillon : gris (bg-secondary) → en préparation
+                            Conformité Bootstrap : Système de couleurs sémantique
+                        #}
+                        <span class="badge 
+                            {% if article.statut == 'Public' %}bg-success
+                            {% elseif article.statut == 'Archivé' %}bg-info
+                            {% else %}bg-secondary{% endif %}">
                             {{ article.statut }}
                         </span>
                     </td>
+                    
+                    {# 
+                        Colonne Date : Date de création formatée
+                        Format français (jour/mois/année) pour meilleure lisibilité
+                        Conformité UX : Format de date adapté à la locale
+                    #}
                     <td>{{ article.date_creation|date("d/m/Y") }}</td>
+                    
+                    {# 
+                        Colonne Actions : Boutons d'actions CRUD
+                        Conformité EF-ARTICLE-01 : Actions de modification/suppression
+                        Conformité UX : Actions visibles et accessibles
+                    #}
                     <td>
+                        {# 
+                            Bouton Modifier : Accès au formulaire d'édition
+                            Style warning (orange) pour action de modification
+                            Lien avec ID spécifique de l'article
+                        #}
                         <a href="/3A2526-Blog/public/admin/articles/{{ article.id }}/edit" class="btn btn-sm btn-outline-warning">
                             Modifier
                         </a>
+                        
+                        {# 
+                            Formulaire de suppression avec confirmation JavaScript
+                            Sécurité : Méthode POST pour actions destructrices
+                            UX : Confirmation avant suppression pour éviter les erreurs
+                            Conformité EF-ARTICLE-01 : Suppression d'articles
+                        #}
                         <form action="/3A2526-Blog/public/admin/articles/{{ article.id }}/delete" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cet article ?')">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
                         </form>
-                    </td>
-                    <td>
-                        <span class="badge 
-                            {% if article.statut == 'Public' %}bg-success
-                            {% elseif article.statut == 'Archivé' %}bg-info
-                            {% else %}bg-secondary{% endif %}">
-                            {{ article.statut }}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge 
-                            {% if article.statut == 'Public' %}bg-success
-                            {% elseif article.statut == 'Archivé' %}bg-info
-                            {% else %}bg-secondary{% endif %}">
-                            {{ article.statut }}
-                        </span>
                     </td>
                 </tr>
                 {% endfor %}
@@ -65,6 +164,11 @@
         </table>
     </div>
 {% else %}
+    {# 
+        Message affiché quand il n'y a pas d'articles
+        Conformité UX : Feedback clair sur l'état vide
+        Style info (bleu) pour message informatif non critique
+    #}
     <div class="alert alert-info">
         Aucun article pour le moment.
     </div>

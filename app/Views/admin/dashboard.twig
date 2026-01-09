@@ -1,14 +1,59 @@
+{# templates/admin/dashboard.twig #}
+{# 
+    Tableau de bord administrateur - Interface centrale de gestion
+    Implémente EF-ADMIN-01/02/03 (Tableau de bord complet)
+    
+    Caractéristiques principales :
+    - Vue synthétique des statistiques clés du blog
+    - Navigation rapide vers toutes les sections de gestion
+    - Affichage d'un fil d'activité récent (articles et commentaires)
+    - Design responsive avec cartes et visualisations claires
+    - Interface intuitive pour un administrateur
+    
+    @package Templates/Admin
+    @conformité EF-ADMIN-01 : Vue synthétique des statistiques clés
+    @conformité EF-ADMIN-02 : Navigation claire et intuitive vers toutes les sections
+    @conformité EF-ADMIN-03 : Affichage d'un fil d'activité récent
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et responsive
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+{# 
+    Conteneur fluid pour utiliser toute la largeur disponible
+    Conformité UX : Maximisation de l'espace d'information
+#}
 <div class="container-fluid">
+    {# 
+        En-tête de page avec titre et badge d'identification
+        Design moderne avec flexbox pour alignement parfait
+        Conformité EF-ADMIN-02 : Identification claire de la section
+    #}
     <div class="d-flex justify-content-between align-items-center mb-4">
+        {# 
+            Titre principal du tableau de bord
+            Variable page_title définie par le contrôleur
+        #}
         <h1>{{ page_title }}</h1>
+        {# 
+            Badge indiquant le rôle de l'utilisateur connecté
+            Utile pour confirmation visuelle du niveau d'accès
+            Style success (vert) pour administrateur
+        #}
         <span class="badge bg-success">Administrateur</span>
     </div>
 
     <!-- Cartes de statistiques -->
+    {# 
+        Section statistiques : Métriques clés en un coup d'œil
+        Conformité EF-ADMIN-01 : Statistiques synthétiques essentielles
+        Layout responsive en grille 4 colonnes sur desktop
+        Conformité UX-RESPONSIVE : Adaptation automatique sur mobile
+    #}
     <div class="row mb-4">
+        {# Carte : Total des articles #}
         <div class="col-md-3">
             <div class="card text-white bg-primary">
                 <div class="card-body">
@@ -17,6 +62,7 @@
                 </div>
             </div>
         </div>
+        {# Carte : Total des commentaires #}
         <div class="col-md-3">
             <div class="card text-white bg-success">
                 <div class="card-body">
@@ -25,6 +71,11 @@
                 </div>
             </div>
         </div>
+        {# 
+            Carte : Commentaires en attente de modération
+            Couleur warning (orange) pour attirer l'attention
+            Conformité EF-COMMENT-04 : Indicateur des tâches de modération
+        #}
         <div class="col-md-3">
             <div class="card text-white bg-warning">
                 <div class="card-body">
@@ -33,6 +84,7 @@
                 </div>
             </div>
         </div>
+        {# Carte : Total des utilisateurs #}
         <div class="col-md-3">
             <div class="card text-white bg-info">
                 <div class="card-body">
@@ -43,22 +95,44 @@
         </div>
     </div>
 
+    {# 
+        Section activité récente : Deux colonnes côte à côte
+        Conformité EF-ADMIN-03 : Fil d'activité récent
+        Layout 50/50 sur desktop, empilé sur mobile
+    #}
     <div class="row">
         <!-- Articles récents -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Articles Récents</h5>
+                    {# 
+                        Bouton "Voir tout" pour accès rapide à la liste complète
+                        Conformité EF-ADMIN-02 : Navigation intuitive
+                        Positionné à droite dans l'en-tête de la carte
+                    #}
                     <a href="/3A2526-Blog/public/admin/articles" class="btn btn-sm btn-outline-primary">Voir tout</a>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Liste conditionnelle des articles récents
+                        Conformité EF-ADMIN-03 : Activité de publication récente
+                    #}
                     {% if recent_posts %}
                         <div class="list-group">
                             {% for post in recent_posts %}
                                 <div class="list-group-item">
                                     <h6>{{ post.titre }}</h6>
                                     <small class="text-muted">
+                                        {# Date de création avec format français #}
                                         {{ post.date_creation|date("d/m/Y H:i") }}
+                                        {# 
+                                            Badge de statut avec couleur conditionnelle
+                                            - Public : vert (success)
+                                            - Archivé : bleu (info)  
+                                            - Brouillon : gris (secondary)
+                                            Conformité EF-ARTICLE-03 : Visualisation du statut
+                                        #}
                                         <span class="badge bg-{{ post.statut == 'Public' ? 'success' : post.statut == 'Archivé' ? 'info' : 'secondary' }}">
                                             {{ post.statut }}
                                         </span>
@@ -78,6 +152,11 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Commentaires Récents</h5>
+                    {# 
+                        Bouton "Modérer" pour accès rapide à la modération
+                        Conformité EF-COMMENT-03 : Accès direct à la modération
+                        Style outline pour distinction visuelle
+                    #}
                     <a href="/3A2526-Blog/public/admin/comments" class="btn btn-sm btn-outline-primary">Modérer</a>
                 </div>
                 <div class="card-body">
@@ -85,8 +164,19 @@
                         <div class="list-group">
                             {% for comment in recent_comments %}
                                 <div class="list-group-item">
+                                    {# 
+                                        En-tête du commentaire avec auteur et statut
+                                        Layout flex pour alignement optimal
+                                    #}
                                     <div class="d-flex justify-content-between align-items-start">
                                         <h6>{{ comment.nom_auteur }}</h6>
+                                        {# 
+                                            Badge de statut avec couleur conditionnelle
+                                            - Approuvé : vert (success)
+                                            - Rejeté : rouge (danger)
+                                            - En attente : orange (warning)
+                                            Conformité EF-COMMENT-03 : Visualisation du statut
+                                        #}
                                         <span class="badge 
                                             {% if comment.statut == 'Approuvé' %}bg-success
                                             {% elseif comment.statut == 'Rejeté' %}bg-danger
@@ -94,8 +184,13 @@
                                             {{ comment.statut }}
                                         </span>
                                     </div>
+                                    {# 
+                                        Extrait du contenu du commentaire (50 caractères)
+                                        Conformité UX : Prévisualisation sans surcharge
+                                    #}
                                     <p class="mb-1 small">{{ comment.contenu|slice(0, 50) }}...</p>
                                     <small class="text-muted">
+                                        {# Date et contexte du commentaire #}
                                         {{ comment.date_commentaire|date("d/m/Y H:i") }}
                                         {% if comment.article_titre %}
                                             <br>Sur: <strong>{{ comment.article_titre|slice(0, 30) }}{% if comment.article_titre|length > 30 %}...{% endif %}</strong>
@@ -115,6 +210,11 @@
     </div>
 
     <!-- Navigation admin -->
+    {# 
+        Section navigation : Accès rapide aux principales fonctionnalités
+        Conformité EF-ADMIN-02 : Navigation claire vers toutes les sections
+        Positionnée en bas pour conclusion logique du tableau de bord
+    #}
     <div class="row mt-4">
         <div class="col-12">
             <div class="card">
@@ -122,10 +222,35 @@
                     <h5>Actions Administrateur</h5>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Groupe de boutons pour navigation principale
+                        Utilisation de d-grid et d-md-flex pour responsivité
+                        Chaque bouton avec une couleur sémantique différente
+                    #}
                     <div class="d-grid gap-2 d-md-flex">
+                        {# 
+                            Bouton Gérer les Articles
+                            Couleur primary (bleu) pour action principale
+                            Conformité EF-ARTICLE-01 : Accès à la gestion des articles
+                        #}
                         <a href="/3A2526-Blog/public/admin/articles" class="btn btn-primary">Gérer les Articles</a>
+                        {# 
+                            Bouton Modérer les Commentaires  
+                            Couleur warning (orange) pour action nécessitant attention
+                            Conformité EF-COMMENT-03 : Accès à la modération
+                        #}
                         <a href="/3A2526-Blog/public/admin/comments" class="btn btn-warning">Modérer les Commentaires</a>
+                        {# 
+                            Bouton Gérer les Utilisateurs
+                            Couleur info (bleu clair) pour gestion de communauté
+                            Conformité EF-ACL-01 : Accès à la gestion des utilisateurs
+                        #}
                         <a href="/3A2526-Blog/public/admin/users" class="btn btn-info">Gérer les Utilisateurs</a>
+                        {# 
+                            Bouton Gérer les Tags
+                            Couleur success (vert) pour action d'organisation
+                            Conformité EF-TAG-01 : Accès à la gestion des tags
+                        #}
                         <a href="/3A2526-Blog/public/admin/tags" class="btn btn-success">Gérer les Tags</a>
                     </div>
                 </div>

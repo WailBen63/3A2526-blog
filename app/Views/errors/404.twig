@@ -1,10 +1,61 @@
+{# templates/errors/404.twig #}
+{# 
+    Page d'erreur 404 - Interface de gestion des erreurs
+    Implémente une expérience utilisateur professionnelle pour les pages non trouvées
+    
+    Caractéristiques principales :
+    - Message d'erreur clair et informatif
+    - Design simple et non technique pour ne pas inquiéter l'utilisateur
+    - Lien de retour vers une page fonctionnelle
+    - Interface responsive et accessible
+    - Cohérence visuelle avec le reste de l'application
+    
+    @package Templates/Errors
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et responsive
+    @conformité Expérience Utilisateur : Gestion élégante des erreurs
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+    {# 
+        Conteneur centré pour toute la page
+        text-center : Alignement central de tous les éléments
+        Conformité UX : Focalisation sur le message d'erreur
+    #}
     <div class="text-center">
+        {# 
+            Code d'erreur 404 en grand format
+            display-1 : Classe Bootstrap pour typographie très grande
+            Visuellement distinctif mais non technique
+            Conformité UX : Identification rapide du type d'erreur
+        #}
         <h1 class="display-1">404</h1>
+        
+        {# 
+            Titre explicatif de l'erreur
+            mb-4 : Margin-bottom pour espacement avec le paragraphe suivant
+            Formulation simple et compréhensible par tous les utilisateurs
+            Conformité UX : Message clair et non technique
+        #}
         <h2 class="mb-4">Page non trouvée</h2>
+        
+        {# 
+            Description complémentaire de l'erreur
+            Formulation empathique pour ne pas frustrer l'utilisateur
+            Évite les détails techniques qui pourraient inquiéter
+            Conformité UX : Communication rassurante et utile
+        #}
         <p>Désolé, la page que vous cherchez n'existe pas.</p>
+        
+        {# 
+            Bouton de retour vers la page d'accueil
+            Action constructive pour aider l'utilisateur à continuer
+            Style primary (bleu) pour visibilité et action positive
+            Lien absolu pour éviter tout problème de routage
+            Conformité UX : Solution immédiate au problème
+        #}
         <a href="/3A2526-blog/public/" class="btn btn-primary">Retour à l'accueil</a>
     </div>
 {% endblock %}

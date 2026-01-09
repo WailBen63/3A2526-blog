@@ -880,3 +880,83 @@
 [2025-12-25 11:59:13] [INFO] Commentaire approuvé ID: 4
 [2025-12-25 11:59:17] [INFO] Commentaire rejeté ID: 4
 [2025-12-25 11:59:37] [INFO] Page d'accueil demandée.
+[2025-12-25 15:20:02] [INFO] Page d'accueil demandée.
+[2025-12-25 15:52:09] [INFO] Page d'accueil demandée.
+[2025-12-25 15:52:12] [INFO] Page d'accueil demandée.
+[2025-12-25 15:52:20] [INFO] Tableau de bord consulté par: AdminVTT
+[2025-12-25 16:04:23] [INFO] Tableau de bord consulté par: AdminVTT
+[2025-12-25 16:04:30] [INFO] Page d'accueil demandée.
+[2025-12-25 16:04:40] [INFO] Tableau de bord consulté par: AdminVTT
+[2025-12-25 16:45:28] [INFO] Tableau de bord consulté par: AdminVTT
+[2025-12-25 16:45:35] [INFO] Page d'accueil demandée.
+[2025-12-25 16:45:44] [INFO] Tableau de bord consulté par: AdminVTT
+[2025-12-25 17:33:12] [INFO] Tableau de bord consulté par: AdminVTT
+[2025-12-25 17:33:15] [INFO] Page d'accueil demandée.
+[2025-12-25 17:33:18] [INFO] Tableau de bord consulté par: AdminVTT
+[2025-12-25 17:53:43] [INFO] Page d'accueil demandée.
+[2025-12-25 17:53:47] [INFO] Tableau de bord consulté par: AdminVTT
+[2025-12-25 17:54:02] [INFO] Commentaire approuvé ID: 4
+[2025-12-25 17:54:04] [INFO] Commentaire rejeté ID: 4
+[2025-12-25 18:03:50] [INFO] Page d'accueil demandée.
+[2025-12-25 18:03:55] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-05 22:37:35] [INFO] Page d'accueil demandée.
+[2026-01-05 22:38:16] [WARNING] Tentative de connexion échouée: admin@vtt.com
+[2026-01-05 22:38:33] [WARNING] Tentative de connexion échouée: contributeur@vtt.com
+[2026-01-05 22:38:56] [WARNING] Tentative de connexion échouée: editeur@vtt.com
+[2026-01-05 22:39:00] [INFO] Page d'accueil demandée.
+[2026-01-05 22:39:21] [WARNING] Tentative de connexion échouée: admin@vtt.com
+[2026-01-05 22:41:16] [WARNING] Tentative de connexion échouée: editeur@vtt.com
+[2026-01-05 22:41:25] [WARNING] Tentative de connexion échouée: editeur@vtt.com
+[2026-01-05 22:42:23] [WARNING] Tentative de connexion échouée: admin@vtt.com
+[2026-01-05 22:42:38] [INFO] Connexion réussie: admin@vtt.com
+[2026-01-05 22:42:39] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-05 22:43:08] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-05 22:43:34] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-05 22:43:51] [INFO] Page d'accueil demandée.
+[2026-01-05 22:55:44] [INFO] Déconnexion: admin@vtt.com
+[2026-01-05 22:55:44] [INFO] Page d'accueil demandée.
+[2026-01-05 22:55:56] [INFO] Connexion réussie: editeur@vtt.com
+[2026-01-05 22:55:56] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-05 22:56:01] [INFO] Déconnexion: editeur@vtt.com
+[2026-01-05 22:56:01] [INFO] Page d'accueil demandée.
+[2026-01-05 22:56:15] [INFO] Connexion réussie: contributeur@vtt.com
+[2026-01-05 22:56:15] [INFO] Page d'accueil demandée.
+[2026-01-05 22:56:26] [INFO] Page d'accueil demandée.
+[2026-01-05 22:56:26] [INFO] Page d'accueil demandée.
+[2026-01-05 22:56:27] [INFO] Page d'accueil demandée.
+[2026-01-05 22:56:32] [INFO] Page d'accueil demandée.
+[2026-01-05 22:56:35] [INFO] Déconnexion: contributeur@vtt.com
+[2026-01-05 22:56:35] [INFO] Page d'accueil demandée.
+[2026-01-05 22:56:52] [INFO] Connexion réussie: editeur@vtt.com
+[2026-01-05 22:56:52] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-05 22:56:59] [INFO] Page d'accueil demandée.
+[2026-01-08 18:23:40] [INFO] Page d'accueil demandée.
+[2026-01-08 18:23:40] [INFO] Page d'accueil demandée.
+[2026-01-08 19:00:31] [INFO] Connexion réussie: editeur@vtt.com
+[2026-01-08 19:00:31] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:01:55] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:06:55] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:07:07] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:07:14] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:12:07] [INFO] Page d'accueil demandée.
+[2026-01-08 19:17:10] [INFO] Page d'accueil demandée.
+[2026-01-08 19:17:14] [INFO] Page d'accueil demandée.
+[2026-01-08 19:17:20] [INFO] Page d'accueil demandée.
+[2026-01-08 19:20:17] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:22:07] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:24:48] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:31:29] [INFO] Déconnexion: editeur@vtt.com
+[2026-01-08 19:31:29] [INFO] Page d'accueil demandée.
+[2026-01-08 19:31:29] [INFO] Déconnexion: 
+[2026-01-08 19:31:29] [INFO] Page d'accueil demandée.
+[2026-01-08 19:31:35] [INFO] Déconnexion: 
+[2026-01-08 19:31:35] [INFO] Page d'accueil demandée.
+[2026-01-08 19:31:38] [INFO] Connexion réussie: editeur@vtt.com
+[2026-01-08 19:31:39] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-08 19:33:09] [INFO] Page d'accueil demandée.
+[2026-01-08 19:35:39] [INFO] Page d'accueil demandée.
+[2026-01-08 19:35:45] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-09 14:57:14] [INFO] Page d'accueil demandée.
+[2026-01-09 14:59:57] [INFO] Connexion réussie: editeur@vtt.com
+[2026-01-09 14:59:58] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-09 15:17:19] [INFO] Tableau de bord consulté par: EditeurTrail

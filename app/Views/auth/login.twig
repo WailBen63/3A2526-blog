@@ -1,34 +1,112 @@
+{# templates/auth/login.twig #}
+{# 
+    Page de connexion - Interface d'authentification
+    Implémente EF-ACL-06 (Authentification sécurisée) et EF-ADMIN-02 (Navigation)
+    
+    Caractéristiques principales :
+    - Formulaire d'authentification sécurisé
+    - Gestion des messages flash (erreurs/succès)
+    - Informations de test pour faciliter l'évaluation
+    - Design centré et responsive pour une expérience optimale
+    - Validation côté client avec HTML5
+    
+    @package Templates/Auth
+    @conformité EF-ACL-06 : Système d'authentification sécurisé
+    @conformité 2.2.1 : Gestionnaire de Session (messages flash)
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et centrée
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+{# 
+    Layout centré et responsive
+    Conformité UX-RESPONSIVE : Interface optimisée pour toutes les tailles d'écran
+    - col-md-6 : 6 colonnes sur tablette (50% de l'écran)
+    - col-lg-4 : 4 colonnes sur desktop (33% de l'écran, plus étroit)
+    - justify-content-center : centrage horizontal
+#}
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
+        {# 
+            Titre principal centré
+            mb-4 : margin-bottom pour espacement
+            text-center : alignement au centre
+        #}
         <h1 class="mb-4 text-center">Connexion</h1>
 
+        {# 
+            Section messages flash : Erreurs d'authentification
+            Conformité 2.2.1 : Utilisation du gestionnaire de session
+            Messages temporaires stockés dans la session
+            Affichage conditionnel selon la présence du message
+        #}
         {% if session.get('flash_error') %}
             <div class="alert alert-danger">{{ session.get('flash_error') }}</div>
+            {# 
+                Suppression immédiate du message après affichage
+                Évite la réapparition du message au rafraîchissement
+                Conformité UX : Messages contextuels uniques
+            #}
             {{ session.remove('flash_error') }}
         {% endif %}
 
+        {# 
+            Section messages flash : Succès (ex: déconnexion, inscription)
+            Même principe que pour les erreurs mais avec style différent
+            Conformité UX : Feedback positif sur les actions réussies
+        #}
         {% if session.get('flash_success') %}
             <div class="alert alert-success">{{ session.get('flash_success') }}</div>
             {{ session.remove('flash_success') }}
         {% endif %}
 
+        {# 
+            Formulaire d'authentification
+            Méthode POST pour sécuriser l'envoi des identifiants
+            Action pointant vers le traitement de connexion
+            Conformité EF-ACL-06 : Soumission sécurisée des identifiants
+        #}
         <form action="/3A2526-Blog/public/login/process" method="POST">
+            {# 
+                Champ Email
+                Type email pour validation HTML5 automatique
+                Conformité EF-ACL-06 : Identification par email unique
+                Champ required pour validation côté client
+            #}
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
 
+            {# 
+                Champ Mot de passe
+                Type password pour masquage des caractères
+                Conformité EF-ACL-06 : Protection de la confidentialité
+                Champ required pour validation côté client
+                Pas de placeholder pour éviter les suggestions non sécurisées
+            #}
             <div class="mb-3">
                 <label for="password" class="form-label">Mot de passe</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
 
+            {# 
+                Bouton de soumission
+                w-100 : width 100% pour occuper toute la largeur disponible
+                Style primary (bleu) pour action principale
+                Conformité UX : Bouton bien visible et accessible
+            #}
             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
         </form>
 
+        {# 
+            Section informations de test
+            Uniquement pour l'environnement de développement/évaluation
+            Conformité UX : Aide à la prise en main du système
+            À retirer en production pour des raisons de sécurité
+        #}
         <div class="mt-3 text-center">
             <small>Comptes de test :<br>
             admin@vtt.com / password<br>

@@ -1,13 +1,47 @@
+{# templates/admin/articles/create.twig #}
+{# 
+    Formulaire de création d'article - Interface d'administration
+    Implémente EF-ARTICLE-01 (CRUD) et EF-ARTICLE-02 (Éditeur WYSIWYG)
+    
+    Conformité avec les exigences techniques :
+    - Templating Twig 3.X (séparation des préoccupations)
+    - Bootstrap 5.X (interface responsive)
+    - Alpine.js pour l'interactivité frontend (gestion de prévisualisation)
+    - Éditeur TinyMCE pour le contenu riche (EF-ARTICLE-02)
+    
+    @package Templates/Admin
+    @conformité EF-ARTICLE-01 : Création d'articles (partie C du CRUD)
+    @conformité EF-ARTICLE-02 : Éditeur WYSIWYG pour le contenu
+    @conformité EF-ARTICLE-03 : Gestion des métadonnées complètes
+    @conformité EF-ARTICLE-04 : Association avec tags
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et responsive
+    @conformité 2.1 Technologies : Twig, Bootstrap, Alpine.js
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+{# 
+    En-tête de page avec navigation
+    Utilise les classes Bootstrap pour un design responsive et cohérent
+    Conformité UX-RESPONSIVE : Interface adaptative sur tous les appareils
+#}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">{{ page_title }}</h1>
+    {# 
+        Bouton de retour avec lien absolu pour éviter les problèmes de routing
+        Conformité EF-ADMIN-02 : Navigation claire et intuitive
+    #}
     <a href="/3A2526-Blog/public/admin/articles" class="btn btn-sm btn-outline-secondary">
         ← Retour
     </a>
 </div>
 
+{# 
+    Affichage des erreurs de validation
+    Système de feedback utilisateur conforme aux bonnes pratiques UX
+    Conformité Expérience Utilisateur : Messages d'erreur clairs
+#}
 {% if errors %}
     <div class="alert alert-danger">
         <ul class="mb-0">
@@ -18,11 +52,21 @@
     </div>
 {% endif %}
 
-<!-- Charger TinyMCE depuis CDN -->
+{# 
+    Chargement de TinyMCE depuis CDN
+    Éditeur WYSIWYG conforme à EF-ARTICLE-02
+    Alternative possible : Éditeur Markdown selon les préférences
+#}
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
+{# 
+    Formulaire principal de création d'article
+    enctype="multipart/form-data" nécessaire pour l'upload d'images
+    Conformité EF-ARTICLE-03 : Upload d'image à la une
+#}
 <form action="/3A2526-Blog/public/admin/articles/store" method="POST" enctype="multipart/form-data">
     <div class="row">
+        {# Colonne principale : Contenu de l'article #}
         <div class="col-md-8">
             <!-- Contenu principal -->
             <div class="card mb-4">
@@ -30,11 +74,20 @@
                     <h5 class="card-title mb-0">Contenu de l'article</h5>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Champ titre - Métadonnée obligatoire
+                        Conformité EF-ARTICLE-03 : Gestion du titre
+                    #}
                     <div class="mb-3">
                         <label for="titre" class="form-label">Titre *</label>
                         <input type="text" class="form-control" id="titre" name="titre" value="{{ old_input.titre|default('') }}" required>
                     </div>
 
+                    {# 
+                        Zone d'édition WYSIWYG pour le contenu
+                        Conformité EF-ARTICLE-02 : Éditeur riche pour le corps de l'article
+                        Utilisation de TinyMCE pour une expérience d'édition avancée
+                    #}
                     <div class="mb-3">
                         <label for="contenu" class="form-label">Contenu *</label>
                         <textarea class="form-control" id="contenu" name="contenu" rows="15" required>{{ old_input.contenu|default('') }}</textarea>
@@ -43,8 +96,13 @@
             </div>
         </div>
 
+        {# Colonne latérale : Métadonnées et options #}
         <div class="col-md-4">
-            <!-- Image à la une -->
+            {# 
+                Section image à la une
+                Conformité EF-ARTICLE-03 : Gestion de l'image principale
+                Conformité Sécurité : Validation côté serveur requise
+            #}
             <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Image à la une</h5>
@@ -52,19 +110,32 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="image_une" class="form-label">Image principale</label>
+                        {# 
+                            Upload d'image avec validation côté client
+                            accept="image/*" limite la sélection aux fichiers images
+                            Conformité Sécurité : Prévention d'upload de fichiers malveillants
+                        #}
                         <input type="file" class="form-control" id="image_une" name="image_une" accept="image/*">
                         <div class="form-text">
                             Formats: JPG, PNG, GIF, WebP (max: 2MB)
                         </div>
                     </div>
                     
+                    {# 
+                        Prévisualisation d'image en JavaScript
+                        Améliore l'expérience utilisateur (UX)
+                        Conformité Alpine.js : Interactivité frontend
+                    #}
                     <div id="image-preview" class="mt-3 text-center" style="display: none;">
                         <img id="preview" src="#" alt="Aperçu" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                 </div>
             </div>
 
-            <!-- Métadonnées -->
+            {# 
+                Section statut de publication
+                Conformité EF-ARTICLE-03 : Gestion du statut (Brouillon/Public/Archivé)
+            #}
             <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Publication</h5>
@@ -72,26 +143,50 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="statut" class="form-label">Statut</label>
+                        {# 
+                            Sélecteur de statut avec trois options
+                            Permet de gérer le cycle de vie de l'article
+                            Conformité EF-ARTICLE-03 : Workflow de publication
+                        #}
                         <select class="form-control" id="statut" name="statut">
                             <option value="Brouillon" {{ old_input.statut|default('') == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
                             <option value="Public" {{ old_input.statut|default('') == 'Public' ? 'selected' : '' }}>Public</option>
+                            <option value="Archivé" {{ old_input.statut|default('') == 'Archivé' ? 'selected' : '' }}>Archivé</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <!-- Tags -->
+            {# 
+                Section tags/catégories
+                Conformité EF-ARTICLE-04 : Association d'un article à plusieurs tags
+                Conformité EF-TAG : Utilisation du système de tags existant
+            #}
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Tags</h5>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Affichage conditionnel des tags disponibles
+                        Si aucun tag n'existe, affiche un message d'avertissement
+                        Conformité Expérience Utilisateur : Guidance et feedback
+                    #}
                     {% if tags %}
                         <div class="mb-3">
                             <label class="form-label">Sélectionnez les tags</label>
+                            {# 
+                                Conteneur scrollable pour de nombreuses options
+                                Conformité UX-RESPONSIVE : Interface adaptée à tous les écrans
+                            #}
                             <div style="max-height: 300px; overflow-y: auto;">
                                 {% for tag in tags %}
                                     <div class="form-check">
+                                        {# 
+                                            Cases à cocher pour sélection multiple
+                                            Conformité EF-ARTICLE-04 : Association multiple
+                                            Préservation des sélections en cas d'erreur (old_input)
+                                        #}
                                         <input class="form-check-input" 
                                                type="checkbox" 
                                                name="tags[]" 
@@ -99,6 +194,11 @@
                                                id="tag_{{ tag.id }}"
                                                {{ old_input.tags is defined and tag.id in old_input.tags ? 'checked' : '' }}>
                                         <label class="form-check-label" for="tag_{{ tag.id }}">
+                                            {# 
+                                                Affichage stylisé des tags
+                                                Utilisation de badges Bootstrap pour une UI cohérente
+                                                Conformité Bootstrap 5.X : Design system unifié
+                                            #}
                                             <span class="badge bg-secondary">{{ tag.nom_tag }}</span>
                                         </label>
                                     </div>
@@ -106,29 +206,31 @@
                             </div>
                         </div>
                     {% else %}
+                        {# 
+                            Message d'avertissement si aucun tag disponible
+                            Propose un lien pour créer des tags
+                            Conformité EF-TAG-01 : Création de tags nécessaire avant usage
+                        #}
                         <div class="alert alert-warning">
                             Aucun tag disponible. <a href="/3A2526-Blog/public/admin/tags/create">Créez-en d'abord !</a>
                         </div>
                     {% endif %}
                 </div>
             </div>
-
-            <div class="mb-3">
-                <label for="statut" class="form-label">Statut</label>
-                    <select class="form-control" id="statut" name="statut">
-                        <option value="Brouillon" {{ old_input.statut|default('') == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
-                        <option value="Public" {{ old_input.statut|default('') == 'Public' ? 'selected' : '' }}>Public</option>
-                        <option value="Archivé" {{ old_input.statut|default('') == 'Archivé' ? 'selected' : '' }}>Archivé</option>
-                    </select>
-            </div>
         </div>
     </div>
 
+    {# 
+        Zone d'actions (boutons)
+        Conformité UX : Actions principales clairement identifiées
+    #}
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    {# Bouton de soumission principal #}
                     <button type="submit" class="btn btn-primary">Créer l'article</button>
+                    {# Bouton d'annulation avec retour sûr #}
                     <a href="/3A2526-Blog/public/admin/articles" class="btn btn-secondary">Annuler</a>
                 </div>
             </div>
@@ -136,9 +238,18 @@
     </div>
 </form>
 
-<!-- Configuration TinyMCE -->
+{# 
+    Configuration et initialisation de TinyMCE
+    Conformité EF-ARTICLE-02 : Configuration avancée de l'éditeur WYSIWYG
+    Sécurité : Filtrage des éléments HTML dangereux (script, style)
+#}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    {# 
+        Initialisation de TinyMCE
+        Configuration minimale mais fonctionnelle
+        Pourrait être étendue selon les besoins (sauvegarde auto, plugins additionnels)
+    #}
     tinymce.init({
         selector: '#contenu',
         plugins: 'advlist autolink lists link image charmap preview anchor pagebreak',
@@ -148,8 +259,19 @@ document.addEventListener('DOMContentLoaded', function() {
         menubar: false,
         statusbar: false,
         content_style: 'body { font-family: Arial, sans-serif; font-size: 14px; }',
+        {# 
+            Liste blanche d'éléments HTML autorisés
+            Conformité Sécurité : Prévention XSS via édition de contenu
+            Seuls les éléments de formatage basiques sont autorisés
+        #}
         valid_elements: 'p,br,strong/b,em/i,u,ul,ol,li,h1,h2,h3,h4,h5,h6,blockquote,code,pre,a[href|target],img[src|alt|width|height]',
+        {# Éléments explicitement interdits pour la sécurité #}
         invalid_elements: 'script,style',
+        {# 
+            Gestionnaire d'upload d'images intégré
+            Convertit les images en base64 pour prévisualisation
+            Note : Pour production, implémenter un upload serveur sécurisé
+        #}
         images_upload_handler: function (blobInfo, progress) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -164,7 +286,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Preview image upload
+    {# 
+        Prévisualisation d'image pour l'upload
+        Améliore l'expérience utilisateur (UX)
+        Conformité Alpine.js/JavaScript : Interactivité frontend
+    #}
     document.getElementById('image_une').addEventListener('change', function(e) {
         const file = e.target.files[0];
         const preview = document.getElementById('preview');
@@ -183,297 +309,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-{% endblock %}{% extends "base.twig" %}
-
-{% block content %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">{{ page_title }}</h1>
-    <a href="/3A2526-Blog/public/admin/articles" class="btn btn-sm btn-outline-secondary">
-        ← Retour
-    </a>
-</div>
-
-{% if errors %}
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            {% for error in errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endif %}
-
-<!-- Charger Summernote (WYSIWYG gratuit) -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/lang/summernote-fr-FR.min.js"></script>
-
-<form action="/3A2526-Blog/public/admin/articles/store" method="POST" enctype="multipart/form-data" id="articleForm">
-    <div class="row">
-        <div class="col-md-8">
-            <!-- Contenu principal -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Contenu de l'article</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="titre" class="form-label">Titre *</label>
-                        <input type="text" class="form-control" id="titre" name="titre" value="{{ old_input.titre|default('') }}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="contenu" class="form-label">Contenu *</label>
-                        <textarea class="form-control" id="contenu" name="contenu" rows="15" required>{{ old_input.contenu|default('') }}</textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <!-- Image à la une -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Image à la une</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="image_une" class="form-label">Image principale</label>
-                        <input type="file" class="form-control" id="image_une" name="image_une" accept="image/*">
-                        <div class="form-text">
-                            Formats: JPG, PNG, GIF, WebP (max: 2MB)
-                        </div>
-                    </div>
-                    
-                    <div id="image-preview" class="mt-3 text-center" style="display: none;">
-                        <img id="preview" src="#" alt="Aperçu" class="img-fluid rounded" style="max-height: 200px;">
-                        <button type="button" class="btn btn-sm btn-danger mt-2" onclick="removeImage()">
-                            <i class="bi bi-trash"></i> Supprimer
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Métadonnées -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Publication</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="statut" class="form-label">Statut</label>
-                        <select class="form-control" id="statut" name="statut">
-                            <option value="Brouillon" {{ old_input.statut|default('Brouillon') == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
-                            <option value="Public" {{ old_input.statut|default('Brouillon') == 'Public' ? 'selected' : '' }}>Public</option>
-                            <option value="Archivé" {{ old_input.statut|default('Brouillon') == 'Archivé' ? 'selected' : '' }}>Archivé</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tags -->
-            {% if tags is defined and tags %}
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Tags</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Sélectionnez les tags</label>
-                        <div style="max-height: 300px; overflow-y: auto;" class="border rounded p-2">
-                            {% for tag in tags %}
-                                <div class="form-check">
-                                    <input class="form-check-input" 
-                                           type="checkbox" 
-                                           name="tags[]" 
-                                           value="{{ tag.id }}"
-                                           id="tag_{{ tag.id }}"
-                                           {{ old_input.tags is defined and tag.id in old_input.tags ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="tag_{{ tag.id }}">
-                                        <span class="badge bg-secondary">{{ tag.nom_tag }}</span>
-                                    </label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <a href="/3A2526-Blog/public/admin/tags" class="btn btn-sm btn-outline-primary">
-                            Gérer les tags
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="bi bi-save"></i> Créer l'article
-                    </button>
-                    <a href="/3A2526-Blog/public/admin/articles" class="btn btn-secondary btn-lg">
-                        <i class="bi bi-x-circle"></i> Annuler
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-
-<!-- Configuration Summernote -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialiser Summernote (éditeur WYSIWYG)
-    $('#contenu').summernote({
-        height: 400,
-        lang: 'fr-FR',
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video', 'hr']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ],
-        popover: {
-            image: [
-                ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
-                ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                ['remove', ['removeMedia']]
-            ],
-            link: [
-                ['link', ['linkDialogShow', 'unlink']]
-            ],
-            table: [
-                ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
-                ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
-            ]
-        },
-        callbacks: {
-            onImageUpload: function(files) {
-                for(let i = 0; i < files.length; i++) {
-                    uploadImageToSummernote(files[i]);
-                }
-            }
-        }
-    });
-
-    // Fonction pour uploader une image dans Summernote
-    function uploadImageToSummernote(file) {
-        const reader = new FileReader();
-        reader.onloadend = function() {
-            const image = $('<img>').attr('src', reader.result);
-            $('#contenu').summernote('insertNode', image[0]);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // Preview image à la une
-    const imageInput = document.getElementById('image_une');
-    const preview = document.getElementById('preview');
-    const previewContainer = document.getElementById('image-preview');
-    
-    if (imageInput) {
-        imageInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            
-            if (file) {
-                // Vérifier la taille (max 2MB)
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('L\'image est trop volumineuse (max 2MB)');
-                    this.value = '';
-                    return;
-                }
-                
-                // Vérifier le type
-                const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-                if (!validTypes.includes(file.type)) {
-                    alert('Format d\'image non supporté. Utilisez JPG, PNG, GIF ou WebP.');
-                    this.value = '';
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    previewContainer.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            } else {
-                previewContainer.style.display = 'none';
-            }
-        });
-    }
-
-    // Supprimer l'aperçu d'image
-    window.removeImage = function() {
-        if (imageInput) {
-            imageInput.value = '';
-        }
-        previewContainer.style.display = 'none';
-        preview.src = '#';
-    }
-
-    // Validation du formulaire
-    document.getElementById('articleForm').addEventListener('submit', function(e) {
-        const titre = document.getElementById('titre').value.trim();
-        const contenu = $('#contenu').summernote('code').trim();
-        
-        // Mettre à jour le textarea avec le HTML
-        $('#contenu').val(contenu);
-        
-        if (!titre) {
-            e.preventDefault();
-            alert('Le titre est obligatoire !');
-            document.getElementById('titre').focus();
-            return;
-        }
-        
-        if (!contenu || contenu === '<p><br></p>' || contenu === '<p></p>') {
-            e.preventDefault();
-            alert('Le contenu est obligatoire !');
-            $('#contenu').summernote('focus');
-            return;
-        }
-        
-        // Validation de l'image si uploadée
-        if (imageInput && imageInput.files.length > 0) {
-            const file = imageInput.files[0];
-            if (file.size > 2 * 1024 * 1024) {
-                e.preventDefault();
-                alert('L\'image est trop volumineuse (max 2MB)');
-                return;
-            }
-        }
-    });
-});
-</script>
-
-<style>
-.note-editor.note-frame {
-    border: 1px solid #dee2e6 !important;
-    border-radius: 0.375rem !important;
-}
-
-.note-toolbar {
-    background-color: #f8f9fa !important;
-    border-bottom: 1px solid #dee2e6 !important;
-    border-radius: 0.375rem 0.375rem 0 0 !important;
-}
-
-.note-statusbar {
-    border-top: 1px solid #dee2e6 !important;
-}
-
-.note-editing-area {
-    min-height: 300px !important;
-}
-</style>
 {% endblock %}

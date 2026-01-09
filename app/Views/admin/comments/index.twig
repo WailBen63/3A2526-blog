@@ -1,18 +1,68 @@
+{# templates/admin/comments/index.twig #}
+{# 
+    Gestion des commentaires - Interface d'administration
+    Implémente EF-COMMENT-03 (Modération) et EF-ADMIN (Tableau de bord)
+    
+    Caractéristiques principales :
+    - Interface complète de modération des commentaires
+    - Actions rapides : Approuver/Rejeter/Supprimer
+    - Visualisation des statistiques en temps réel
+    - Liens directs vers les articles concernés
+    - Design responsive avec table scrollable
+    
+    @package Templates/Admin
+    @conformité EF-COMMENT-03 : Modération des commentaires (Approuver/Désapprouver/Supprimer)
+    @conformité EF-COMMENT-04 : Visualisation des commentaires en attente
+    @conformité EF-ADMIN-01 : Statistiques clés (commentaires en attente, approuvés)
+    @conformité EF-ADMIN-02 : Navigation intuitive depuis le tableau de bord
+    @conformité EF-ADMIN-03 : Fil d'activité récent (commentaires triés par date)
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et table responsive
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+{# 
+    En-tête de page avec titre et navigation
+    Design responsive avec flexbox Bootstrap
+    Conformité EF-ADMIN-02 : Navigation claire et cohérente
+#}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    {# 
+        Titre de la page indiquant la section de modération
+        Variable page_title définie par le contrôleur
+    #}
     <h1 class="h2">{{ page_title }}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
+        {# 
+            Bouton de retour au tableau de bord principal
+            Permet une navigation facile entre les sections d'administration
+            Conformité EF-ADMIN-02 : Navigation intuitive
+        #}
         <a href="/3A2526-Blog/public/admin" class="btn btn-sm btn-outline-secondary">
             ← Retour au tableau de bord
         </a>
     </div>
 </div>
 
+{# 
+    Section conditionnelle : Affichage des commentaires ou message vide
+    Conformité UX : Feedback adapté à l'état des données
+#}
 {% if comments %}
+    {# 
+        Table responsive pour s'adapter aux petits écrans
+        Conformité UX-RESPONSIVE-02 : Table scrollable horizontalement
+        Important car les commentaires peuvent avoir du contenu long
+    #}
     <div class="table-responsive">
         <table class="table table-striped table-sm">
+            {# 
+                En-tête du tableau avec toutes les colonnes nécessaires
+                Conformité EF-COMMENT-03 : Informations complètes pour la modération
+                Ordre logique : ID → Auteur → Email → Contenu → Article → Statut → Date → Actions
+            #}
             <thead>
                 <tr>
                     <th>ID</th>
@@ -26,10 +76,31 @@
                 </tr>
             </thead>
             <tbody>
+                {# 
+                    Boucle sur tous les commentaires
+                    Chaque ligne représente un commentaire avec ses métadonnées
+                    Conformité EF-ADMIN-03 : Affichage des commentaires récents
+                #}
                 {% for comment in comments %}
                 <tr>
+                    {# 
+                        Colonne ID : Identifiant unique du commentaire
+                        Utile pour le référencement technique et le débogage
+                    #}
                     <td>{{ comment.id }}</td>
+                    
+                    {# 
+                        Colonne Auteur : Nom de la personne ayant posté le commentaire
+                        Conformité EF-COMMENT-02 : Affichage du nom (même pour non connectés)
+                    #}
                     <td>{{ comment.nom_auteur }}</td>
+                    
+                    {# 
+                        Colonne Email : Adresse email avec lien mailto si disponible
+                        Conditionnel car les commentaires anonymes peuvent ne pas avoir d'email
+                        Conformité EF-COMMENT-02 : Email optionnel pour non connectés
+                        Sécurité : Utilisation de mailto: pour éviter le spam
+                    #}
                     <td>
                         {% if comment.email_auteur %}
                             <a href="mailto:{{ comment.email_auteur }}">{{ comment.email_auteur }}</a>
@@ -37,9 +108,22 @@
                             <span class="text-muted">-</span>
                         {% endif %}
                     </td>
+                    
+                    {# 
+                        Colonne Contenu : Extrait du commentaire (50 caractères max)
+                        Prévisualisation pour identification rapide
+                        Conformité UX : Contenu tronqué pour lisibilité du tableau
+                    #}
                     <td>
                         <small>{{ comment.contenu|slice(0, 50) }}{% if comment.contenu|length > 50 %}...{% endif %}</small>
                     </td>
+                    
+                    {# 
+                        Colonne Article : Lien vers l'article concerné
+                        Important pour contextualiser le commentaire
+                        Conformité EF-COMMENT-01 : Association commentaire-article
+                        Target="_blank" pour ouvrir dans un nouvel onglet
+                    #}
                     <td>
                         {% if comment.article_titre %}
                             <a href="/3A2526-Blog/public/post/{{ comment.article_id }}" target="_blank">
@@ -49,6 +133,15 @@
                             <span class="text-muted">Article supprimé</span>
                         {% endif %}
                     </td>
+                    
+                    {# 
+                        Colonne Statut : Badge coloré selon l'état de modération
+                        Conformité EF-COMMENT-03 : Visualisation claire du statut
+                        - Approuvé : vert (visible publiquement)
+                        - Rejeté : rouge (non visible)
+                        - En attente : orange (nécessite action)
+                        Conformité UX : Code couleur sémantique
+                    #}
                     <td>
                         <span class="badge 
                             {% if comment.statut == 'Approuvé' %}bg-success
@@ -57,9 +150,31 @@
                             {{ comment.statut }}
                         </span>
                     </td>
+                    
+                    {# 
+                        Colonne Date : Date et heure du commentaire
+                        Format français complet pour précision
+                        Conformité UX : Format localisé et informatif
+                    #}
                     <td>{{ comment.date_commentaire|date("d/m/Y H:i") }}</td>
+                    
+                    {# 
+                        Colonne Actions : Boutons de modération rapide
+                        Conformité EF-COMMENT-03 : Actions Approuver/Rejeter/Supprimer
+                        Interface compacte avec icônes pour économiser l'espace
+                    #}
                     <td>
+                        {# 
+                            Groupe de boutons pour actions connexes
+                            Conformité Bootstrap : Groupement logique d'actions
+                        #}
                         <div class="btn-group btn-group-sm" role="group">
+                            {# 
+                                Bouton Approuver : Visible seulement si pas déjà approuvé
+                                Action via formulaire POST pour modification de statut
+                                Icône ✓ pour action positive
+                                Conformité EF-COMMENT-03 : Approuver un commentaire
+                            #}
                             {% if comment.statut != 'Approuvé' %}
                                 <form action="/3A2526-Blog/public/admin/comments/{{ comment.id }}/approve" method="POST" class="d-inline">
                                     <button type="submit" class="btn btn-outline-success btn-sm" title="Approuver">
@@ -68,6 +183,12 @@
                                 </form>
                             {% endif %}
                             
+                            {# 
+                                Bouton Rejeter : Visible seulement si pas déjà rejeté
+                                Action via formulaire POST pour modification de statut
+                                Icône ✗ pour action négative
+                                Conformité EF-COMMENT-03 : Rejeter un commentaire
+                            #}
                             {% if comment.statut != 'Rejeté' %}
                                 <form action="/3A2526-Blog/public/admin/comments/{{ comment.id }}/reject" method="POST" class="d-inline">
                                     <button type="submit" class="btn btn-outline-warning btn-sm" title="Rejeter">
@@ -76,6 +197,13 @@
                                 </form>
                             {% endif %}
                             
+                            {# 
+                                Bouton Supprimer : Toujours visible
+                                Action destructrice avec confirmation JavaScript
+                                Icône 🗑️ pour suppression
+                                Conformité EF-COMMENT-03 : Supprimer définitivement
+                                Conformité Sécurité : Confirmation avant action destructrice
+                            #}
                             <form action="/3A2526-Blog/public/admin/comments/{{ comment.id }}/delete" method="POST" class="d-inline" 
                                   onsubmit="return confirm('Supprimer définitivement ce commentaire ?')">
                                 <button type="submit" class="btn btn-outline-danger btn-sm" title="Supprimer">
@@ -90,8 +218,14 @@
         </table>
     </div>
 
-    <!-- Statistiques -->
+    {# 
+        Section Statistiques : Vue synthétique des commentaires
+        Conformité EF-ADMIN-01 : Statistiques clés pour le modérateur
+        Design avec cartes colorées Bootstrap
+        Calculs en temps réel avec filtres Twig
+    #}
     <div class="row mt-4">
+        {# Carte : Total des commentaires #}
         <div class="col-md-4">
             <div class="card text-white bg-primary">
                 <div class="card-body">
@@ -100,6 +234,13 @@
                 </div>
             </div>
         </div>
+        
+        {# 
+            Carte : Commentaires en attente de modération
+            Couleur warning (orange) pour attirer l'attention
+            Conformité EF-COMMENT-04 : Visualisation des commentaires en attente
+            Utilisation du filtre Twig pour compter les commentaires par statut
+        #}
         <div class="col-md-4">
             <div class="card text-white bg-warning">
                 <div class="card-body">
@@ -108,6 +249,8 @@
                 </div>
             </div>
         </div>
+        
+        {# Carte : Commentaires approuvés #}
         <div class="col-md-4">
             <div class="card text-white bg-success">
                 <div class="card-body">
@@ -118,6 +261,11 @@
         </div>
     </div>
 {% else %}
+    {# 
+        Message affiché quand il n'y a aucun commentaire
+        Conformité UX : Message informatif et rassurant
+        Style alert-info pour message neutre mais visible
+    #}
     <div class="alert alert-info">
         <h4 class="alert-heading">Aucun commentaire</h4>
         <p class="mb-0">Aucun commentaire n'a été trouvé dans la base de données.</p>

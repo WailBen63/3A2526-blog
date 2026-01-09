@@ -1,13 +1,44 @@
+{# templates/admin/articles/edit.twig #}
+{# 
+    Formulaire d'édition d'article - Interface d'administration
+    Implémente EF-ARTICLE-01 (Mise à jour) et EF-ARTICLE-02 (Éditeur WYSIWYG)
+    
+    Spécificités de l'édition vs création :
+    - Pré-remplissage des champs avec les données existantes
+    - Gestion de l'image existante (affichage/suppression)
+    - Préservation des associations de tags
+    - Affichage du slug généré (lecture seule)
+    
+    @package Templates/Admin
+    @conformité EF-ARTICLE-01 : Mise à jour d'articles (partie U du CRUD)
+    @conformité EF-ARTICLE-02 : Éditeur WYSIWYG avec contenu existant
+    @conformité EF-ARTICLE-03 : Gestion complète des métadonnées
+    @conformité EF-ARTICLE-04 : Édition des associations de tags
+    @conformité UX-RESPONSIVE : Interface adaptative Bootstrap
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X, TinyMCE
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+{# 
+    En-tête de page avec titre et navigation
+    Conformité EF-ADMIN-02 : Navigation cohérente dans l'administration
+    Design responsive avec flexbox Bootstrap
+#}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">{{ page_title }}</h1>
+    {# Bouton de retour vers la liste des articles #}
     <a href="/3A2526-Blog/public/admin/articles" class="btn btn-sm btn-outline-secondary">
         ← Retour
     </a>
 </div>
 
+{# 
+    Affichage des erreurs de validation du formulaire
+    Système de feedback utilisateur pour une expérience optimale
+    Conformité Expérience Utilisateur : Messages d'erreur contextuels
+#}
 {% if errors %}
     <div class="alert alert-danger">
         <ul class="mb-0">
@@ -18,11 +49,21 @@
     </div>
 {% endif %}
 
-<!-- Charger TinyMCE depuis CDN -->
+{# 
+    Chargement de l'éditeur TinyMCE depuis CDN
+    Conformité EF-ARTICLE-02 : Éditeur WYSIWYG pour contenu riche
+    Alternative : Pourrait être chargé localement pour plus de contrôle
+#}
 <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
+{# 
+    Formulaire d'édition avec méthode POST et upload de fichiers
+    L'URL inclut l'ID de l'article pour routing correct
+    Conformité EF-ARTICLE-01 : Mise à jour d'article spécifique
+#}
 <form action="/3A2526-Blog/public/admin/articles/{{ article.id }}/update" method="POST" enctype="multipart/form-data">
     <div class="row">
+        {# Colonne principale (2/3 de l'écran) pour le contenu #}
         <div class="col-md-8">
             <!-- Contenu principal -->
             <div class="card mb-4">
@@ -30,11 +71,21 @@
                     <h5 class="card-title mb-0">Contenu de l'article</h5>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Champ titre pré-rempli avec la valeur existante
+                        Conformité EF-ARTICLE-03 : Édition du titre
+                        Champ obligatoire avec validation HTML5
+                    #}
                     <div class="mb-3">
                         <label for="titre" class="form-label">Titre *</label>
                         <input type="text" class="form-control" id="titre" name="titre" value="{{ article.titre }}" required>
                     </div>
 
+                    {# 
+                        Zone d'édition WYSIWYG avec contenu existant
+                        Conformité EF-ARTICLE-02 : Éditeur riche pré-rempli
+                        Hauteur définie pour une bonne expérience d'édition
+                    #}
                     <div class="mb-3">
                         <label for="contenu" class="form-label">Contenu *</label>
                         <textarea class="form-control" id="contenu" name="contenu" rows="15" required>{{ article.contenu }}</textarea>
@@ -43,19 +94,42 @@
             </div>
         </div>
 
+        {# Colonne latérale (1/3 de l'écran) pour les métadonnées #}
         <div class="col-md-4">
-            <!-- Image à la une -->
+            {# 
+                Section image à la une avec gestion avancée
+                Différences avec le formulaire de création :
+                - Affichage de l'image existante
+                - Option de suppression
+                - Option de remplacement
+                Conformité EF-ARTICLE-03 : Gestion complète des images
+            #}
             <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Image à la une</h5>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Affichage conditionnel de l'image existante
+                        Si l'article a déjà une image, on l'affiche avec option de suppression
+                        Conformité UX : Visualisation avant action
+                    #}
                     {% if article.image_une %}
                         <div class="mb-3 text-center">
+                            {# 
+                                Affichage de l'image actuelle avec chemin absolu
+                                Conformité Sécurité : Utilisation du chemin public
+                                Taille limitée pour ne pas surcharger l'interface
+                            #}
                             <img src="/3A2526-Blog/public/uploads/articles/{{ article.image_une }}" 
                                  alt="Image actuelle" 
                                  class="img-fluid rounded mb-2" 
                                  style="max-height: 200px;">
+                            {# 
+                                Option de suppression de l'image existante
+                                Case à cocher plutôt que bouton pour action réversible
+                                Conformité UX : Confirmation implicite par soumission
+                            #}
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="delete_image" id="delete_image">
                                 <label class="form-check-label text-danger" for="delete_image">
@@ -66,6 +140,12 @@
                         <hr>
                     {% endif %}
                     
+                    {# 
+                        Champ d'upload d'image avec libellé conditionnel
+                        Si image existante : "Changer l'image"
+                        Sinon : "Image principale"
+                        Conformité UX : Messages contextuels
+                    #}
                     <div class="mb-3">
                         <label for="image_une" class="form-label">
                             {% if article.image_une %}Changer l'image{% else %}Image principale{% endif %}
@@ -76,13 +156,22 @@
                         </div>
                     </div>
                     
+                    {# 
+                        Zone de prévisualisation pour la nouvelle image
+                        S'affiche uniquement quand une image est sélectionnée
+                        Conformité UX : Feedback immédiat des actions utilisateur
+                    #}
                     <div id="image-preview" class="mt-3 text-center" style="display: none;">
                         <img id="preview" src="#" alt="Aperçu" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                 </div>
             </div>
 
-            <!-- Métadonnées -->
+            {# 
+                Section métadonnées de publication
+                Inclut statut et slug (lecture seule)
+                Conformité EF-ARTICLE-03 : Gestion des métadonnées
+            #}
             <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Publication</h5>
@@ -90,12 +179,23 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="statut" class="form-label">Statut</label>
+                        {# 
+                            Sélecteur de statut pré-sélectionné selon valeur existante
+                            Trois statuts conformes au modèle de données
+                            Conformité EF-ARTICLE-03 : Workflow de publication complet
+                        #}
                         <select class="form-control" id="statut" name="statut">
                             <option value="Brouillon" {{ article.statut == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
                             <option value="Public" {{ article.statut == 'Public' ? 'selected' : '' }}>Public</option>
+                            <option value="Archivé" {{ article.statut == 'Archivé' ? 'selected' : '' }}>Archivé</option>
                         </select>
                     </div>
                     
+                    {# 
+                        Champ slug en lecture seule
+                        Généré automatiquement à partir du titre
+                        Conformité EF-ARTICLE-03 : Gestion des slugs pour URLs
+                    #}
                     <div class="mb-3">
                         <label class="form-label">Slug</label>
                         <input type="text" class="form-control" value="{{ article.slug }}" readonly>
@@ -104,16 +204,33 @@
                 </div>
             </div>
 
-            <!-- Tags -->
+            {# 
+                Section tags avec présélection des tags actuels
+                Conformité EF-ARTICLE-04 : Édition des associations de tags
+                Interface identique à la création mais avec cases pré-cochées
+            #}
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Tags</h5>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Affichage conditionnel : tags disponibles ou message d'avertissement
+                        Conformité UX : Guidance lorsque les tags manquent
+                    #}
                     {% if tags %}
                         <div class="mb-3">
                             <label class="form-label">Sélectionnez les tags</label>
+                            {# 
+                                Conteneur scrollable pour de nombreux tags
+                                Conformité UX-RESPONSIVE : Adaptation à l'espace disponible
+                            #}
                             <div style="max-height: 300px; overflow-y: auto;">
+                                {# 
+                                    Boucle sur tous les tags disponibles
+                                    Cases pré-cochées si le tag est déjà associé à l'article
+                                    Conformité EF-ARTICLE-04 : Préservation des associations
+                                #}
                                 {% for tag in tags %}
                                     <div class="form-check">
                                         <input class="form-check-input" 
@@ -121,10 +238,19 @@
                                                name="tags[]" 
                                                value="{{ tag.id }}"
                                                id="tag_{{ tag.id }}"
+                                               {# 
+                                                   Vérification si le tag est déjà associé
+                                                   Boucle sur articleTags (tags actuels de l'article)
+                                                   Conformité Twig : Logique de template simple
+                                               #}
                                                {% for articleTag in articleTags %}
                                                    {% if tag.id == articleTag.id %}checked{% endif %}
                                                {% endfor %}>
                                         <label class="form-check-label" for="tag_{{ tag.id }}">
+                                            {# 
+                                                Affichage stylisé des tags avec badges Bootstrap
+                                                Conformité Bootstrap 5.X : Design system cohérent
+                                            #}
                                             <span class="badge bg-secondary">{{ tag.nom_tag }}</span>
                                         </label>
                                     </div>
@@ -132,6 +258,11 @@
                             </div>
                         </div>
                     {% else %}
+                        {# 
+                            Message d'avertissement si aucun tag disponible
+                            Lien vers la création de tags pour résoudre le problème
+                            Conformité EF-TAG-01 : Création de tags accessible
+                        #}
                         <div class="alert alert-warning">
                             Aucun tag disponible. <a href="/3A2526-Blog/public/admin/tags/create">Créez-en d'abord !</a>
                         </div>
@@ -141,6 +272,11 @@
         </div>
     </div>
 
+    {# 
+        Zone d'actions (boutons de soumission)
+        Positionnée en bas pour être accessible après remplissage
+        Conformité UX : Actions principales bien visibles
+    #}
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -151,20 +287,21 @@
             </div>
         </div>
     </div>
-
-    <div class="mb-3">
-        <label for="statut" class="form-label">Statut</label>
-            <select class="form-control" id="statut" name="statut">
-                <option value="Brouillon" {{ article.statut == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
-                <option value="Public" {{ article.statut == 'Public' ? 'selected' : '' }}>Public</option>
-                <option value="Archivé" {{ article.statut == 'Archivé' ? 'selected' : '' }}>Archivé</option>
-            </select>
-    </div>
 </form>
 
-<!-- Configuration TinyMCE -->
+{# 
+    Configuration et initialisation JavaScript
+    Conformité EF-ARTICLE-02 : Éditeur WYSIWYG configuré
+    Sécurité : Filtrage des éléments HTML dangereux
+    UX : Prévisualisation d'images
+#}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    {# 
+        Initialisation de TinyMCE avec configuration identique au formulaire de création
+        Pourrait être externalisée dans un fichier JS pour éviter la duplication
+        Conformité EF-ARTICLE-02 : Expérience d'édition cohérente
+    #}
     tinymce.init({
         selector: '#contenu',
         plugins: 'advlist autolink lists link image charmap preview anchor pagebreak',
@@ -174,8 +311,18 @@ document.addEventListener('DOMContentLoaded', function() {
         menubar: false,
         statusbar: false,
         content_style: 'body { font-family: Arial, sans-serif; font-size: 14px; }',
+        {# 
+            Liste blanche d'éléments HTML autorisés
+            Conformité Sécurité : Prévention des attaques XSS via contenu
+            Même configuration que le formulaire de création pour cohérence
+        #}
         valid_elements: 'p,br,strong/b,em/i,u,ul,ol,li,h1,h2,h3,h4,h5,h6,blockquote,code,pre,a[href|target],img[src|alt|width|height]',
         invalid_elements: 'script,style',
+        {# 
+            Gestionnaire d'upload d'images intégré à TinyMCE
+            Convertit en base64 pour prévisualisation immédiate
+            Pour production : implémenter un upload serveur sécurisé
+        #}
         images_upload_handler: function (blobInfo, progress) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -190,7 +337,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Preview image upload
+    {# 
+        Gestion de la prévisualisation d'image pour l'upload
+        Fonctionnalité identique au formulaire de création
+        Conformité UX : Feedback visuel immédiat
+    #}
     document.getElementById('image_une').addEventListener('change', function(e) {
         const file = e.target.files[0];
         const preview = document.getElementById('preview');

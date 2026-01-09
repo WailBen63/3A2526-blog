@@ -1,29 +1,90 @@
+{# templates/contact.twig #}
+{# 
+    Page de contact - Formulaire de communication avec les administrateurs
+    Implémente une interface de contact professionnelle avec validation
+    
+    Caractéristiques principales :
+    - Formulaire de contact avec validation côté client et serveur
+    - Préservation des données en cas d'erreur de validation
+    - Messages de feedback clairs (succès/erreurs)
+    - Design responsive et accessible
+    - Intégration avec le système de gestion du blog
+    
+    @package Templates/Public
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et responsive
+    @conformité Expérience Utilisateur : Formulaire intuitif avec validation
+    @conformité Sécurité : Protection contre les attaques (validation, échappement)
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+    {# 
+        Titre principal de la page
+        mb-4 : Margin-bottom pour espacement avec le contenu
+        Variable page_title définie par le contrôleur
+        Conformité UX : Hiérarchie claire des titres
+    #}
     <h1 class="mb-4">{{ page_title }}</h1>
 
+    {# 
+        Message de succès après envoi réussi du formulaire
+        Affiché conditionnellement seulement après un envoi réussi
+        Conformité UX : Feedback positif pour confirmer l'action
+    #}
     {% if success_message %}
         <div class="alert alert-success" role="alert">
             {{ success_message }}
         </div>
     {% endif %}
 
+    {# 
+        Conteneur principal centré
+        justify-content-center : Centrage horizontal
+        col-lg-7 : Largeur de 7 colonnes sur 12 sur desktop (environ 58%)
+        Conformité UX-RESPONSIVE : Adaptation sur tous les écrans
+    #}
     <div class="row justify-content-center">
         <div class="col-lg-7">
+            {# 
+                Introduction au formulaire
+                Message d'accueil et d'explication
+                Conformité UX : Guidage de l'utilisateur
+            #}
             <p>Vous avez des questions ? Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
             
+            {# 
+                Formulaire de contact
+                Méthode POST pour soumission sécurisée
+                novalidate : Désactive la validation HTML5 pour un contrôle personnalisé
+                Action pointant vers le même URL (traitement en place)
+                Conformité Sécurité : Protection CSRF à ajouter (token manquant)
+            #}
             <form action="/3A2526-Blog/public/contact" method="POST" novalidate>
                 
                 {# Champ Nom #}
                 <div class="mb-3">
                     <label for="name" class="form-label">Nom</label>
+                    {# 
+                        Champ texte avec validation conditionnelle
+                        Classe is-invalid ajoutée si erreur de validation
+                        Valeur préservée via old_input en cas d'erreur
+                        required pour validation côté client
+                        Conformité UX : Préservation des données en cas d'erreur
+                    #}
                     <input type="text" 
                            class="form-control {% if errors.name %}is-invalid{% endif %}" 
                            id="name" 
                            name="name" 
                            value="{{ old_input.name|default('') }}" 
                            required>
+                    {# 
+                        Message d'erreur conditionnel
+                        Affiché seulement si une erreur existe pour ce champ
+                        Classe invalid-feedback de Bootstrap pour styling
+                        Conformité UX : Feedback précis sur l'erreur
+                    #}
                     {% if errors.name %}
                         <div class="invalid-feedback">{{ errors.name }}</div>
                     {% endif %}
@@ -32,6 +93,12 @@
                 {# Champ Email #}
                 <div class="mb-3">
                     <label for="email" class="form-label">Adresse Email</label>
+                    {# 
+                        Champ email avec validation HTML5
+                        Type email pour validation navigateur de base
+                        Même pattern de validation conditionnelle
+                        Conformité UX : Validation immédiate du format email
+                    #}
                     <input type="email" 
                            class="form-control {% if errors.email %}is-invalid{% endif %}" 
                            id="email" 
@@ -46,6 +113,12 @@
                 {# Champ Message #}
                 <div class="mb-3">
                     <label for="message" class="form-label">Message</label>
+                    {# 
+                        Zone de texte pour le message principal
+                        rows="5" : Hauteur initiale de 5 lignes
+                        Même pattern de validation conditionnelle
+                        Conformité UX : Espace suffisant pour écrire
+                    #}
                     <textarea class="form-control {% if errors.message %}is-invalid{% endif %}" 
                               id="message" 
                               name="message" 
@@ -56,6 +129,11 @@
                     {% endif %}
                 </div>
 
+                {# 
+                    Bouton de soumission
+                    Style primary (bleu) pour action principale
+                    Conformité UX : Bouton bien visible et descriptif
+                #}
                 <button type="submit" class="btn btn-primary">Envoyer le message</button>
             </form>
         </div>

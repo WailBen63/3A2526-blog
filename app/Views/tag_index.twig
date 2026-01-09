@@ -1,19 +1,73 @@
+{# templates/tags/index.twig #}
+{# 
+    Page de tags publique - Navigation thématique pour les visiteurs
+    Implémente EF-TAG-02 (affichage public) et EF-ARTICLE-04 (navigation par tags)
+    
+    Caractéristiques principales :
+    - Cloud de tags interactif avec compteurs d'articles
+    - Affichage des tags les plus populaires
+    - Statistiques sur l'utilisation des tags
+    - Design responsive optimisé pour la découverte
+    - Navigation intuitive vers les articles par tag
+    
+    @package Templates/Public
+    @conformité EF-TAG-02 : Affichage public des tags avec nombre d'articles associés
+    @conformité EF-ARTICLE-04 : Navigation par tags pour explorer le contenu
+    @conformité UX-RESPONSIVE-01/02 : Design mobile-first et interface responsive
+    @conformité Expérience Utilisateur : Découverte thématique facilitée
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+    {# 
+        Titre principal de la page
+        mb-4 : Margin-bottom pour espacement avec le contenu
+        Variable page_title définie par le contrôleur
+        Conformité UX : Hiérarchie claire des titres
+    #}
     <h1 class="mb-4">{{ page_title }}</h1>
 
+    {# 
+        Section conditionnelle : Affichage des tags ou message d'information
+        Conformité UX : Feedback approprié selon la disponibilité des données
+    #}
     {% if tags %}
+        {# 
+            Cloud de tags - Conformité EF-TAG-02
+            Présentation visuelle attractive de tous les tags
+            Conception responsive avec flexbox
+        #}
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Cloud de tags</h5>
+                        {# 
+                            Conteneur flex pour disposition des tags
+                            flex-wrap : Retour à la ligne automatique
+                            gap-2 : Espacement cohérent entre les tags
+                            Conformité UX-RESPONSIVE : Adaptation à tous les écrans
+                        #}
                         <div class="d-flex flex-wrap gap-2">
+                            {# 
+                                Boucle sur tous les tags
+                                Chaque tag est un lien vers sa page dédiée
+                                Conformité EF-ARTICLE-04 : Navigation thématique
+                            #}
                             {% for tag in tags %}
                                 <a href="/3A2526-blog/public/tag/{{ tag.slug }}" 
                                    class="btn btn-outline-primary position-relative">
+                                    {# Nom du tag #}
                                     {{ tag.nom_tag }}
+                                    {# 
+                                        Badge indicateur du nombre d'articles
+                                        Affiché conditionnellement si > 0
+                                        position-absolute : Positionnement par rapport au bouton
+                                        bg-danger : Rouge pour visibilité
+                                        Conformité EF-TAG-02 : Affichage du nombre d'articles
+                                    #}
                                     {% if tag.nb_articles > 0 %}
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                             {{ tag.nb_articles }}
@@ -27,19 +81,38 @@
             </div>
         </div>
 
-        <!-- Tags par popularité -->
+        <!-- Tags par popularité et statistiques -->
+        {# 
+            Section en deux colonnes : Popularité + Statistiques
+            mt-4 : Margin-top pour séparation visuelle
+            Conformité UX-RESPONSIVE : Empilage vertical sur mobile
+        #}
         <div class="row mt-4">
+            {# Colonne gauche : Tags les plus populaires #}
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Tags les plus populaires</h5>
                     </div>
                     <div class="card-body">
+                        {# 
+                            Liste groupée des 10 tags les plus utilisés
+                            list-group : Composant Bootstrap pour listes stylisées
+                            slice(0, 10) : Limitation aux 10 premiers tags
+                            Conformité UX : Focus sur le contenu le plus pertinent
+                        #}
                         <div class="list-group">
                             {% for tag in tags|slice(0, 10) %}
                                 <a href="/3A2526-blog/public/tag/{{ tag.slug }}" 
                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    {# Nom du tag aligné à gauche #}
                                     {{ tag.nom_tag }}
+                                    {# 
+                                        Badge avec nombre d'articles aligné à droite
+                                        rounded-pill : Forme ovale pour esthétique
+                                        bg-primary : Couleur cohérente avec le thème
+                                        Conformité EF-TAG-02 : Métrique de popularité visible
+                                    #}
                                     <span class="badge bg-primary rounded-pill">{{ tag.nb_articles }}</span>
                                 </a>
                             {% endfor %}
@@ -48,15 +121,33 @@
                 </div>
             </div>
             
+            {# Colonne droite : Statistiques générales #}
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Statistiques</h5>
                     </div>
                     <div class="card-body">
+                        {# 
+                            Liste non stylisée pour présentation propre
+                            list-unstyled : Supprime les puces par défaut
+                            Calculs statistiques en temps réel avec filtres Twig
+                        #}
                         <ul class="list-unstyled">
+                            {# Total des tags #}
                             <li><strong>Total tags :</strong> {{ tags|length }}</li>
+                            {# 
+                                Tags effectivement utilisés (avec au moins 1 article)
+                                filter : Filtre Twig pour sélection conditionnelle
+                                Conformité EF-TAG-02 : Distinction tags utilisés/non utilisés
+                            #}
                             <li><strong>Tags utilisés :</strong> {{ tags|filter(t => t.nb_articles > 0)|length }}</li>
+                            {# 
+                                Moyenne d'articles par tag
+                                reduce : Calcul de la somme totale des articles
+                                round(1) : Arrondi à 1 décimale pour lisibilité
+                                Indicateur d'engagement moyen par tag
+                            #}
                             <li><strong>Article moyen par tag :</strong> {{ (tags|reduce((sum, t) => sum + t.nb_articles, 0) / tags|length)|round(1) }}</li>
                         </ul>
                     </div>
@@ -64,12 +155,23 @@
             </div>
         </div>
     {% else %}
+        {# 
+            Message quand aucun tag n'est disponible
+            alert-info : Style informatif et non alarmant
+            Conformité UX : Feedback clair sur l'état vide
+        #}
         <div class="alert alert-info">
             <h4 class="alert-heading">Aucun tag</h4>
             <p class="mb-0">Aucun tag n'est disponible pour le moment.</p>
         </div>
     {% endif %}
 
+    {# 
+        Navigation de retour
+        mt-4 : Margin-top pour séparation
+        Bouton cohérent avec le reste de l'interface
+        Conformité UX : Navigation facile vers l'accueil
+    #}
     <div class="mt-4">
         <a href="/3A2526-blog/public/" class="btn btn-secondary">← Retour à l'accueil</a>
     </div>

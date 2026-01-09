@@ -1,15 +1,56 @@
+{# templates/admin/users/create.twig #}
+{# 
+    Formulaire de création d'utilisateur - Interface d'administration
+    Implémente EF-ACL-01 (Création) et EF-ACL-04 (Assignation multi-rôles)
+    
+    Caractéristiques principales :
+    - Création complète d'un nouvel utilisateur avec authentification
+    - Assignation de plusieurs rôles simultanément
+    - Validation côté client et serveur des informations
+    - Design en deux colonnes pour séparer identifiants et permissions
+    - Intégration complète du système RBAC (Role-Based Access Control)
+    
+    @package Templates/Admin
+    @conformité EF-ACL-01 : Création d'utilisateurs
+    @conformité EF-ACL-04 : Un utilisateur peut avoir plusieurs rôles
+    @conformité EF-ACL-06 : Authentification sécurisée (mot de passe haché)
+    @conformité EF-ADMIN-02 : Navigation cohérente dans l'administration
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et responsive
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+{# 
+    En-tête de page avec titre et navigation
+    Design responsive avec flexbox Bootstrap
+    Conformité EF-ADMIN-02 : Navigation intuitive entre les sections
+#}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    {# 
+        Titre de la page indiquant l'action en cours
+        Variable page_title définie par le contrôleur
+    #}
     <h1 class="h2">{{ page_title }}</h1>
+    {# 
+        Bouton de retour vers la liste des utilisateurs
+        Positionné à droite pour navigation secondaire
+        Conformité UX : Navigation facile vers la liste
+    #}
     <a href="/3A2526-Blog/public/admin/users" class="btn btn-sm btn-outline-secondary">
         ← Retour
     </a>
 </div>
 
+{# 
+    Affichage des erreurs de validation du formulaire
+    Version améliorée avec titre explicite
+    Conformité UX : Feedback clair et structuré sur les problèmes
+#}
 {% if errors %}
     <div class="alert alert-danger">
+        {# Titre explicite pour regrouper les erreurs #}
         <h5 class="alert-heading">Erreurs de validation :</h5>
         <ul class="mb-0">
             {% for error in errors %}
@@ -19,15 +60,37 @@
     </div>
 {% endif %}
 
+{# 
+    Formulaire de création d'utilisateur
+    Méthode POST pour l'envoi sécurisé des données
+    Pas de enctype car pas d'upload de fichier
+    Conformité EF-ACL-01 : Soumission des données de création
+#}
 <form action="/3A2526-Blog/public/admin/users/store" method="POST">
+    {# 
+        Layout en deux colonnes pour séparer les types d'informations
+        Colonne gauche : Informations d'authentification
+        Colonne droite : Rôles et permissions
+        Conformité UX-RESPONSIVE : Adaptation sur mobile (colonnes empilées)
+    #}
     <div class="row">
+        {# Colonne gauche : Informations de base #}
         <div class="col-md-6">
             <!-- Informations de base -->
             <div class="card mb-4">
                 <div class="card-header">
+                    {# 
+                        Titre de section : Informations essentielles pour l'authentification
+                        Conformité EF-ACL-06 : Données nécessaires à l'authentification
+                    #}
                     <h5 class="card-title mb-0">Informations de connexion</h5>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Champ : Nom d'utilisateur
+                        Conformité EF-ACL-01 : Identifiant unique de l'utilisateur
+                        Validation HTML5 : required pour obligation
+                    #}
                     <div class="mb-3">
                         <label for="nom_utilisateur" class="form-label">Nom d'utilisateur *</label>
                         <input type="text" 
@@ -38,6 +101,11 @@
                                required>
                     </div>
 
+                    {# 
+                        Champ : Email (avec type email pour validation HTML5)
+                        Conformité EF-ACL-01 : Contact principal de l'utilisateur
+                        Validation navigateur pour format email correct
+                    #}
                     <div class="mb-3">
                         <label for="email" class="form-label">Adresse Email *</label>
                         <input type="email" 
@@ -48,6 +116,12 @@
                                required>
                     </div>
 
+                    {# 
+                        Champ : Mot de passe (type password pour masquage)
+                        Conformité EF-ACL-06 : Mot de passe pour authentification sécurisée
+                        Pas de valeur par défaut pour des raisons de sécurité
+                        Information sur les exigences de complexité
+                    #}
                     <div class="mb-3">
                         <label for="password" class="form-label">Mot de passe *</label>
                         <input type="password" 
@@ -61,16 +135,30 @@
             </div>
         </div>
 
+        {# Colonne droite : Rôles et permissions #}
         <div class="col-md-6">
             <!-- Rôles -->
             <div class="card mb-4">
                 <div class="card-header">
+                    {# 
+                        Titre de section : Gestion des autorisations via rôles
+                        Conformité EF-ACL-02/04 : Assignation de rôles multiples
+                    #}
                     <h5 class="card-title mb-0">Rôles et permissions</h5>
                 </div>
                 <div class="card-body">
+                    {# 
+                        Section conditionnelle : Rôles disponibles ou message d'avertissement
+                        Conformité UX : Guidance lorsque les données nécessaires manquent
+                    #}
                     {% if roles %}
                         <div class="mb-3">
                             <label class="form-label">Sélectionnez les rôles *</label>
+                            {# 
+                                Boucle sur tous les rôles disponibles
+                                Cases à cocher pour sélection multiple
+                                Conformité EF-ACL-04 : Multiples rôles par utilisateur
+                            #}
                             {% for role in roles %}
                                 <div class="form-check">
                                     <input class="form-check-input" 
@@ -78,9 +166,23 @@
                                            name="roles[]" 
                                            value="{{ role.id }}"
                                            id="role_{{ role.id }}"
+                                           {# 
+                                               Vérification si le rôle était déjà sélectionné
+                                               Utile en cas de re-soumission après erreur
+                                               Conformité UX : Préservation des sélections
+                                           #}
                                            {{ old_input.roles is defined and role.id in old_input.roles ? 'checked' : '' }}>
                                     <label class="form-check-label" for="role_{{ role.id }}">
+                                        {# 
+                                            Nom du rôle en gras pour visibilité
+                                            Conformité EF-ACL-02 : Identification claire des rôles
+                                        #}
                                         <strong>{{ role.nom_role }}</strong>
+                                        {# 
+                                            Description du rôle si disponible
+                                            Aide à comprendre les permissions associées
+                                            Conformité UX : Information contextuelle
+                                        #}
                                         {% if role.description %}
                                             <br><small class="text-muted">{{ role.description }}</small>
                                         {% endif %}
@@ -89,6 +191,11 @@
                             {% endfor %}
                         </div>
                     {% else %}
+                        {# 
+                            Message d'avertissement si aucun rôle n'est disponible
+                            Situation critique car un utilisateur sans rôle n'a aucun accès
+                            Conformité UX : Alerte sur un problème bloquant
+                        #}
                         <div class="alert alert-warning">
                             Aucun rôle disponible dans la base de données.
                         </div>
@@ -98,11 +205,26 @@
         </div>
     </div>
 
+    {# 
+        Zone d'actions (boutons de soumission)
+        Positionnée en bas après remplissage des deux colonnes
+        Conformité UX : Actions principales bien visibles après le formulaire
+    #}
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    {# 
+                        Bouton de soumission principal
+                        Style primary (bleu) pour l'action principale
+                        Libellé clair indiquant la création d'utilisateur
+                    #}
                     <button type="submit" class="btn btn-primary">Créer l'utilisateur</button>
+                    {# 
+                        Bouton d'annulation avec lien de retour
+                        Style secondary (gris) pour action secondaire
+                        Conformité UX : Sortie sécurisée sans perte de données
+                    #}
                     <a href="/3A2526-Blog/public/admin/users" class="btn btn-secondary">Annuler</a>
                 </div>
             </div>

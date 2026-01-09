@@ -1,21 +1,79 @@
+{# templates/admin/users/index.twig #}
+{# 
+    Liste des utilisateurs - Interface d'administration
+    Implémente EF-ACL-01 (Gestion) et EF-ADMIN (Tableau de bord)
+    
+    Caractéristiques principales :
+    - Tableau complet de tous les utilisateurs avec leurs rôles
+    - Actions de gestion (activation/désactivation, suppression)
+    - Protection contre l'auto-suppression et auto-désactivation
+    - Statistiques synthétiques sur la répartition des rôles
+    - Indicateurs visuels clairs pour le statut et les rôles
+    
+    @package Templates/Admin
+    @conformité EF-ACL-01 : Gestion des utilisateurs (liste, désactivation, suppression)
+    @conformité EF-ACL-04 : Visualisation des rôles multiples par utilisateur
+    @conformité EF-ADMIN-01 : Statistiques clés (utilisateurs actifs, répartition rôles)
+    @conformité EF-ADMIN-02 : Navigation claire vers toutes les sections
+    @conformité EF-ADMIN-03 : Vue d'ensemble des utilisateurs et de leur activité
+    @conformité UX-RESPONSIVE-01/02 : Interface mobile-first et table responsive
+    @conformité 2.1 Technologies : Twig 3.X, Bootstrap 5.X
+#}
+
 {% extends "base.twig" %}
 
 {% block content %}
+{# 
+    En-tête de page avec titre et actions principales
+    Design responsive avec flexbox Bootstrap
+    Conformité EF-ADMIN-02 : Navigation complète et intuitive
+#}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    {# 
+        Titre de la page
+        Variable page_title définie par le contrôleur
+        Indique clairement la section de gestion des utilisateurs
+    #}
     <h1 class="h2">{{ page_title }}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
+        {# 
+            Bouton de création d'utilisateur
+            Positionné en haut à droite pour accès rapide
+            Conformité EF-ACL-01 : Accès direct à la création
+            Style primary (bleu) pour action principale
+        #}
         <a href="/3A2526-Blog/public/admin/users/create" class="btn btn-sm btn-outline-primary">
             + Nouvel utilisateur
         </a>
+        {# 
+            Bouton de retour au tableau de bord
+            Permet une navigation facile entre les sections
+            Conformité EF-ADMIN-02 : Navigation intuitive
+            ms-2 (margin-start) pour espacement sous Bootstrap 5
+        #}
         <a href="/3A2526-Blog/public/admin" class="btn btn-sm btn-outline-secondary ms-2">
             ← Tableau de bord
         </a>
     </div>
 </div>
 
+{# 
+    Section conditionnelle : Affichage des utilisateurs ou message vide
+    Conformité UX : Feedback approprié selon l'état des données
+#}
 {% if users %}
+    {# 
+        Table responsive pour s'adapter aux petits écrans
+        Conformité UX-RESPONSIVE-02 : Table scrollable horizontalement
+        Important car les informations utilisateur peuvent être nombreuses
+    #}
     <div class="table-responsive">
         <table class="table table-striped table-sm">
+            {# 
+                En-tête du tableau avec colonnes informatives
+                Conformité EF-ACL-01 : Informations complètes pour la gestion
+                Ordre logique : ID → Nom → Email → Rôles → Statut → Inscription → Actions
+            #}
             <thead>
                 <tr>
                     <th>ID</th>
@@ -28,16 +86,46 @@
                 </tr>
             </thead>
             <tbody>
+                {# 
+                    Boucle sur tous les utilisateurs
+                    Chaque ligne représente un utilisateur avec ses métadonnées
+                    Conformité EF-ADMIN-03 : Vue d'ensemble des utilisateurs
+                #}
                 {% for user in users %}
                 <tr>
+                    {# 
+                        Colonne ID : Identifiant unique de l'utilisateur
+                        Utile pour le référencement technique et le débogage
+                    #}
                     <td>{{ user.id }}</td>
+                    
+                    {# 
+                        Colonne Nom : Nom d'utilisateur avec indicateur spécial
+                        Conformité EF-ACL-01 : Identification claire de l'utilisateur
+                        Badge "Vous" si c'est l'utilisateur connecté actuellement
+                        Conformité UX : Distinction visuelle importante pour l'auto-gestion
+                    #}
                     <td>
                         <strong>{{ user.nom_utilisateur }}</strong>
                         {% if user.id == session.get('user_id') %}
                             <span class="badge bg-info">Vous</span>
                         {% endif %}
                     </td>
+                    
+                    {# 
+                        Colonne Email : Adresse de contact principale
+                        Conformité EF-ACL-01 : Information de contact essentielle
+                    #}
                     <td>{{ user.email }}</td>
+                    
+                    {# 
+                        Colonne Rôles : Visualisation des rôles assignés
+                        Conformité EF-ACL-04 : Affichage des rôles multiples
+                        Badges colorés selon le type de rôle pour identification rapide
+                        - Administrateur : rouge (danger - haut privilège)
+                        - Éditeur : orange (warning - privilèges modérés)
+                        - Autres : gris (secondary - privilèges basiques)
+                    #}
                     <td>
                         {% if user.roles_names %}
                             {% set roles = user.roles_names|split(',') %}
@@ -53,15 +141,47 @@
                             <span class="text-muted">Aucun rôle</span>
                         {% endif %}
                     </td>
+                    
+                    {# 
+                        Colonne Statut : Actif/Inactif avec badge coloré
+                        Conformité EF-ACL-01 : Visualisation de l'état du compte
+                        - Actif : vert (success - compte utilisable)
+                        - Inactif : rouge (danger - compte désactivé)
+                        Important pour la gestion des accès
+                    #}
                     <td>
                         <span class="badge {% if user.est_actif %}bg-success{% else %}bg-danger{% endif %}">
                             {{ user.est_actif ? 'Actif' : 'Inactif' }}
                         </span>
                     </td>
+                    
+                    {# 
+                        Colonne Inscription : Date d'inscription formatée
+                        Information utile pour suivre l'ancienneté des comptes
+                        Format français pour meilleure lisibilité
+                    #}
                     <td>{{ user.date_inscription|date("d/m/Y") }}</td>
+                    
+                    {# 
+                        Colonne Actions : Boutons de gestion avec protection
+                        Conformité EF-ACL-01 : Actions de gestion (activation/suppression)
+                        Protection importante : L'utilisateur ne peut pas se modifier lui-même
+                        Conformité Sécurité : Prévention des actions auto-destructrices
+                    #}
                     <td>
                         <div class="btn-group btn-group-sm" role="group">
+                            {# 
+                                Protection : Actions seulement sur les autres utilisateurs
+                                Empêche la désactivation/suppression de son propre compte
+                                Conformité Sécurité : Prévention des blocages accidentels
+                            #}
                             {% if user.id != session.get('user_id') %}
+                                {# 
+                                    Bouton Toggle Status : Activation/Désactivation
+                                    Formulaire POST pour modification de statut
+                                    Icône et couleur change selon l'état actuel
+                                    Conformité EF-ACL-01 : Désactivation d'utilisateurs
+                                #}
                                 <form action="/3A2526-Blog/public/admin/users/{{ user.id }}/toggle-status" method="POST" class="d-inline">
                                     <button type="submit" class="btn btn-outline-{{ user.est_actif ? 'warning' : 'success' }} btn-sm" 
                                             title="{{ user.est_actif ? 'Désactiver' : 'Activer' }}">
@@ -69,6 +189,13 @@
                                     </button>
                                 </form>
                                 
+                                {# 
+                                    Bouton Supprimer : Suppression définitive
+                                    Formulaire POST avec confirmation JavaScript
+                                    Icône corbeille pour action destructrice
+                                    Conformité EF-ACL-01 : Suppression d'utilisateurs
+                                    Conformité Sécurité : Confirmation explicite requise
+                                #}
                                 <form action="/3A2526-Blog/public/admin/users/{{ user.id }}/delete" method="POST" class="d-inline" 
                                       onsubmit="return confirm('Supprimer définitivement cet utilisateur ?')">
                                     <button type="submit" class="btn btn-outline-danger btn-sm" title="Supprimer">
@@ -76,6 +203,11 @@
                                     </button>
                                 </form>
                             {% else %}
+                                {# 
+                                    Message pour l'utilisateur lui-même
+                                    Indique pourquoi les actions sont limitées
+                                    Conformité UX : Explication claire des limitations
+                                #}
                                 <span class="text-muted small">Actions limitées</span>
                             {% endif %}
                         </div>
@@ -86,8 +218,18 @@
         </table>
     </div>
 
-    <!-- Statistiques -->
+    {# 
+        Section Statistiques : Vue synthétique de la base utilisateurs
+        Conformité EF-ADMIN-01 : Statistiques clés pour l'administrateur
+        Design avec cartes colorées Bootstrap en grille responsive
+        Utilisation de filtres Twig avancés pour les calculs
+    #}
     <div class="row mt-4">
+        {# 
+            Carte : Total des utilisateurs
+            Couleur primary (bleu) pour statistique globale
+            Simple comptage de tous les utilisateurs
+        #}
         <div class="col-md-3">
             <div class="card text-white bg-primary">
                 <div class="card-body">
@@ -96,6 +238,13 @@
                 </div>
             </div>
         </div>
+        
+        {# 
+            Carte : Utilisateurs actifs
+            Couleur success (vert) pour indicateur positif
+            Filtre Twig pour compter les utilisateurs avec est_actif = true
+            Conformité EF-ADMIN-01 : Métrique clé de l'activité
+        #}
         <div class="col-md-3">
             <div class="card text-white bg-success">
                 <div class="card-body">
@@ -104,6 +253,13 @@
                 </div>
             </div>
         </div>
+        
+        {# 
+            Carte : Administrateurs
+            Couleur warning (orange) pour rôle à haut privilège
+            Filtre Twig avec regex pour identifier les administrateurs
+            Conformité EF-ACL-02 : Suivi des rôles à privilèges élevés
+        #}
         <div class="col-md-3">
             <div class="card text-white bg-warning">
                 <div class="card-body">
@@ -112,6 +268,13 @@
                 </div>
             </div>
         </div>
+        
+        {# 
+            Carte : Éditeurs
+            Couleur info (bleu clair) pour rôle intermédiaire
+            Filtre Twig avec regex pour identifier les éditeurs
+            Conformité EF-ACL-02 : Suivi des rôles de contenu
+        #}
         <div class="col-md-3">
             <div class="card text-white bg-info">
                 <div class="card-body">
@@ -122,6 +285,12 @@
         </div>
     </div>
 {% else %}
+    {# 
+        Message affiché quand il n'y a aucun utilisateur
+        Conformité UX : Message informatif et orienté vers l'action
+        Style alert-info pour message neutre mais visible
+        Structure avec titre et description
+    #}
     <div class="alert alert-info">
         <h4 class="alert-heading">Aucun utilisateur</h4>
         <p class="mb-0">Aucun utilisateur n'a été trouvé dans la base de données.</p>
