@@ -1,40 +1,57 @@
-# Projet VTT Blog - Architecture MVC PHP
+# Projet VTT Blog - Architecture MVC PHP (3A2526)
 
-Bienvenue sur le dépôt de notre plateforme de blog. Ce projet est une application web full-stack développée en PHP natif, mettant l'accent sur la programmation orientée objet (POO) et la sécurité.
-
-## Documentation Technique
-
-### Architecture Globale
-L'application est structurée selon le patron **MVC** (Modèle-Vue-Contrôleur) afin de garantir une séparation stricte des préoccupations :
-* **Modèles (`app/Models`)** : Gèrent l'interaction avec la base de données MariaDB via PDO.
-* **Vues (`templates/`)** : Utilisent le moteur de rendu **Twig 3**, permettant un affichage sécurisé (protection native contre les failles XSS) et modulaire grâce à l'héritage de templates.
-* **Contrôleurs (`app/Controllers`)** : Orchestrent la logique métier et font le lien entre les données et l'affichage.
-
-### Design Patterns (Patrons de Conception)
-* **Singleton** : Implémenté dans les classes `Database` et `SessionManager` pour garantir qu'une seule instance de connexion ou de session n'est active simultanément, optimisant ainsi les ressources serveur.
-* **Front Controller** : Toutes les requêtes sont centralisées dans `public/index.php`. Ce fichier fait office de routeur unique, facilitant la gestion de la sécurité et des URLs propres.
-* **RBAC (Role-Based Access Control)** : Un système de gestion des droits vérifie les permissions des utilisateurs (Administrateur, Éditeur) avant d'autoriser l'accès aux fonctionnalités sensibles.
-
-
-
-## Répartition et Bilan
-
-### Répartition du travail au sein du binôme
-* **Développement Back-end & Architecture** : Mise en place du Front Controller, du système de routage par Regex, du Singleton PDO, et développement des fonctionnalités CRUD (Articles, Utilisateurs, Tags).
-* **Développement Front-end & UX** : Création des templates Twig (Héritage), intégration de Bootstrap 5, interactivité Alpine.js (Gestion des thèmes clair/sombre, accessibilité dyslexique) et système de commentaires.
-
-### Difficultés rencontrées
-* **Routage Dynamique** : La gestion manuelle des URLs complexes (ex: `/post/12` ou `/tag/vtt-xc`) sans framework a nécessité une gestion précise des expressions régulières.
-* **Persistance des thèmes** : L'utilisation de `localStorage` avec Alpine.js pour maintenir le choix du thème de l'utilisateur sur l'ensemble du site.
-
-### Retours sur le projet
-Ce projet nous a permis de comprendre les mécanismes internes des frameworks PHP modernes (comme Symfony). Nous avons acquis une solide expérience en manipulation de templates Twig et en sécurisation d'une application web (validation de formulaires, hachage de mots de passe, protection XSS).
+Ce projet est une plateforme de blog dynamique développée en PHP natif, structurée de manière professionnelle pour démontrer la maîtrise du pattern MVC et de la programmation orientée objet (POO).
 
 ---
 
-## Installation rapide
-1.  **Dépendances** : `composer install`
-2.  **Base de données** : Importer le fichier `blog_db.sql` dans MariaDB.
-3.  **Configuration** : Paramétrer les accès DB dans `app/Core/Database.php`.
-4.  **Lancement** : Pointer votre serveur local vers le dossier `/public`.
+## 1. Guide d'Installation Rapide (Point 1)
+
+Pour lancer l'application sur votre environnement local (XAMPP/WAMP) :
+
+1.  **Clonage & Dépendances** :
+    ```bash
+    git clone [URL_DU_DEPOT]
+    composer install
+    ```
+2.  **Base de données** :
+    - Créer une base nommée `blog_db` dans phpMyAdmin.
+    - Importer le fichier **`blog_db.sql`** (situé à la racine).
+3.  **Configuration** :
+    - Vérifier les accès SQL dans `app/Core/Database.php` (par défaut : root / vide).
+4.  **Accès** :
+    - L'application est accessible via : `http://localhost/3A2526-blog/public/`
+
+**Identifiants de test (RBAC) :**
+- **Admin** : `admin@vtt.com` / `password`
+- **Éditeur** : `editeur@vtt.com` / `password`
+
+---
+
+## 2. Documentation Technique (Point 2)
+
+### Architecture MVC
+L'application respecte strictement la séparation des préoccupations :
+- **Modèles (`app/Models`)** : Gestion de la persistance des données et requêtes SQL complexes (Jointures, Group By).
+- **Vues (`templates/`)** : Utilisation de **Twig 3** pour un rendu sécurisé (protection XSS) et une gestion efficace de l'héritage de templates.
+- **Contrôleurs (`app/Controllers`)** : Logique métier et orchestration entre les modèles et les vues.
+
+### Design Patterns & Concepts mis en œuvre
+- **Singleton** : Appliqué aux classes `Database` et `SessionManager` pour optimiser les ressources et garantir une instance unique.
+- **Front Controller** : Toutes les requêtes sont centralisées dans `public/index.php`, qui fait office de routeur unique via des expressions régulières (Regex).
+- **RBAC (Role-Based Access Control)** : Système de permissions gérant différents niveaux d'accès (Admin, Éditeur) via une table pivot dans la base de données.
+
+---
+
+## 3. Bilan et Répartition (Point 3)
+
+### Répartition du travail au sein du binôme
+- **Développement Backend & Architecture** : Mise en place du noyau (Core), du système de routage, de la base de données relationnelle et du système d'authentification sécurisé.
+- **Développement Frontend & UX** : Création des templates Twig, intégration de Bootstrap 5, interactivité avec **Alpine.js** (Thème sombre/clair persistant et police pour dyslexiques).
+
+### Difficultés rencontrées
+La gestion du **routage dynamique** sans framework a été le principal défi technique, notamment pour capturer les paramètres d'URL (ex: `/post/12`) tout en conservant une structure de code propre.
+
+### Conclusion et Apprentissages
+Ce projet nous a permis de comprendre "sous le capot" le fonctionnement d'un framework moderne. Nous avons renforcé nos compétences en sécurité PHP (validation, hachage, protection XSS) et en organisation de projet collaboratif via Git.
+
 
