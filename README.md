@@ -1,8 +1,8 @@
-# 🚵 Projet VTT Blog - Architecture MVC PHP (3A2526)
+# Projet VTT Blog - Architecture MVC PHP
 
 Bienvenue sur le dépôt de notre plateforme de blog. Ce projet est une application web full-stack développée en PHP natif, mettant l'accent sur la programmation orientée objet (POO) et la sécurité.
 
-## 🛠️ Documentation Technique (Point 2)
+## Documentation Technique
 
 ### Architecture Globale
 L'application est structurée selon le patron **MVC** (Modèle-Vue-Contrôleur) afin de garantir une séparation stricte des préoccupations :
@@ -17,7 +17,7 @@ L'application est structurée selon le patron **MVC** (Modèle-Vue-Contrôleur) 
 
 
 
-## 👥 Répartition et Bilan (Point 3)
+## Répartition et Bilan
 
 ### Répartition du travail au sein du binôme
 * **Développement Back-end & Architecture** : Mise en place du Front Controller, du système de routage par Regex, du Singleton PDO, et développement des fonctionnalités CRUD (Articles, Utilisateurs, Tags).
@@ -32,10 +32,9 @@ Ce projet nous a permis de comprendre les mécanismes internes des frameworks PH
 
 ---
 
-## 🚀 Installation rapide
+## Installation rapide
 1.  **Dépendances** : `composer install`
 2.  **Base de données** : Importer le fichier `blog_db.sql` dans MariaDB.
 3.  **Configuration** : Paramétrer les accès DB dans `app/Core/Database.php`.
 4.  **Lancement** : Pointer votre serveur local vers le dossier `/public`.
 
-*Réalisé avec passion dans le cadre du module PHP.*
