@@ -34,7 +34,7 @@ class CommentController extends BaseController {
 
         // Vérification de l'existence et du statut de l'article parent
         $article = $this->articleModel->findById($articleId);
-        if (!$article || $article->statut !== 'Public') {
+        if (!$article || $article->statut !== 'Publié') {
             $this->session->set('flash_error', 'Article non trouvé.');
             header('Location: /3A2526-Blog/public/');
             exit;

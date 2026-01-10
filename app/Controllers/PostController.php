@@ -6,6 +6,7 @@ use App\Core\BaseController;
 use App\Models\PostModel;
 use App\Models\ArticleModel;
 use App\Models\CommentModel;
+use Parsedown;
 
 /**
  * PostController
@@ -27,29 +28,40 @@ class PostController extends BaseController {
         $this->commentModel = new CommentModel();
     }
 
+    
+
     /**
      * Affiche un article spécifique par son ID (Action Show)
      */
     public function show(int $id): void {
-        // Récupération de l'article via le modèle dédié
-        $post = $this->postModel->findById($id);
+    // 1. On récupère l'article
+    $post = $this->postModel->findById($id);
 
-        // Sécurité : Vérification de l'existence et du statut "Public" uniquement
-        if (!$post || $post->statut !== 'Public') {
-            (new HomeController())->error404();
-            return;
-        }
-
-        // Chargement des tags associés (EF-ARTICLE-04)
-        $post->tags = $this->articleModel->getArticleTags($id);
-        
-        // Chargement des commentaires approuvés (EF-COMMENT-01)
-        $post->comments = $this->commentModel->findApprovedByArticle($id);
-        
-        // Rendu de la vue avec les données enrichies
-        $this->render('post_show.twig', [
-            'page_title' => $post->titre,
-            'post' => $post
-        ]);
+    // 2. Sécurité : on vérifie s'il existe et s'il est 'Public'
+    if (!$post || $post->statut !== 'Publié') {
+        (new HomeController())->error404();
+        return;
     }
+
+    // 3. ON CHARGE LES COMMENTAIRES (C'est cette ligne qui devait manquer)
+    // On récupère les commentaires approuvés pour cet article précis
+    $post->comments = $this->commentModel->findApprovedByArticle($id);
+
+    // 4. ON CHARGE LES TAGS
+    $post->tags = $this->articleModel->getArticleTags($id);
+
+    // 5. TRANSFORMATION DU TEXTE (MARKDOWN -> HTML)
+    $parsedown = new Parsedown();
+    $post->contenu = $parsedown->text($post->contenu); 
+
+    // 6. ENVOI À LA VUE
+    $this->render('post_show.twig', [
+        'page_title' => $post->titre,
+        'post' => $post
+    ]);
+}
+
+
+
+
 }

@@ -22,16 +22,13 @@
         {% for post in posts %}
             <div class="col-12 col-md-6">
                 <div class="card h-100 shadow-sm border-0">
-                    
-                    {# Image à la une (EF-ARTICLE-03) #}
+
+                {# Image à la une (EF-ARTICLE-03) #}
                     {% if post.image_une %}
                         <img src="/3A2526-Blog/public/uploads/articles/{{ post.image_une }}" 
                              class="card-img-top" alt="{{ post.titre }}"
                              style="height: 220px; object-fit: cover;">
-                    {% else %}
-                        <div class="bg-light text-center py-5 border-bottom">
-                            <span class="text-muted">📷 Pas d'image</span>
-                        </div>
+                    
                     {% endif %}
                     
                     <div class="card-body d-flex flex-column">
@@ -39,7 +36,7 @@
                         
                         {# Extrait nettoyé (EF-ARTICLE-01) #}
                         <p class="card-text text-secondary small">
-                            {{ post.contenu|striptags|slice(0, 150) }}...
+                            {{ post.extrait|striptags|slice(0, 150) }}...
                         </p>
                         
                         {# Tags associés (EF-ARTICLE-04) #}

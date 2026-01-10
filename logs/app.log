@@ -965,3 +965,263 @@
 [2026-01-09 15:54:21] [INFO] Page d'accueil demandée.
 [2026-01-09 15:54:26] [INFO] Connexion réussie: editeur@vtt.com
 [2026-01-09 15:54:27] [INFO] Tableau de bord consulté par: EditeurTrail
+[2026-01-10 00:32:34] [INFO] Page d'accueil demandée.
+[2026-01-10 00:32:40] [INFO] Page d'accueil demandée.
+[2026-01-10 00:34:12] [INFO] Page d'accueil demandée.
+[2026-01-10 00:34:16] [INFO] Page d'accueil demandée.
+[2026-01-10 00:34:21] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 00:34:29] [INFO] Article modifié ID: 1
+[2026-01-10 00:34:34] [INFO] Page d'accueil demandée.
+[2026-01-10 00:39:23] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 00:39:31] [INFO] Article modifié ID: 1
+[2026-01-10 00:39:35] [INFO] Page d'accueil demandée.
+[2026-01-10 00:40:54] [INFO] Page d'accueil demandée.
+[2026-01-10 00:40:57] [WARNING] Page 404 : post/2
+[2026-01-10 00:40:58] [INFO] Page d'accueil demandée.
+[2026-01-10 00:41:00] [INFO] Page d'accueil demandée.
+[2026-01-10 00:41:10] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 00:41:17] [INFO] Article modifié ID: 1
+[2026-01-10 00:41:20] [INFO] Page d'accueil demandée.
+[2026-01-10 00:42:15] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 00:42:25] [INFO] Article modifié ID: 2
+[2026-01-10 00:42:30] [INFO] Article modifié ID: 2
+[2026-01-10 00:44:04] [INFO] Article modifié ID: 1
+[2026-01-10 00:44:09] [INFO] Article modifié ID: 2
+[2026-01-10 00:44:12] [INFO] Page d'accueil demandée.
+[2026-01-10 00:45:07] [INFO] Page d'accueil demandée.
+[2026-01-10 00:45:10] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 00:45:17] [INFO] Article modifié ID: 1
+[2026-01-10 00:46:13] [INFO] Page d'accueil demandée.
+[2026-01-10 00:46:16] [WARNING] Page 404 : post/3
+[2026-01-10 00:46:20] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 00:51:10] [INFO] Article modifié ID: 2
+[2026-01-10 00:51:17] [INFO] Article modifié ID: 2
+[2026-01-10 00:54:22] [INFO] Article modifié ID: 1
+[2026-01-10 00:55:54] [INFO] Article modifié ID: 1
+[2026-01-10 00:56:00] [INFO] Article modifié ID: 2
+[2026-01-10 00:56:01] [INFO] Page d'accueil demandée.
+[2026-01-10 00:57:53] [WARNING] Page 404 : post/1
+[2026-01-10 00:59:40] [INFO] Page d'accueil demandée.
+[2026-01-10 00:59:43] [INFO] Page d'accueil demandée.
+[2026-01-10 01:00:46] [INFO] Page d'accueil demandée.
+[2026-01-10 01:01:19] [INFO] Page d'accueil demandée.
+[2026-01-10 01:03:44] [INFO] Page d'accueil demandée.
+[2026-01-10 01:04:00] [INFO] Page d'accueil demandée.
+[2026-01-10 01:04:06] [INFO] Page d'accueil demandée.
+[2026-01-10 01:05:02] [INFO] Page d'accueil demandée.
+[2026-01-10 01:05:07] [INFO] Page d'accueil demandée.
+[2026-01-10 01:11:49] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 01:12:04] [INFO] Commentaire rejeté ID: 1
+[2026-01-10 01:12:05] [INFO] Commentaire approuvé ID: 1
+[2026-01-10 01:12:08] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 01:12:15] [INFO] Utilisateur désactivé ID: 2
+[2026-01-10 01:12:18] [INFO] Utilisateur activé ID: 2
+[2026-01-10 01:12:20] [INFO] Utilisateur désactivé ID: 3
+[2026-01-10 01:12:22] [INFO] Utilisateur activé ID: 3
+[2026-01-10 01:12:25] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 01:12:34] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 01:13:14] [INFO] Page d'accueil demandée.
+[2026-01-10 01:13:36] [INFO] Page d'accueil demandée.
+[2026-01-10 01:15:26] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 01:19:07] [INFO] Page d'accueil demandée.
+[2026-01-10 01:19:36] [INFO] Page d'accueil demandée.
+[2026-01-10 01:19:45] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 01:28:03] [INFO] Article modifié ID: 1
+[2026-01-10 01:28:06] [INFO] Page d'accueil demandée.
+[2026-01-10 01:28:07] [WARNING] Page 404 : post/1
+[2026-01-10 01:28:10] [INFO] Page d'accueil demandée.
+[2026-01-10 01:28:11] [WARNING] Page 404 : post/2
+[2026-01-10 01:28:13] [INFO] Page d'accueil demandée.
+[2026-01-10 01:29:29] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 01:29:48] [INFO] Article modifié ID: 1
+[2026-01-10 01:29:50] [INFO] Page d'accueil demandée.
+[2026-01-10 01:30:01] [INFO] Page d'accueil demandée.
+[2026-01-10 01:30:09] [INFO] Page d'accueil demandée.
+[2026-01-10 01:30:11] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:49:17] [INFO] Page d'accueil demandée.
+[2026-01-10 14:49:34] [INFO] Page d'accueil demandée.
+[2026-01-10 14:51:19] [INFO] Connexion réussie: admin@vtt.com
+[2026-01-10 14:51:19] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:51:41] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:53:34] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:53:40] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:53:47] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:53:56] [WARNING] Page 404 : admin/tags/update
+[2026-01-10 14:53:57] [INFO] Page d'accueil demandée.
+[2026-01-10 14:54:00] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:54:20] [INFO] Page d'accueil demandée.
+[2026-01-10 14:54:34] [INFO] Page d'accueil demandée.
+[2026-01-10 14:54:38] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:54:44] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 14:54:52] [INFO] Tag créé ID: 8
+[2026-01-10 14:54:56] [INFO] Tag supprimé ID: 8
+[2026-01-10 14:54:59] [WARNING] Page 404 : admin/tags/update
+[2026-01-10 14:55:56] [WARNING] Page 404 : admin/tags/update
+[2026-01-10 14:57:08] [WARNING] Page 404 : admin/tags/update
+[2026-01-10 14:58:20] [INFO] Tag modifié ID: 2
+[2026-01-10 14:58:32] [INFO] Tag créé ID: 9
+[2026-01-10 14:58:37] [INFO] Tag supprimé ID: 9
+[2026-01-10 14:58:38] [INFO] Page d'accueil demandée.
+[2026-01-10 14:58:47] [INFO] Page d'accueil demandée.
+[2026-01-10 14:58:59] [INFO] Page d'accueil demandée.
+[2026-01-10 14:59:09] [INFO] Déconnexion: admin@vtt.com
+[2026-01-10 14:59:09] [INFO] Page d'accueil demandée.
+[2026-01-10 14:59:22] [INFO] Page d'accueil demandée.
+[2026-01-10 15:01:55] [INFO] EMAIL SIMULÉ - To: admin@vtt.com, Subject: 📝 Nouveau commentaire en attente de modération
+[2026-01-10 15:01:55] [INFO] Notification commentaire envoyée ID: 4
+[2026-01-10 15:01:55] [INFO] Nouveau commentaire ID: 4 sur article: 1
+[2026-01-10 15:02:03] [INFO] Connexion réussie: admin@vtt.com
+[2026-01-10 15:02:03] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:02:14] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:02:21] [INFO] Commentaire rejeté ID: 4
+[2026-01-10 15:03:22] [INFO] Page d'accueil demandée.
+[2026-01-10 15:03:37] [INFO] Page d'accueil demandée.
+[2026-01-10 15:03:39] [INFO] Page d'accueil demandée.
+[2026-01-10 15:03:44] [INFO] Page d'accueil demandée.
+[2026-01-10 15:03:49] [INFO] Page d'accueil demandée.
+[2026-01-10 15:03:56] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:04:17] [INFO] Article modifié ID: 1
+[2026-01-10 15:04:20] [INFO] Page d'accueil demandée.
+[2026-01-10 15:04:26] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:04:35] [INFO] Article modifié ID: 1
+[2026-01-10 15:04:37] [INFO] Page d'accueil demandée.
+[2026-01-10 15:04:45] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:04:58] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:05:04] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:05:10] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:05:15] [INFO] Tag modifié ID: 2
+[2026-01-10 15:05:18] [INFO] Page d'accueil demandée.
+[2026-01-10 15:05:40] [INFO] Page d'accueil demandée.
+[2026-01-10 15:10:13] [INFO] Page d'accueil demandée.
+[2026-01-10 15:16:10] [INFO] Page d'accueil demandée.
+[2026-01-10 15:16:15] [INFO] Page d'accueil demandée.
+[2026-01-10 15:17:14] [INFO] Page d'accueil demandée.
+[2026-01-10 15:18:39] [INFO] Page d'accueil demandée.
+[2026-01-10 15:18:42] [INFO] Page d'accueil demandée.
+[2026-01-10 15:18:44] [INFO] Page d'accueil demandée.
+[2026-01-10 15:19:01] [INFO] Page d'accueil demandée.
+[2026-01-10 15:24:28] [INFO] Page d'accueil demandée.
+[2026-01-10 15:24:33] [INFO] Page d'accueil demandée.
+[2026-01-10 15:26:46] [INFO] Page d'accueil demandée.
+[2026-01-10 15:26:51] [INFO] Page d'accueil demandée.
+[2026-01-10 15:32:14] [INFO] Page d'accueil demandée.
+[2026-01-10 15:32:16] [INFO] Page d'accueil demandée.
+[2026-01-10 15:32:32] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:32:40] [INFO] Article modifié ID: 3
+[2026-01-10 15:32:42] [INFO] Page d'accueil demandée.
+[2026-01-10 15:32:55] [INFO] Page d'accueil demandée.
+[2026-01-10 15:33:00] [INFO] Page d'accueil demandée.
+[2026-01-10 15:33:04] [INFO] Page d'accueil demandée.
+[2026-01-10 15:36:13] [INFO] Page d'accueil demandée.
+[2026-01-10 15:36:21] [INFO] Page d'accueil demandée.
+[2026-01-10 15:36:30] [INFO] Page d'accueil demandée.
+[2026-01-10 15:36:34] [INFO] Page d'accueil demandée.
+[2026-01-10 15:36:38] [INFO] Page d'accueil demandée.
+[2026-01-10 15:36:42] [INFO] Page d'accueil demandée.
+[2026-01-10 15:36:44] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:39:12] [INFO] Page d'accueil demandée.
+[2026-01-10 15:40:44] [INFO] Page d'accueil demandée.
+[2026-01-10 15:40:45] [WARNING] Page 404 : post/1
+[2026-01-10 15:40:48] [INFO] Page d'accueil demandée.
+[2026-01-10 15:40:59] [INFO] Page d'accueil demandée.
+[2026-01-10 15:41:05] [INFO] Page d'accueil demandée.
+[2026-01-10 15:41:09] [INFO] Page d'accueil demandée.
+[2026-01-10 15:41:50] [INFO] Page d'accueil demandée.
+[2026-01-10 15:41:59] [INFO] Page d'accueil demandée.
+[2026-01-10 15:42:05] [INFO] Page d'accueil demandée.
+[2026-01-10 15:42:45] [INFO] Page d'accueil demandée.
+[2026-01-10 15:42:49] [INFO] Page d'accueil demandée.
+[2026-01-10 15:42:57] [INFO] Page d'accueil demandée.
+[2026-01-10 15:43:24] [INFO] Page d'accueil demandée.
+[2026-01-10 15:43:29] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:43:36] [INFO] Article modifié ID: 1
+[2026-01-10 15:43:40] [INFO] Article modifié ID: 1
+[2026-01-10 15:43:43] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:43:48] [INFO] Commentaire approuvé ID: 6
+[2026-01-10 15:43:54] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:44:00] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 15:44:04] [INFO] Tag modifié ID: 2
+[2026-01-10 15:44:06] [INFO] Page d'accueil demandée.
+[2026-01-10 15:44:11] [INFO] Page d'accueil demandée.
+[2026-01-10 15:44:17] [WARNING] Page 404 : tag/suspension
+[2026-01-10 15:44:22] [WARNING] Page 404 : tag/enduro
+[2026-01-10 15:45:42] [WARNING] Page 404 : tag/traces-gps
+[2026-01-10 15:46:37] [WARNING] Page 404 : tag/traces-gps
+[2026-01-10 15:46:39] [INFO] Page d'accueil demandée.
+[2026-01-10 15:46:46] [WARNING] Page 404 : tag/1
+[2026-01-10 15:46:51] [INFO] Page d'accueil demandée.
+[2026-01-10 15:48:38] [INFO] Page d'accueil demandée.
+[2026-01-10 15:48:40] [WARNING] Page 404 : tag/1
+[2026-01-10 15:49:14] [INFO] Page d'accueil demandée.
+[2026-01-10 15:49:16] [INFO] Page d'accueil demandée.
+[2026-01-10 15:49:19] [WARNING] Page 404 : tag/2
+[2026-01-10 15:52:27] [INFO] Page d'accueil demandée.
+[2026-01-10 15:52:31] [WARNING] Page 404 : tag/2
+[2026-01-10 15:54:30] [INFO] Page d'accueil demandée.
+[2026-01-10 15:54:33] [WARNING] Page 404 : tag/4
+[2026-01-10 15:54:39] [WARNING] Page 404 : tag/2
+[2026-01-10 15:56:26] [INFO] Page d'accueil demandée.
+[2026-01-10 15:56:29] [INFO] Page d'accueil demandée.
+[2026-01-10 15:56:36] [INFO] Page d'accueil demandée.
+[2026-01-10 15:56:40] [INFO] Page d'accueil demandée.
+[2026-01-10 15:56:42] [INFO] Page d'accueil demandée.
+[2026-01-10 15:56:50] [INFO] Page d'accueil demandée.
+[2026-01-10 15:57:01] [INFO] Page d'accueil demandée.
+[2026-01-10 15:57:04] [WARNING] Page 404 : tag/2
+[2026-01-10 15:57:58] [WARNING] Page 404 : tag/4
+[2026-01-10 15:59:00] [INFO] Page d'accueil demandée.
+[2026-01-10 15:59:02] [WARNING] Page 404 : tag/2
+[2026-01-10 15:59:20] [WARNING] Page 404 : tag/2
+[2026-01-10 15:59:22] [INFO] Page d'accueil demandée.
+[2026-01-10 15:59:25] [WARNING] Page 404 : tag/2
+[2026-01-10 16:00:50] [WARNING] Page 404 : tag/2
+[2026-01-10 16:00:52] [INFO] Page d'accueil demandée.
+[2026-01-10 16:00:54] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:01:04] [INFO] Tag modifié ID: 2
+[2026-01-10 16:01:05] [INFO] Page d'accueil demandée.
+[2026-01-10 16:01:10] [WARNING] Page 404 : tag/3
+[2026-01-10 16:07:23] [INFO] Page d'accueil demandée.
+[2026-01-10 16:07:25] [WARNING] Page 404 : tag/2
+[2026-01-10 16:13:42] [WARNING] Page 404 : tag/
+[2026-01-10 16:16:23] [INFO] Page d'accueil demandée.
+[2026-01-10 16:16:26] [WARNING] Page 404 : tag/
+[2026-01-10 16:17:02] [WARNING] Page 404 : tag/
+[2026-01-10 16:17:03] [INFO] Page d'accueil demandée.
+[2026-01-10 16:17:06] [WARNING] Page 404 : tag/4
+[2026-01-10 16:17:08] [INFO] Page d'accueil demandée.
+[2026-01-10 16:17:11] [WARNING] Page 404 : tag/2
+[2026-01-10 16:17:22] [INFO] Page d'accueil demandée.
+[2026-01-10 16:17:24] [WARNING] Page 404 : tag/
+[2026-01-10 16:17:26] [INFO] Page d'accueil demandée.
+[2026-01-10 16:17:28] [WARNING] Page 404 : tag/
+[2026-01-10 16:22:43] [INFO] Page d'accueil demandée.
+[2026-01-10 16:22:45] [WARNING] Page 404 : tag/2
+[2026-01-10 16:22:53] [INFO] Page d'accueil demandée.
+[2026-01-10 16:22:56] [WARNING] Page 404 : tag/2
+[2026-01-10 16:23:56] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:24:05] [INFO] Page d'accueil demandée.
+[2026-01-10 16:24:09] [WARNING] Page 404 : tag/4
+[2026-01-10 16:25:48] [INFO] Page d'accueil demandée.
+[2026-01-10 16:25:50] [INFO] Page d'accueil demandée.
+[2026-01-10 16:26:09] [INFO] Page d'accueil demandée.
+[2026-01-10 16:32:54] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:33:35] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:34:28] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:34:45] [INFO] Article modifié ID: 1
+[2026-01-10 16:34:49] [INFO] Article modifié ID: 1
+[2026-01-10 16:34:52] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:34:56] [INFO] Commentaire rejeté ID: 5
+[2026-01-10 16:34:57] [INFO] Commentaire approuvé ID: 5
+[2026-01-10 16:34:58] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:35:01] [INFO] Utilisateur désactivé ID: 2
+[2026-01-10 16:35:02] [INFO] Utilisateur activé ID: 2
+[2026-01-10 16:35:08] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:35:12] [INFO] Tag modifié ID: 2
+[2026-01-10 16:35:27] [INFO] EMAIL SIMULÉ - To: admin@vtt.com, Subject: 📝 Nouveau commentaire en attente de modération
+[2026-01-10 16:35:27] [INFO] Notification commentaire envoyée ID: 8
+[2026-01-10 16:35:27] [INFO] Nouveau commentaire ID: 8 sur article: 1
+[2026-01-10 16:35:30] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:35:36] [INFO] Commentaire supprimé ID: 8
+[2026-01-10 16:35:39] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 16:46:15] [INFO] Tableau de bord consulté par: AdminVTT
+[2026-01-10 17:05:02] [INFO] Tableau de bord consulté par: AdminVTT

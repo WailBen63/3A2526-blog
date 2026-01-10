@@ -37,7 +37,7 @@
                     <td>
                         {# Indicateurs visuels de statut (EF-ARTICLE-03) #}
                         <span class="badge 
-                            {% if article.statut == 'Public' %}bg-success
+                            {% if article.statut == 'Publié' %}bg-success
                             {% elseif article.statut == 'Archivé' %}bg-info
                             {% else %}bg-secondary{% endif %}">
                             {{ article.statut }}

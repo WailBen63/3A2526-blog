@@ -2,7 +2,8 @@
     "name": "epul/3a2526-blog",
     "description": "Un blog moderne en PHP 8 POO",
     "require": {
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "erusev/parsedown": "^1.7"
     },
     "autoload": {
         "psr-4": {

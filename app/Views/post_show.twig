@@ -24,7 +24,7 @@
             {% if post.tags %}
                 <div>
                     {% for tag in post.tags %}
-                        <a href="/3A2526-Blog/public/tag/{{ tag.slug }}" class="badge bg-light text-secondary border text-decoration-none">
+                        <a href="/3A2526-Blog/public/tag/{{ tag.id }}" class="badge bg-light text-secondary border text-decoration-none">
                             #{{ tag.nom_tag }}
                         </a>
                     {% endfor %}

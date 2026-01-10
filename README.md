@@ -31,6 +31,10 @@ On a essayé de faire un code le plus propre et modulaire possible :
     - On a créé un **Front Controller** (`index.php`) qui gère tout le routage du site avec des expressions régulières (Regex).
 * **Sécurité RBAC** : On a mis en place des rôles. Un éditeur ne peut pas faire les mêmes choses qu'un admin (par exemple supprimer un utilisateur).
 
+* **Rendu Markdown (Parsedown)** :Au lieu d'utiliser un éditeur de texte classique, nous avons intégré la bibliothèque Parsedown. Cela permet d'écrire les articles en Markdown (gestion des titres, gras, listes) tout en garantissant un rendu HTML propre et sécurisé sur le front-end.
+
+* **Filtrage Dynamique** :Nous avons développé un système de filtrage par tags. En cliquant sur un badge (ex: #VTT), le contrôleur intercepte l'ID via une Regex et filtre dynamiquement l'affichage pour ne montrer que les articles liés.
+
 ---
 
 ## 3. Notre bilan sur ce projet 
@@ -40,7 +44,7 @@ On a essayé de faire un code le plus propre et modulaire possible :
 * **[BONNEFOND Cyprien]** : S'est chargé de tout le design avec Bootstrap et l'interactivité. C'est lui qui a géré le système de commentaires et les fonctionnalités Alpine.js (le thème sombre et la police pour dyslexiques).
 
 ### Les difficultés qu'on a eues
-Le plus dur a été de gérer le **routage dynamique**. Faire en sorte que `/post/12` affiche le bon article sans framework nous a demandé pas mal de tests sur les Regex. On a aussi passé pas mal de temps sur les jointures SQL pour afficher les bons tags sous chaque article dans la liste.
+Le plus dur a été de gérer le **routage dynamique**. Faire en sorte que `/post/3` affiche le bon article sans framework nous a demandé pas mal de tests sur les Regex. On a aussi passé pas mal de temps sur les jointures SQL pour afficher les bons tags sous chaque article dans la liste.
 
 ### Ce qu'on a appris
 Coder son propre MVC "à la main" est super formateur. On comprend mieux comment fonctionnent Symfony ou Laravel maintenant. On a aussi réalisé l'importance de bien sécuriser chaque formulaire pour éviter les mauvaises surprises.

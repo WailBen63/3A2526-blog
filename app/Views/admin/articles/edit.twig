@@ -21,8 +21,27 @@
 {% endif %}
 
 {# Éditeur WYSIWYG (EF-ARTICLE-02) #}
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
+<script>
+  tinymce.init({
+    selector: '#contenu',
+    plugins: 'advlist autolink lists link image preview anchor',
+    toolbar: 'undo redo | bold italic | h1 h2 | alignleft aligncenter alignright | bullist numlist',
+    height: 400,
+    menubar: false,
+    /* Cette option permet de supprimer les avertissements liés à la clé API */
+    promotion: false,
+    branding: false,
+    setup: function (editor) {
+      editor.on('init', function (e) {
+        // Force la suppression de l'alerte si elle apparaît encore en injectant du CSS
+        var style = document.createElement('style');
+        style.innerHTML = '.tox-notifications-container { display: none !important; }';
+        editor.getWin().document.head.appendChild(style);
+      });
+    }
+  });
+</script>
 <form action="/3A2526-Blog/public/admin/articles/{{ article.id }}/update" method="POST" enctype="multipart/form-data">
     <div class="row">
         {# Colonne principale : Contenu existant #}
@@ -76,7 +95,7 @@
                         <label for="statut" class="form-label">Statut</label>
                         <select class="form-control" id="statut" name="statut">
                             <option value="Brouillon" {{ article.statut == 'Brouillon' ? 'selected' : '' }}>Brouillon</option>
-                            <option value="Public" {{ article.statut == 'Public' ? 'selected' : '' }}>Public</option>
+                            <option value="Publié" {{ article.statut == 'Publié' ? 'selected' : '' }}>Publié</option>
                             <option value="Archivé" {{ article.statut == 'Archivé' ? 'selected' : '' }}>Archivé</option>
                         </select>
                     </div>

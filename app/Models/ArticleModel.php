@@ -48,7 +48,7 @@ class ArticleModel extends BaseModel {
             $sql = "SELECT a.*, u.nom_utilisateur 
                     FROM Articles a 
                     JOIN Utilisateurs u ON a.utilisateur_id = u.id 
-                    WHERE a.statut = 'Public' 
+                    WHERE a.statut = 'Publié' 
                     ORDER BY a.date_creation DESC";
             
             if ($limit !== null) $sql .= " LIMIT :limit";
@@ -194,7 +194,7 @@ class ArticleModel extends BaseModel {
                 WHERE at.article_id = ? ORDER BY t.nom_tag ASC
             ");
             $stmt->execute([$articleId]);
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(\PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             $this->logger->error("Erreur récupération tags article ID: $articleId", $e);
             return [];
@@ -228,7 +228,7 @@ class ArticleModel extends BaseModel {
                 SELECT a.*, u.nom_utilisateur FROM articles a
                 JOIN utilisateurs u ON a.utilisateur_id = u.id
                 JOIN article_tag at ON a.id = at.article_id
-                WHERE at.tag_id = ? AND a.statut = 'Public'
+                WHERE at.tag_id = ? AND a.statut = 'Publié'
                 ORDER BY a.date_creation DESC
             ");
             $stmt->execute([$tagId]);

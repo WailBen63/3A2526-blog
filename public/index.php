@@ -44,16 +44,15 @@ switch (true) {
         break;
 
     case preg_match('/^post\/(\d+)$/', $url, $matches):
-        (new PostController())->show((int)$matches[1]);
+
+        (new PostController())->show((int)$matches[1]); 
+
         break;
 
-    case $url === 'tags':
-        (new TagController())->index();
+    case preg_match('/^tag\/(\d+)$/', $url, $matches):
+        (new App\Controllers\HomeController())->index((int)$matches[1]);
         break;
     
-    case preg_match('/^tag\/([a-z0-9-]+)$/', $url, $matches):
-        (new TagController())->show($matches[1]);
-        break;
 
     case preg_match('/^comments\/(\d+)\/store$/', $url, $matches):
         (new CommentController())->store((int)$matches[1]);

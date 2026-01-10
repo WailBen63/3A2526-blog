@@ -2,8 +2,11 @@
 
 namespace App\Controllers;
 
+use Parsedown;
 use App\Core\BaseController;
 use App\Models\ArticleModel;
+
+
 
 /**
  * HomeController
@@ -21,16 +24,27 @@ class HomeController extends BaseController {
     /**
      * Page d'accueil : affiche les articles publiés avec leurs tags
      */
-    public function index(): void {
-        $this->logger->info("Page d'accueil demandée.");
-        
-        $posts = $this->articleModel->findPublishedWithTags();
-
-        $this->render('home.twig', [
-            'page_title' => 'Accueil du Blog',
-            'posts' => $posts
-        ]);
+    public function index(?int $tagId = null): void {
+    // Si on a un tagId, on utilise ta fonction findPublishedByTag
+    if ($tagId) {
+        $posts = $this->articleModel->findPublishedByTag($tagId);
+        $title = "Articles du tag";
+    } else {
+        $posts = $this->articleModel->findPublished();
+        $title = "Accueil du Blog";
     }
+
+    $parsedown = new Parsedown();
+    foreach ($posts as $post) {
+        $html = $parsedown->text($post->contenu);
+        $post->extrait = strip_tags($html);
+    }
+
+    $this->render('home.twig', [
+        'page_title' => $title,
+        'posts' => $posts
+    ]);
+}
     
     /**
      * Gestion de l'erreur 404

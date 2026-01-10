@@ -63,7 +63,7 @@
                                 <div class="list-group-item px-0">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="mb-1 text-truncate" style="max-width: 70%;">{{ post.titre }}</h6>
-                                        <span class="badge bg-{{ post.statut == 'Public' ? 'success' : 'secondary' }}">{{ post.statut }}</span>
+                                        <span class="badge bg-{{ post.statut == 'Publié' ? 'success' : 'secondary' }}">{{ post.statut }}</span>
                                     </div>
                                     <small class="text-muted">{{ post.date_creation|date("d/m/Y H:i") }}</small>
                                 </div>

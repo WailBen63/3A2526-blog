@@ -51,6 +51,16 @@ class ComposerStaticInitfefef2e5a1e2e46256ccb631aa6dc4f9
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Parsedown' => 
+            array (
+                0 => __DIR__ . '/..' . '/erusev/parsedown',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
@@ -60,6 +70,7 @@ class ComposerStaticInitfefef2e5a1e2e46256ccb631aa6dc4f9
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitfefef2e5a1e2e46256ccb631aa6dc4f9::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitfefef2e5a1e2e46256ccb631aa6dc4f9::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitfefef2e5a1e2e46256ccb631aa6dc4f9::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitfefef2e5a1e2e46256ccb631aa6dc4f9::$classMap;
 
         }, null, ClassLoader::class);
