@@ -1,6 +1,6 @@
 # Projet Blog VTT - Architecture MVC (Binôme :BENSALEM Wail et BONNEFOND Cyprien )
 
-Ce projet est notre interprétation d'un blog complet dédié au VTT. On l'a codé de A à Z en PHP natif pour bien comprendre comment fonctionne la logique MVC (Modèle-Vue-Contrôleur) sans tricher avec un framework.
+Ce projet est notre interprétation d'un blog complet dédié au VTT. On l'a codé de A à Z en PHP pour bien comprendre comment fonctionne la logique MVC .
 
 ---
 
